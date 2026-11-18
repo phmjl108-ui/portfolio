@@ -334,3 +334,26 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .refl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 12px; }
 .refl .n { font-size: 13px; font-weight: 700; color: #4270FF; } .refl h4 { font-size: 17px; font-weight: 700; margin: 8px 0; } .refl p { font-size: 14px; line-height: 1.8; color: #555; }
 @media (max-width: 860px) { .fig-crit, .retro-grid, .refl-grid { grid-template-columns: 1fr; } }
+
+/* ===== All Screens (기능별 화면 묶음) ===== */
+.as-block { background: #EEF0F4; }
+.as-wrap { margin-top: 24px; }
+.as-group + .as-group { margin-top: 48px; }
+.as-group h3 { font-size: 20px; font-weight: 700; color: #3A3B40; padding-bottom: 10px; border-bottom: 1px solid #D5D7DD; margin-bottom: 18px; }
+.as-row { display: flex; flex-wrap: wrap; gap: 20px 16px; }
+.as-item { margin: 0; cursor: zoom-in; }
+.as-item figcaption { font-size: 12px; color: #6B6C72; margin-bottom: 8px; max-width: 260px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.as-item img { display: block; height: 150px; width: auto; border-radius: 4px; box-shadow: 0 6px 16px -10px rgba(0,0,0,.35); background: #fff; }
+/* ===== Components + 여백 레드라인 ===== */
+.cp-block { background: #EEF0F4; }
+.cp-grid { columns: 3 280px; column-gap: 24px; margin-top: 24px; }
+.cp-item { break-inside: avoid; margin: 0 0 24px; cursor: zoom-in; }
+.cp-stage { position: relative; display: inline-block; max-width: 100%; }
+.cp-stage img { display: block; max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 10px 24px -14px rgba(0,0,0,.35); }
+.cp-item figcaption { margin-top: 8px; font-size: 12px; color: #6B6C72; }
+.rl { position: absolute; background: rgba(236, 72, 153, .14); border: 1px dashed rgba(236, 72, 153, .8); pointer-events: none; }
+.rl-h { left: 0; right: 0; } .rl-v { top: 0; bottom: 0; }
+.rl i { position: absolute; font-style: normal; font-size: 11px; font-weight: 700; color: #DB2777; background: #fff; padding: 0 4px; border-radius: 3px; }
+.rl-h i { right: -34px; top: 50%; transform: translateY(-50%); } .rl-v i { top: -18px; left: 50%; transform: translateX(-50%); }
+@media (max-width: 768px) { .as-item img { height: 110px; } }
+.fig-shot img.xr-curve { box-shadow: none !important; border-radius: 0 !important; filter: drop-shadow(0 28px 36px rgba(0,0,0,.28)); }
