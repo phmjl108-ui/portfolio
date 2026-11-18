@@ -447,3 +447,4 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 /* 모든 화면 이미지 그림자 제거(배경과 구분 없는 느낌) */
 .view .fig-shot img, .view .fig-float img, .view .sl-item img { box-shadow: none !important; filter: none !important; }
 .view .fig-shot::before, .view .fig-shot::after { box-shadow: none !important; filter: none !important; }
+.lg2-stage, .lg2-stage img { box-shadow: none !important; filter: none !important; }
