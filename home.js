@@ -7,18 +7,17 @@
   /* ---------- 1. 히어로: 선으로 그린 3D 오브젝트 ---------- */
   const cv = document.getElementById('hmCanvas');
   const ctx = cv.getContext('2d');
-  // 지오데식 구 (정이십면체 1회 분할) + 궤도 링 3개
-  const t = (1 + Math.sqrt(5)) / 2;
-  let V = [[-1,t,0],[1,t,0],[-1,-t,0],[1,-t,0],[0,-1,t],[0,1,t],[0,-1,-t],[0,1,-t],[t,0,-1],[t,0,1],[-t,0,-1],[-t,0,1]];
-  let F = [[0,11,5],[0,5,1],[0,1,7],[0,7,10],[0,10,11],[1,5,9],[5,11,4],[11,10,2],[10,7,6],[7,1,8],[3,9,4],[3,4,2],[3,2,6],[3,6,8],[3,8,9],[4,9,5],[2,4,11],[6,2,10],[8,6,7],[9,8,1]];
-  const norm = v => { const l = Math.hypot(...v); return v.map(c => c / l); };
-  V = V.map(norm);
-  const mid = {}; const mp = (a, b) => { const k = a < b ? a + '_' + b : b + '_' + a; if (mid[k] == null) { mid[k] = V.length; V.push(norm(V[a].map((c, i) => (c + V[b][i]) / 2))); } return mid[k]; };
-  const F2 = []; F.forEach(([a, b, c]) => { const ab = mp(a, b), bc = mp(b, c), ca = mp(c, a); F2.push([a, ab, ca], [b, bc, ab], [c, ca, bc], [ab, bc, ca]); });
-  const E = new Set(); F2.forEach(([a, b, c]) => [[a, b], [b, c], [c, a]].forEach(([x, y]) => E.add(x < y ? x + '_' + y : y + '_' + x)));
-  const edges = [...E].map(k => k.split('_').map(Number));
-  const rings = [0, 1, 2].map(r => { const pts = []; for (let i = 0; i <= 96; i++) { const a = i / 96 * Math.PI * 2; const R = 1.45 + r * .18; pts.push(r === 0 ? [Math.cos(a) * R, 0, Math.sin(a) * R] : r === 1 ? [Math.cos(a) * R, Math.sin(a) * R * .35, Math.sin(a) * R] : [0, Math.cos(a) * R, Math.sin(a) * R]); } return pts; });
-  let rx = -.35, ry = .6, vx = 0, vy = .0035, drag = false, lx = 0, ly = 0;
+  // 두 구(현장 FIELD · UI)가 겹치는 형태 — 교집합 링을 파란색으로 강조
+  const D = .62, SPH = [[-D, 0, 0], [D, 0, 0]];
+  const sphLines = SPH.map(([ox]) => {
+    const out = [];
+    for (let m = 0; m < 10; m++) { const ph = m / 10 * Math.PI; const pts = []; for (let i = 0; i <= 64; i++) { const a = i / 64 * Math.PI * 2; pts.push([ox + Math.sin(a) * Math.cos(ph), Math.cos(a), Math.sin(a) * Math.sin(ph)]); } out.push(pts); }
+    for (let k = 1; k < 7; k++) { const y = -1 + k * 2 / 7, r = Math.sqrt(1 - y * y), pts = []; for (let i = 0; i <= 64; i++) { const a = i / 64 * Math.PI * 2; pts.push([ox + Math.cos(a) * r, y, Math.sin(a) * r]); } out.push(pts); }
+    return out;
+  });
+  const RI = Math.sqrt(1 - D * D);
+  const lens = []; for (let i = 0; i <= 96; i++) { const a = i / 96 * Math.PI * 2; lens.push([0, Math.cos(a) * RI, Math.sin(a) * RI]); }
+  let rx = -.28, ry = .35, vx = 0, vy = .0035, drag = false, lx = 0, ly = 0;
   function size() { const r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1; cv.width = r.width * d; cv.height = r.height * d; }
   function proj(p, s, cx, cy) {
     let [x, y, z] = p;
@@ -26,12 +25,19 @@
     c = Math.cos(rx); sn = Math.sin(rx); [y, z] = [y * c - z * sn, y * sn + z * c];
     const k = 3.2 / (3.2 + z); return [cx + x * s * k, cy + y * s * k, z];
   }
+  function line(pts, s, cx, cy, fade) {
+    let prev = null;
+    pts.forEach(p => { const q = proj(p, s, cx, cy); if (prev) { const z = (q[2] + prev[2]) / 2; ctx.strokeStyle = `rgba(17,17,17,${fade ? .08 + (1 - (z + 1.6) / 3.2) * .55 : .5})`; ctx.beginPath(); ctx.moveTo(prev[0], prev[1]); ctx.lineTo(q[0], q[1]); ctx.stroke(); } prev = q; });
+  }
   function draw() {
-    const w = cv.width, h = cv.height, s = Math.min(w, h) * .21, cx = w / 2, cy = h / 2;
-    ctx.clearRect(0, 0, w, h); ctx.lineWidth = Math.max(1, (window.devicePixelRatio || 1) * .9);
-    const P = V.map(v => proj(v, s, cx, cy));
-    edges.forEach(([a, b]) => { const z = (P[a][2] + P[b][2]) / 2; ctx.strokeStyle = `rgba(17,17,17,${.12 + (1 - (z + 1) / 2) * .7})`; ctx.beginPath(); ctx.moveTo(P[a][0], P[a][1]); ctx.lineTo(P[b][0], P[b][1]); ctx.stroke(); });
-    rings.forEach((pts, i) => { ctx.strokeStyle = i === 1 ? 'rgba(66,112,255,.85)' : 'rgba(17,17,17,.35)'; ctx.beginPath(); pts.forEach((p, j) => { const q = proj(p, s, cx, cy); j ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); }); ctx.stroke(); });
+    const w = cv.width, h = cv.height, s = Math.min(w, h) * .22, cx = w / 2, cy = h / 2, dpr = window.devicePixelRatio || 1;
+    ctx.clearRect(0, 0, w, h); ctx.lineWidth = Math.max(1, dpr * .8);
+    sphLines.forEach(L => L.forEach(pts => line(pts, s, cx, cy, true)));
+    ctx.lineWidth = dpr * 2.2; ctx.strokeStyle = '#4270FF'; ctx.beginPath();
+    lens.forEach((p, j) => { const q = proj(p, s, cx, cy); j ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); }); ctx.stroke();
+    ctx.font = `600 ${12 * dpr}px Pretendard, sans-serif`; ctx.textAlign = 'center';
+    [['FIELD', [-D - .55, 0, 0]], ['UI', [D + .55, 0, 0]]].forEach(([tx, p]) => { const q = proj(p, s, cx, cy); ctx.fillStyle = '#8A8B91'; ctx.fillText(tx, q[0], q[1]); });
+    const c0 = proj([0, -RI - .18, 0], s, cx, cy); ctx.fillStyle = '#4270FF'; ctx.fillText('READ', c0[0], c0[1]);
   }
   function tick() {
     if (!drag) { ry += vy; rx += vx; vx *= .95; if (!reduce) vy += (.0035 - vy) * .02; }
@@ -50,6 +56,7 @@
   const arts = [...home.querySelectorAll('.hm-art svg')];
   const bar = home.querySelector('.hm-bar i');
   const shapes = arts.map(svg => [...svg.querySelectorAll('path,rect,circle,line,ellipse')].map(el => { el.setAttribute('pathLength', '1'); el.style.strokeDasharray = '1 1'; el.style.strokeDashoffset = 1; return [el, 1]; }));
+  let lastIdx = -1;
   function onScroll() {
     if (!home.classList.contains('active')) return;
     const y = window.scrollY, vh = window.innerHeight;
@@ -59,10 +66,13 @@
     const idx = Math.min(2, Math.floor(p * 3)); const local = p * 3 - idx;
     items.forEach((li, i) => li.classList.toggle('on', reduce || i === idx));
     arts.forEach((svg, i) => { svg.style.opacity = i === idx ? 1 : 0; svg.style.transition = 'opacity .4s ease'; });
-    shapes.forEach((list, i) => {
-      const d = i === idx ? Math.min(1, local * 2.6 + .15) : 0;
-      list.forEach(([el, L], j) => { const q = Math.min(1, Math.max(0, d * (list.length * .45 + 1) - j * .45)); el.style.strokeDashoffset = L * (1 - (reduce ? 1 : q)); });
-    });
+    if (idx !== lastIdx) {
+      lastIdx = idx;
+      shapes.forEach((list, i) => list.forEach(([el], j) => {
+        if (i === idx) { el.style.transition = reduce ? 'none' : `stroke-dashoffset .9s cubic-bezier(.4,0,.2,1) ${j * .07}s`; el.style.strokeDashoffset = 0; }
+        else { el.style.transition = 'none'; el.style.strokeDashoffset = 1; }
+      }));
+    }
     if (bar) bar.style.height = (p * 100) + '%';
   }
   window.addEventListener('scroll', onScroll, { passive: true });
