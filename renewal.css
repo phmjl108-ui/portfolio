@@ -227,3 +227,8 @@ body { background: #FFFFFF; }
 .uf-down { width: 1px; height: 28px; margin: 0 auto; background: #B8B9BE; }
 .uf-key { display: flex; justify-content: center; }
 @media (max-width: 960px) { .uf-down { display: block; } .uf-entry { margin-bottom: 0; } .uf-key { margin-bottom: 28px; } }
+/* 목업 이미지는 흰 배경 그대로 — 카드 그림자·테두리 없이 */
+.fig-shot img[src*="assets/mock/"] { box-shadow: none !important; border: 0 !important; border-radius: 0 !important; background: #FFF; }
+.mock-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px 32px; margin-bottom: 40px; }
+.mock-row .fig-shot figcaption { text-align: center; }
+@media (max-width: 768px) { .mock-row { grid-template-columns: 1fr; } }
