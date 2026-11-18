@@ -268,7 +268,31 @@ body { background: #FFFFFF; }
 .shot-grid3.mock-grid .fig-shot figcaption { text-align: center; }
 /* 목업: 2열로 크게, 바깥 흰 여백을 잘라 기기를 키움 */
 .shot-grid3.mock-grid { grid-template-columns: repeat(2, 1fr); gap: 56px 48px; }
-.fig-shot img[src*="assets/mock/"] { transform: scale(1.2); clip-path: inset(8.333%); }
 .fig-shot img[src*="assets/mock/legacy-a4db90a2"], .fig-shot img[src*="assets/mock/legacy-86f33a24"], .fig-shot img[src*="assets/mock/legacy-6db80534"], .fig-shot img[src*="assets/mock/legacy-e0d1ed4a"], .fig-shot img[src*="assets/mock/legacy-fa80ab7d"], .fig-shot img[src*="assets/mock/legacy-27455b91"] { transform: none; clip-path: none; }
 .shot-grid3.mock-grid .fig-shot figcaption { margin-top: 14px; font-size: 14px; color: #555; }
 @media (max-width: 768px) { .shot-grid3.mock-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+/* ===== 화면 슬라이드 ===== */
+.sl { position: relative; outline: none; }
+.sl-view { overflow: hidden; border-radius: 14px; background: #F4F4F5; touch-action: pan-y; cursor: grab; }
+.sl-view:active { cursor: grabbing; }
+.sl-track { display: flex; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.sl-item { flex: 0 0 100%; margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; }
+.sl-item img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; user-select: none; -webkit-user-drag: none; box-shadow: none !important; border-radius: 0 !important; }
+.sl-item img:not([src*="assets/mock/"]) { width: 88%; height: 88%; mix-blend-mode: normal; box-shadow: 0 20px 40px -24px rgba(0,0,0,.4) !important; border-radius: 6px !important; }
+.sl-bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; margin-top: 18px; }
+.sl-cap { font-size: 15px; font-weight: 600; color: #111; }
+.sl-dots { display: flex; gap: 6px; }
+.sl-dots button { width: 7px; height: 7px; border-radius: 50%; border: 0; padding: 0; background: #D4D5DA; cursor: pointer; transition: width .3s, background .3s; }
+.sl-dots button.on { width: 22px; border-radius: 4px; background: #111; }
+.sl-nav { justify-self: end; display: flex; align-items: center; gap: 12px; }
+.sl-nav button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #E1E2E6; background: #fff; font-size: 16px; cursor: pointer; transition: background .2s, border-color .2s; }
+.sl-nav button:hover:not(:disabled) { background: #111; color: #fff; border-color: #111; }
+.sl-nav button:disabled { opacity: .3; cursor: default; }
+.sl-count { font-size: 13px; color: #8A8B91; font-variant-numeric: tabular-nums; min-width: 44px; text-align: center; }
+@media (max-width: 768px) { .sl-bar { grid-template-columns: 1fr auto; } .sl-dots { display: none; } }
+/* 상세 페이지 뒤로가기 */
+.topbar-back { display: none; align-items: center; height: 32px; padding: 0 14px; margin-right: 20px; border: 1px solid #E1E2E6; border-radius: 99px; background: #fff; font-size: 13px; font-weight: 600; color: #111; cursor: pointer; transition: background .2s, color .2s; }
+.topbar-back:hover { background: #111; color: #fff; border-color: #111; }
+body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"]):not([data-view="contact"]) .topbar-back { display: inline-flex; }
+.topbar { justify-content: flex-start; } .topbar-brand { margin-left: auto; }
