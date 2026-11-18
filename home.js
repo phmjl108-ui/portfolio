@@ -49,7 +49,7 @@
   const items = [...home.querySelectorAll('.hm-points li')];
   const arts = [...home.querySelectorAll('.hm-art svg')];
   const bar = home.querySelector('.hm-bar i');
-  const shapes = arts.map(svg => [...svg.querySelectorAll('path,rect,circle,line,ellipse')].map(el => { const L = el.getTotalLength ? el.getTotalLength() : 600; el.style.strokeDasharray = L; el.style.strokeDashoffset = L; return [el, L]; }));
+  const shapes = arts.map(svg => [...svg.querySelectorAll('path,rect,circle,line,ellipse')].map(el => { el.setAttribute('pathLength', '1'); el.style.strokeDasharray = '1 1'; el.style.strokeDashoffset = 1; return [el, 1]; }));
   function onScroll() {
     if (!home.classList.contains('active')) return;
     const y = window.scrollY, vh = window.innerHeight;
@@ -60,8 +60,8 @@
     items.forEach((li, i) => li.classList.toggle('on', reduce || i === idx));
     arts.forEach((svg, i) => { svg.style.opacity = i === idx ? 1 : 0; svg.style.transition = 'opacity .4s ease'; });
     shapes.forEach((list, i) => {
-      const d = i < idx ? 0 : i > idx ? 0 : Math.min(1, local * 1.8);
-      list.forEach(([el, L], j) => { const q = Math.min(1, Math.max(0, d * list.length - j * .55)); el.style.strokeDashoffset = L * (1 - (reduce ? 1 : q)); });
+      const d = i === idx ? Math.min(1, local * 2.6 + .15) : 0;
+      list.forEach(([el, L], j) => { const q = Math.min(1, Math.max(0, d * (list.length * .45 + 1) - j * .45)); el.style.strokeDashoffset = L * (1 - (reduce ? 1 : q)); });
     });
     if (bar) bar.style.height = (p * 100) + '%';
   }
