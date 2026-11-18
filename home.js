@@ -53,7 +53,7 @@
   /* ---------- 2. 스크롤: 히어로 퇴장 + 생각 3단계 ---------- */
   const intro = home.querySelector('.hm-intro');
   const think = home.querySelector('.hm-think');
-  const items = [...home.querySelectorAll('.hm-points li')];
+  const items = [...home.querySelectorAll('.hm-points > li')];
   const arts = [...home.querySelectorAll('.hm-art svg')];
   const bar = home.querySelector('.hm-bar i');
   const shapes = arts.map(svg => [...svg.querySelectorAll('path,rect,circle,line,ellipse')].map(el => { el.setAttribute('pathLength', '1'); el.style.strokeDasharray = '1 1'; el.style.strokeDashoffset = 1; return [el, 1]; }));
