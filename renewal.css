@@ -188,3 +188,42 @@ body { background: #FFFFFF; }
 .lg-meta { margin-top: 16px; font-size: 13px; color: #888; display: flex; flex-wrap: wrap; gap: 6px 14px; }
 .lg-meta b { color: #111; margin-right: 6px; }
 @media (max-width: 900px) { .ds-cols { grid-template-columns: 1fr; gap: 24px; } .ty-row { grid-template-columns: 90px 90px 1fr; } }
+
+/* ===== User Flow (피그마 프레임·연결선을 HTML 로 정리) ===== */
+.uf { margin-top: 40px; padding: 48px 40px; border: 1px solid #E8E8EA; border-radius: 20px; background: #FAFAFB; }
+.uf-entry { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; }
+.uf-node { min-width: 120px; padding: 14px 18px; border: 1px solid #DCDDE1; border-radius: 12px; background: #FFF; text-align: center; }
+.uf-node em, .uf-col h3 em { display: block; font-style: normal; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #9A9BA1; margin-bottom: 4px; }
+.uf-node b { font-size: 15px; font-weight: 600; color: #111; }
+.uf-node.is-key { border-color: #111; background: #111; }
+.uf-node.is-key b, .uf-node.is-key em { color: #FFF; }
+.uf-arrow { width: 20px; height: 1px; background: #B8B9BE; position: relative; }
+.uf-arrow::after { content: ""; position: absolute; right: 0; top: -3px; border: 3.5px solid transparent; border-left: 5px solid #B8B9BE; border-right: 0; }
+.uf-split { position: relative; height: 56px; margin: 0 12.5%; }
+.uf-split::before { content: ""; position: absolute; left: 50%; top: 0; height: 28px; border-left: 1px solid #B8B9BE; }
+.uf-split::after { content: ""; position: absolute; left: 0; right: 0; top: 28px; height: 28px; border: 1px solid #B8B9BE; border-bottom: 0; border-radius: 10px 10px 0 0; }
+.uf-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.uf-col { padding: 24px 20px; border-radius: 14px; background: #FFF; border: 1px solid #E8E8EA; }
+.uf-how { display: inline-block; font-size: 11px; font-weight: 600; color: #4270FF; background: rgba(66,112,255,.08); border-radius: 99px; padding: 3px 10px; margin-bottom: 12px; }
+.uf-col h3 { font-size: 20px; font-weight: 700; margin-bottom: 16px; color: #111; }
+.uf-col ol, .uf-sub ol { list-style: none; margin: 0; padding: 0 0 0 14px; border-left: 1px solid #E1E2E6; }
+.uf-col li { position: relative; padding: 0 0 14px; }
+.uf-col li:last-child { padding-bottom: 0; }
+.uf-col li::before { content: ""; position: absolute; left: -18px; top: 7px; width: 7px; height: 7px; border-radius: 50%; background: #FFF; border: 1px solid #9A9BA1; }
+.uf-col li b { display: block; font-size: 14px; font-weight: 600; color: #222; line-height: 1.5; }
+.uf-col li span { display: block; font-size: 13px; color: #8A8B91; line-height: 1.5; }
+.uf-sub { margin-top: 20px; padding-top: 18px; border-top: 1px dashed #E1E2E6; }
+.uf-sub h4 { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #111; }
+.uf-note { margin-top: 28px; text-align: center; font-size: 13px; color: #8A8B91; }
+.uf-note b { color: #222; margin-right: 8px; }
+@media (max-width: 960px) { .uf-cols { grid-template-columns: repeat(2, 1fr); } .uf-split { display: none; } .uf-entry { margin-bottom: 28px; } }
+@media (max-width: 560px) { .uf { padding: 28px 16px; } .uf-cols { grid-template-columns: 1fr; } .uf-arrow { display: none; } .uf-entry { gap: 8px; } .uf-node { min-width: 0; flex: 1 1 40%; } }
+
+/* 통일된 본문: 개요 문단 · 화면 포인트 목록 */
+.fig-overview-more { max-width: 820px; font-size: 16px; line-height: 1.85; color: #555; margin-top: 16px; }
+.fig-points { list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid #ECECEE; }
+.fig-points li { padding: 12px 0; border-bottom: 1px solid #ECECEE; font-size: 14px; line-height: 1.65; color: #666; }
+.fig-points li b { display: block; font-size: 15px; font-weight: 600; color: #111; margin-bottom: 2px; }
+.uf-down { width: 1px; height: 28px; margin: 0 auto; background: #B8B9BE; }
+.uf-key { display: flex; justify-content: center; }
+@media (max-width: 960px) { .uf-down { display: block; } .uf-entry { margin-bottom: 0; } .uf-key { margin-bottom: 28px; } }
