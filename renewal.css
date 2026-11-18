@@ -418,3 +418,14 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .fig-sec.v-bleed-r .fig-shot img, .fig-sec.v-bleed-l .fig-shot img { max-width: min(100%, 960px); }
 .fig-sec.v-bleed-r .container, .fig-sec.v-bleed-l .container { grid-template-columns: minmax(280px, 1fr) 1.7fr !important; }
 .fig-sec.v-bleed-l .container { grid-template-columns: 1.7fr minmax(280px, 1fr) !important; }
+/* 겹친 창: 기기 화면 규칙과 분리, 글을 가리지 않게 기기 쪽으로 */
+.fig-sec .fig-shot .fig-float img { all: unset; display: block; width: 100%; height: auto; }
+.fig-sec .fig-float { height: auto !important; line-height: 0; border-radius: 12px; }
+.fig-sec.v-bleed-r .fig-float { left: auto; right: 4%; top: -96px; width: 44%; }
+.fig-sec.v-bleed-l .fig-float { right: 4%; left: auto; top: -96px; width: 44%; }
+/* VR 프로젝트: 모니터 베젤 없이 곡면 가상 스크린 / 시뮬레이터: 베젤 없음 */
+.fig-sec[data-dev="vr"] .fig-shot img, .fig-sec[data-dev="none"] .fig-shot img { border: 0 !important; background: none !important; }
+.fig-sec[data-dev="vr"] .fig-shot img { border-radius: 0 !important; box-shadow: none !important; filter: drop-shadow(0 28px 36px rgba(0,0,0,.28)); }
+.fig-sec[data-dev="vr"] .fig-float { background: none; border: 0; box-shadow: none; overflow: visible; }
+.fig-sec[data-dev="vr"] .fig-float img { filter: drop-shadow(0 20px 28px rgba(0,0,0,.35)); }
+.fig-sec[data-dev="none"].v-bleed-r .fig-shot img, .fig-sec[data-dev="none"].v-bleed-l .fig-shot img { border-radius: 10px !important; }
