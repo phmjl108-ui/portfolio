@@ -150,3 +150,11 @@ body { background: #FFFFFF; }
 .shot-grid3 figcaption, .fig-narrow figcaption { margin-top: 8px; font-size: 13px; color: #666; }
 .fig-narrow { max-width: 420px; }
 @media (max-width: 768px) { .shot-grid3 { grid-template-columns: 1fr 1fr; gap: 12px; } }
+
+/* 상세 화면: 맨 위 대표 이미지는 고정, 아래 내용이 덮으며 올라감 */
+.view:not(.view-landing) { isolation: isolate; }
+.project-cover { position: sticky; top: 80px; z-index: 0; margin: 80px 0 0; aspect-ratio: auto; height: min(56vh, 620px); background: #F1F2F4; }
+.project-cover img { object-fit: contain; }
+.view:not(.view-landing) > *:not(.project-cover) { position: relative; z-index: 1; background: #FFFFFF; }
+.project-cover + .project-hero { padding-top: 72px; }
+@media (max-width: 768px) { .project-cover { top: 58px; height: 42vh; margin: 58px 0 0; } }
