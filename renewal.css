@@ -431,3 +431,11 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .fig-sec[data-dev="none"].v-bleed-r .fig-shot img, .fig-sec[data-dev="none"].v-bleed-l .fig-shot img { border-radius: 10px !important; }
 /* 흰 배경 목업·합성 이미지는 배경과 구분 없이: 그림자·모서리·테두리 없음 */
 .fig-sec .fig-shot img[src*="assets/mock/"], .view .fig-shot img[src*="assets/mock/"] { box-shadow: none !important; border: 0 !important; border-radius: 0 !important; background: none !important; filter: none !important; }
+/* 겹친 창은 기기 바깥 모서리에 걸쳐 메인 화면 핵심 UI를 덜 가리게 */
+.fig-sec.v-bleed-r .fig-float { right: -6%; top: auto; bottom: -70px; width: 40%; }
+.fig-sec.v-bleed-l .fig-float { right: -6%; top: -90px; width: 40%; }
+.fig-sec.v-bleed-r { padding-bottom: 160px !important; }
+.fig-sec.v-bleed-r .fig-float { right: -15%; bottom: -130px; width: 33%; }
+.fig-sec.v-bleed-l .fig-float { right: -9%; top: -120px; width: 34%; }
+.fig-sec.v-bleed-r .fig-float { right: -11%; }
+@media (max-width: 1399px) { .fig-sec.v-bleed-r .fig-float { right: -2%; } .fig-sec.v-bleed-l .fig-float { right: -4%; } }
