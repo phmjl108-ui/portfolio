@@ -24,7 +24,7 @@ body { background: #FFFFFF; }
 .view-landing { padding: 96px var(--gutter) 0; }
 .cover-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .cover { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: #EFEFEF; color: #FFF; text-decoration: none; cursor: pointer; }
-/* 표지 = 각 피그마 파일의 Thumbnail 페이지 (같은 형식: 배경 + 단계 라벨 + 제목 + 기간) */
+/* 커버 = 프로젝트를 설명하는 실제 디자인 화면, 마우스 올리면 제목·기간 */
 .cover-img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.16,1,.3,1); }
 .cover:hover .cover-img { transform: scale(1.04); }
 .cover-info { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 10px; padding: 24px; background: rgba(0,0,0,.62); opacity: 0; transition: opacity .3s ease; }
@@ -66,8 +66,12 @@ body { background: #FFFFFF; }
   .topbar-brand { font-size: 14px; }
   .view-landing { padding-top: 72px; }
   .cover-grid { grid-template-columns: 1fr; gap: 12px; }
-  /* 모바일: 표지에 제목·기간이 들어 있어 덮개는 숨김 */
-  .cover-info { display: none; }
+  /* 모바일은 마우스 올림이 없으니 제목을 커버 아래에 */
+  .cover { aspect-ratio: auto; overflow: visible; background: none; color: #000; }
+  .cover-img { aspect-ratio: 16 / 9; height: auto; display: block; }
+  .cover-info { position: static; opacity: 1; background: none; gap: 2px; padding: 10px 0 8px; }
+  .cover-title { font-size: 15px; }
+  .cover-date { font-size: 12px; color: #666; }
   .site-foot { flex-direction: column; gap: 12px; padding: 40px 0 32px; }
   .page { padding: 112px var(--gutter) 80px; }
   .page-meta > div { grid-template-columns: 96px 1fr; }
