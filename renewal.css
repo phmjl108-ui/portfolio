@@ -296,7 +296,6 @@ body { background: #FFFFFF; }
 .topbar-back:hover { background: #111; color: #fff; border-color: #111; }
 body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"]):not([data-view="contact"]) .topbar-back { display: inline-flex; }
 .topbar { justify-content: flex-start; } .topbar-brand { margin-left: auto; }
-#view-ar-guidance .project-cover img, .cover-img[src*="scr-ar-guidance"] { object-fit: cover; } .hm-card .media img[src*="scr-ar-guidance"] { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: normal; }
 /* 사진형 커버: 잘림 없이 전체, 양옆은 같은 사진을 흐리게 */
 .project-cover.photo { overflow: hidden; background: #111; }
 .project-cover.photo img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain !important; }
