@@ -301,3 +301,6 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .project-cover.photo { overflow: hidden; background: #111; }
 .project-cover.photo img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain !important; }
 .project-cover.photo .pc-bg { position: absolute; inset: -40px; z-index: 0; width: calc(100% + 80px); height: calc(100% + 80px); object-fit: cover !important; filter: blur(28px) brightness(.85); transform: scale(1.05); }
+/* 시뮬레이터: 기기 없이 화면만 크게 */
+#view-hd-simulator .fig-shot img[src*="assets/fig/hd-sim"] { border-radius: 10px; box-shadow: 0 24px 48px -24px rgba(0,0,0,.4) !important; }
+#view-hd-simulator .sl-item img { width: auto !important; height: 92% !important; max-width: 100%; mix-blend-mode: normal !important; border-radius: 8px !important; }
