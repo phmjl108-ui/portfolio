@@ -439,3 +439,11 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .fig-sec.v-bleed-l .fig-float { right: -9%; top: -120px; width: 34%; }
 .fig-sec.v-bleed-r .fig-float { right: -11%; }
 @media (max-width: 1399px) { .fig-sec.v-bleed-r .fig-float { right: -2%; } .fig-sec.v-bleed-l .fig-float { right: -4%; } }
+/* 슬라이더: 회색 박스·이미지 박스 그림자 제거(곡면 이미지 뒤 흰 사각형 방지), 이미지 크기 = 실제 그림 크기 */
+.sl-view { background: #fff !important; border-radius: 0 !important; }
+.sl-item img:not([src*="assets/mock/"]) { width: auto !important; height: auto !important; max-width: 96% !important; max-height: 94% !important; box-shadow: none !important; background: none !important; }
+.sl-item img[src*="-curve"] { border-radius: 0 !important; }
+.sl-item img:not([src*="-curve"]):not([src*="assets/mock/"]) { border: 1px solid #ECEDF0; }
+/* 모든 화면 이미지 그림자 제거(배경과 구분 없는 느낌) */
+.view .fig-shot img, .view .fig-float img, .view .sl-item img { box-shadow: none !important; filter: none !important; }
+.view .fig-shot::before, .view .fig-shot::after { box-shadow: none !important; filter: none !important; }
