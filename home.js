@@ -35,9 +35,10 @@
     sphLines.forEach(L => L.forEach(pts => line(pts, s, cx, cy, true)));
     ctx.lineWidth = dpr * 2.2; ctx.strokeStyle = '#4270FF'; ctx.beginPath();
     lens.forEach((p, j) => { const q = proj(p, s, cx, cy); j ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); }); ctx.stroke();
-    ctx.font = `600 ${12 * dpr}px Pretendard, sans-serif`; ctx.textAlign = 'center';
-    [['FIELD', [-D - .55, 0, 0]], ['UI', [D + .55, 0, 0]]].forEach(([tx, p]) => { const q = proj(p, s, cx, cy); ctx.fillStyle = '#8A8B91'; ctx.fillText(tx, q[0], q[1]); });
-    const c0 = proj([0, -RI - .18, 0], s, cx, cy); ctx.fillStyle = '#4270FF'; ctx.fillText('READ', c0[0], c0[1]);
+    const label = (tx, q, col) => { ctx.font = `700 ${16 * dpr}px Pretendard, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round'; ctx.lineWidth = 7 * dpr; ctx.strokeStyle = '#fff'; ctx.strokeText(tx, q[0], q[1]); ctx.fillStyle = col; ctx.fillText(tx, q[0], q[1]); };
+    label('FIELD', proj([-D - .5, 0, 0], s, cx, cy), '#111');
+    label('UI', proj([D + .5, 0, 0], s, cx, cy), '#111');
+    label('READ', proj([0, -RI - .22, 0], s, cx, cy), '#4270FF');
   }
   function tick() {
     if (!drag) { ry += vy; rx += vx; vx *= .95; if (!reduce) vy += (.0035 - vy) * .02; }
