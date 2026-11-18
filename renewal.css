@@ -232,3 +232,6 @@ body { background: #FFFFFF; }
 .mock-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px 32px; margin-bottom: 40px; }
 .mock-row .fig-shot figcaption { text-align: center; }
 @media (max-width: 768px) { .mock-row { grid-template-columns: 1fr; } }
+.uf-title { margin-top: 48px; font-size: 20px; font-weight: 700; color: #111; }
+.uf-title + .uf-desc { margin-top: 6px; font-size: 15px; color: #666; }
+.uf-desc + .uf { margin-top: 20px; }
