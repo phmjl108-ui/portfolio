@@ -1,0 +1,87 @@
+/* ================= 리뉴얼: 흰 바탕 미니멀 (참고: 3열 커버 격자형 포트폴리오) ================= */
+:root {
+  --bg: #FFFFFF;
+  --bg-soft: #F5F5F5;
+  --glass-bg: #F5F5F5;
+  --glass-bg-strong: #FFFFFF;
+  --glass-border: transparent;
+  --line: #E6E6E6;
+  --shadow-1: none; --shadow-2: none; --shadow-3: none;
+  --gutter: 32px;
+}
+body { background: #FFFFFF; }
+.gradient-bg { display: none; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* 상단: 왼쪽 메뉴, 오른쪽 이름 */
+.topbar { padding: 32px var(--gutter) 24px; background: #FFFFFF; border-bottom: 0; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.topbar-tabs { gap: 20px; overflow: visible; }
+.topbar-tab { font-size: 14px; font-weight: 700; color: #000; text-transform: uppercase; letter-spacing: 0; padding: 2px 0; border-bottom: 2px solid transparent; }
+.topbar-tab:hover, .topbar-tab.active { color: #000; font-weight: 700; border-bottom-color: #000; }
+.topbar-brand { font-size: 16px; font-weight: 800; letter-spacing: 0.01em; color: #000; background: none; border: 0; padding: 0; cursor: pointer; }
+
+/* WORK: 3열 커버 격자 */
+.view-landing { padding: 96px var(--gutter) 0; }
+.cover-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cover { position: relative; display: block; aspect-ratio: 1.18 / 1; overflow: hidden; background: #EFEFEF; color: #FFF; text-decoration: none; cursor: pointer; }
+/* 모든 캡처를 같은 모니터 틀에 넣어 한 맥락으로 */
+.cover-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 9%; transition: transform .6s cubic-bezier(.16,1,.3,1); }
+.cover-screen { display: block; width: 100%; aspect-ratio: 16 / 9; padding: 2.2%; background: #141414; border-radius: 8px; box-shadow: 0 24px 40px -18px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.12); }
+.cover-screen img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
+.cover:hover .cover-stage { transform: scale(1.04); }
+.cover-info { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 10px; padding: 24px; background: rgba(0,0,0,.62); opacity: 0; transition: opacity .3s ease; }
+.cover:hover .cover-info, .cover:focus-visible .cover-info { opacity: 1; }
+.cover-title { font-size: 22px; font-weight: 800; line-height: 1.15; text-transform: uppercase; letter-spacing: -0.01em; max-width: 14em; }
+.cover-date { font-size: 14px; font-weight: 600; }
+
+.site-foot { display: flex; justify-content: space-between; align-items: center; padding: 64px 0 40px; font-size: 13px; color: #666; }
+.site-foot .to-top { color: #000; font-weight: 600; text-decoration: none; }
+
+/* ABOUT · CONTACT */
+.page { max-width: 880px; padding: 160px var(--gutter) 120px; }
+.page-title { font-size: clamp(32px, 4.4vw, 56px); font-weight: 700; line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 24px; }
+.page-lede { font-size: 18px; line-height: 1.7; color: #444; margin-bottom: 56px; }
+.page-meta { border-top: 1px solid #000; }
+.page-meta > div { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+.page-meta dt { font-weight: 700; }
+.page-meta a { color: #000; }
+
+/* 상세 화면: 흰 바탕, 왼쪽 정렬 머리말 */
+.project-hero { text-align: left; padding: 160px 0 64px; }
+.project-hero .eyebrow .dot { background: #000; }
+.project-hero h1 { margin: 0 0 32px; max-width: 20ch; font-size: clamp(36px, 5.2vw, 72px); font-weight: 700; }
+.project-hero h1 em { color: inherit; }
+.project-hero .lede { margin: 0 0 48px; max-width: 760px; }
+.project-hero-meta { max-width: none; margin: 0; border-top: 1px solid #000; }
+.section-header { text-align: left; }
+.section-header .sub { margin: 0; }
+.view:not(.view-landing) .section-block .section-tag { background: rgba(255,255,255,.92); }
+.work-card, .nav-card, .metric, .ds-card, .anno-item, .critique-col, .reflection-item, .comp-card { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.nav-card:hover { transform: none; box-shadow: none; }
+
+@media (max-width: 1024px) { .cover-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) {
+  :root { --gutter: 16px; }
+  .topbar { padding: 20px var(--gutter) 16px; }
+  .topbar-tabs { gap: 14px; }
+  .topbar-tab { font-size: 13px; }
+  .topbar-brand { font-size: 14px; }
+  .view-landing { padding-top: 72px; }
+  .cover-grid { grid-template-columns: 1fr; gap: 12px; }
+  /* 모바일은 마우스 올림이 없으니 제목을 커버 아래에 */
+  .cover { aspect-ratio: auto; overflow: visible; background: none; color: #000; }
+  .cover-stage { position: relative; aspect-ratio: 1.18 / 1; background: #EFEFEF; }
+  .cover-info { position: static; opacity: 1; background: none; gap: 2px; padding: 10px 0 8px; }
+  .cover-title { font-size: 15px; }
+  .cover-date { font-size: 12px; color: #666; }
+  .site-foot { flex-direction: column; gap: 12px; padding: 40px 0 32px; }
+  .page { padding: 112px var(--gutter) 80px; }
+  .page-meta > div { grid-template-columns: 96px 1fr; }
+  .project-hero { padding: 112px 0 48px; }
+  .ds-card { min-width: 0; }
+  .color-row > *, .color-meta span { min-width: 0; }
+  .color-row, .color-meta { gap: 4px; }
+  .color-meta span { font-size: 10px; overflow-wrap: anywhere; }
+  .swatch { overflow: hidden; }
+  .swatch .hex { font-size: 9px; }
+}

@@ -481,6 +481,7 @@ strong { font-weight: 600; }
 }
 
 </style>
+<link rel="stylesheet" href="renewal.css">
 </head>
 <body>
 
@@ -491,221 +492,86 @@ strong { font-weight: 600; }
 </div>
 
 <header class="topbar" id="topbar">
-  <div class="topbar-left">
-    <div class="topbar-brand">Park Hyemin<span class="role">UI/UX Designer</span></div>
-    <nav class="topbar-tabs">
-      <button class="topbar-tab" data-view="landing">Index</button>
-      <button class="topbar-tab" data-view="hd-xr">HD 조선해양</button>
-      <button class="topbar-tab" data-view="ar-guidance">AR Guidance</button>
-      <button class="topbar-tab" data-view="vr-maintenance">VR Maintenance</button>
-      <button class="topbar-tab" data-view="hd-simulator">HD Simulator</button>
-      <button class="topbar-tab" data-view="mcu">MCU 4ad</button>
-      <button class="topbar-tab" data-view="korail">KORAIL Metaverse</button>
-      <button class="topbar-tab" data-view="xum">XU:M</button>
-      <button class="topbar-tab" data-view="koreatech-xr">KOREATECH XR</button>
-      <button class="topbar-tab" data-view="koreatech-step">KOREATECH STEP</button>
-    </nav>
-  </div>
-  <div class="topbar-right">
-    <a href="mailto:phmjl104@naver.com">phmjl104@naver.com</a>
-    <span>010-4670-1295</span>
-  </div>
+  <nav class="topbar-tabs" aria-label="주 메뉴">
+    <button class="topbar-tab" data-view="landing">Work</button>
+    <button class="topbar-tab" data-view="about">About</button>
+    <button class="topbar-tab" data-view="contact">Contact</button>
+  </nav>
+  <button class="topbar-brand" data-goto="landing">HYEMIN PARK</button>
 </header>
 
 <main>
 
-<!-- LANDING -->
+<!-- WORK : 프로젝트 커버 격자 -->
 <section class="view view-landing" id="view-landing">
-  <div class="landing-hero">
-    <div class="eyebrow reveal">Portfolio · 2026</div>
-    <h1 class="reveal">명확함이 가장 친절한 디자인이라고 믿습니다.</h1>
-    <p class="subline reveal">사용자가 고민 없이 닿을 수 있는 인터페이스를 설계합니다.<br>기능을 직관으로 옮기는 일이 제 일입니다.</p>
-    <div class="scroll-cue reveal">
-      <span>Selected Work</span>
-      <span class="arrow-down"></span>
-    </div>
+  <h1 class="sr-only">Park Hyemin UI/UX Designer 포트폴리오</h1>
+  <div class="cover-grid">
+      <a class="cover" data-goto="hd-xr" href="#hd-xr">
+        <span class="cover-stage"><span class="cover-screen"><img src="assets/cover/legacy-a4db90a2.webp" alt="XR Content for LNG Vessels 대표 화면"></span></span>
+        <span class="cover-info"><span class="cover-title">XR Content for LNG Vessels</span><span class="cover-date">2025</span></span>
+      </a>
+      <a class="cover" data-goto="ar-guidance" href="#ar-guidance">
+        <span class="cover-stage"><span class="cover-screen"><img src="assets/cover/legacy-cc2b3487.webp" alt="AR Guidance for Heavy Equipment 대표 화면"></span></span>
+        <span class="cover-info"><span class="cover-title">AR Guidance for Heavy Equipment</span><span class="cover-date">2024</span></span>
+      </a>
+      <a class="cover" data-goto="vr-maintenance" href="#vr-maintenance">
+        <span class="cover-stage"><span class="cover-screen"><img src="assets/cover/legacy-b9722ff7.webp" alt="VR Maintenance Training 대표 화면"></span></span>
+        <span class="cover-info"><span class="cover-title">VR Maintenance Training</span><span class="cover-date">2024.05 - 2025.01</span></span>
+      </a>
+      <a class="cover" data-goto="hd-simulator" href="#hd-simulator">
+        <span class="cover-stage"><span class="cover-screen"><img src="assets/cover/hd-sim-01-lobby.webp" alt="Excavator Cabin Simulator 대표 화면"></span></span>
+        <span class="cover-info"><span class="cover-title">Excavator Cabin Simulator</span><span class="cover-date">2024 - 2025</span></span>
+      </a>
+      <a class="cover" data-goto="mcu" href="#mcu">
+        <span class="cover-stage"><span class="cover-screen"><img src="assets/cover/mcu-03-select.webp" alt="MCU 4ad Addiction Prevention VR 대표 화면"></span></span>
+        <span class="cover-info"><span class="cover-title">MCU 4ad Addiction Prevention VR</span><span class="cover-date">2024</span></span>
+      </a>
+      <a class="cover" data-goto="korail" href="#korail">
+        <span class="cover-stage"><span class="cover-screen"><img src="assets/cover/kr-01-title.webp" alt="KTX Maintenance Digital Twin 대표 화면"></span></span>
+        <span class="cover-info"><span class="cover-title">KTX Maintenance Digital Twin</span><span class="cover-date">2024 - 2025</span></span>
+      </a>
+      <a class="cover" data-goto="xum" href="#xum">
+        <span class="cover-stage"><span class="cover-screen"><img src="assets/cover/xum-02-space.webp" alt="XU:M XR Collaboration Platform 대표 화면"></span></span>
+        <span class="cover-info"><span class="cover-title">XU:M XR Collaboration Platform</span><span class="cover-date">2024</span></span>
+      </a>
+      <a class="cover" data-goto="koreatech-xr" href="#koreatech-xr">
+        <span class="cover-stage"><span class="cover-screen"><img src="assets/cover/ktx-03-green-3d.webp" alt="Industrial XR Training 대표 화면"></span></span>
+        <span class="cover-info"><span class="cover-title">Industrial XR Training</span><span class="cover-date">2024 - 2025</span></span>
+      </a>
+      <a class="cover" data-goto="koreatech-step" href="#koreatech-step">
+        <span class="cover-stage"><span class="cover-screen"><img src="assets/cover/step-hard-02-rockwell.webp" alt="Lab Simulators for Materials Testing 대표 화면"></span></span>
+        <span class="cover-info"><span class="cover-title">Lab Simulators for Materials Testing</span><span class="cover-date">2024 - 2025</span></span>
+      </a>
   </div>
-
-  <section class="work-section">
-    <div class="container">
-      <div class="section-eyebrow reveal">
-        <div class="label">Selected Work · 2024 — 2026</div>
-        <div class="heading">아홉 개의 프로젝트, 하나의 원칙.</div>
-      </div>
-      <div class="work-grid">
-        <a class="work-card reveal" data-goto="hd-xr">
-          <div class="work-card-inner">
-            <div class="work-num">01</div>
-            <div class="work-body">
-              <div class="client">HD 한국조선해양</div>
-              <div class="title">XR Content for LNG vessels.</div>
-              <div class="meta">
-                <span>Maritime · Industrial XR</span><span class="dot">·</span>
-                <span>PC · 16:9</span><span class="dot">·</span>
-                <span>2025 · 14 months</span>
-              </div>
-            </div>
-            <div class="work-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-          </div>
-        </a>
-        <a class="work-card reveal" data-goto="ar-guidance">
-          <div class="work-card-inner">
-            <div class="work-num">02</div>
-            <div class="work-body">
-              <div class="client">HD Hyundai Infracore</div>
-              <div class="title">AR Guidance for heavy equipment.</div>
-              <div class="meta">
-                <span>AR · Equipment Training</span><span class="dot">·</span>
-                <span>Tablet · 16:9</span><span class="dot">·</span>
-                <span>2024</span>
-              </div>
-            </div>
-            <div class="work-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-          </div>
-        </a>
-        <a class="work-card reveal" data-goto="vr-maintenance">
-          <div class="work-card-inner">
-            <div class="work-num">03</div>
-            <div class="work-body">
-              <div class="client">HD Hyundai Infracore · DEVELON</div>
-              <div class="title">VR Maintenance for heavy equipment training.</div>
-              <div class="meta">
-                <span>VR · Training + Showroom</span><span class="dot">·</span>
-                <span>Meta Quest</span><span class="dot">·</span>
-                <span>2024.05 – 2025.01 · 9 months</span>
-              </div>
-            </div>
-            <div class="work-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-          </div>
-        </a>
-
-        <a class="work-card reveal" data-goto="hd-simulator">
-          <div class="work-card-inner">
-            <div class="work-num">04</div>
-            <div class="work-body">
-              <div class="client">HD Hyundai Infracore · DEVELON</div>
-              <div class="title">Cabin Simulator for excavator training.</div>
-              <div class="meta">
-                <span>Simulator · Equipment Training</span><span class="dot">·</span>
-                <span>전용 시뮬레이션 머신 · 4096×4320</span><span class="dot">·</span>
-                <span>2024 — 2025</span>
-              </div>
-            </div>
-            <div class="work-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-          </div>
-        </a>
-
-        <a class="work-card reveal" data-goto="mcu">
-          <div class="work-card-inner">
-            <div class="work-num">05</div>
-            <div class="work-body">
-              <div class="client">NHN Edu</div>
-              <div class="title">MCU 4ad — Addiction prevention VR.</div>
-              <div class="meta">
-                <span>VR · Prevention Education</span><span class="dot">·</span>
-                <span>Meta Quest</span><span class="dot">·</span>
-                <span>2024</span>
-              </div>
-            </div>
-            <div class="work-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-          </div>
-        </a>
-
-        <a class="work-card reveal" data-goto="korail">
-          <div class="work-card-inner">
-            <div class="work-num">06</div>
-            <div class="work-body">
-              <div class="client">KORAIL · NIPA 메타버스 플래그쉽</div>
-              <div class="title">Digital twin platform for KTX maintenance.</div>
-              <div class="meta">
-                <span>Metaverse · Digital Twin · 5 Sub-systems</span><span class="dot">·</span>
-                <span>PC + Mobile</span><span class="dot">·</span>
-                <span>2024 — 2025</span>
-              </div>
-            </div>
-            <div class="work-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-          </div>
-        </a>
-
-        <a class="work-card reveal" data-goto="xum">
-          <div class="work-card-inner">
-            <div class="work-num">07</div>
-            <div class="work-body">
-              <div class="client">KISTI 한국과학기술정보연구원</div>
-              <div class="title">XU:M — Open XR collaboration platform.</div>
-              <div class="meta">
-                <span>XR · Web Portal · Multi-device</span><span class="dot">·</span>
-                <span>PC Web</span><span class="dot">·</span>
-                <span>2024</span>
-              </div>
-            </div>
-            <div class="work-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-          </div>
-        </a>
-
-        <a class="work-card reveal" data-goto="koreatech-xr">
-          <div class="work-card-inner">
-            <div class="work-num">08</div>
-            <div class="work-body">
-              <div class="client">한국기술교육대학교 KOREATECH</div>
-              <div class="title">Industrial XR Training for three domains.</div>
-              <div class="meta">
-                <span>XR · Education · Digital Twin</span><span class="dot">·</span>
-                <span>PC Metaverse</span><span class="dot">·</span>
-                <span>2024 — 2025</span>
-              </div>
-            </div>
-            <div class="work-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-          </div>
-        </a>
-
-        <a class="work-card reveal" data-goto="koreatech-step">
-          <div class="work-card-inner">
-            <div class="work-num">09</div>
-            <div class="work-body">
-              <div class="client">한국기술교육대학교 · step 평생교육원</div>
-              <div class="title">Lab Simulators for materials testing & heat treatment.</div>
-              <div class="meta">
-                <span>Simulator · Lab Equipment</span><span class="dot">·</span>
-                <span>PC</span><span class="dot">·</span>
-                <span>2024 — 2025</span>
-              </div>
-            </div>
-            <div class="work-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </div>
-          </div>
-        </a>
-
-      </div>
-    </div>
-  </section>
-
-  <footer class="landing-footer">
-    <div class="container">
-      <div class="contact">
-        <a href="mailto:phmjl104@naver.com">phmjl104@naver.com</a>&nbsp;·&nbsp;
-        <span>010-4670-1295</span>
-      </div>
-      <div class="copyright">© 2026 Park Hyemin</div>
-    </div>
+  <footer class="site-foot">
+    <span>© Park Hyemin. All Rights Reserved.</span>
+    <a href="#" class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ Back to Top</a>
   </footer>
+</section>
+
+<!-- ABOUT -->
+<section class="view view-about" id="view-about">
+  <div class="page">
+    <h1 class="page-title">명확함이 가장 친절한 디자인이라고 믿습니다.</h1>
+    <p class="page-lede">사용자가 고민 없이 닿을 수 있는 인터페이스를 설계합니다.<br>기능을 직관으로 옮기는 일이 제 일입니다.</p>
+    <dl class="page-meta">
+      <div><dt>Name</dt><dd>Park Hyemin</dd></div>
+      <div><dt>Role</dt><dd>UI/UX Designer</dd></div>
+      <div><dt>Field</dt><dd>XR · VR · AR · Simulator · Digital Twin · Web</dd></div>
+      <div><dt>Projects</dt><dd>2024 — 2026 · 9 projects</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="view view-contact" id="view-contact">
+  <div class="page">
+    <h1 class="page-title">Contact</h1>
+    <dl class="page-meta">
+      <div><dt>Email</dt><dd><a href="mailto:phmjl104@naver.com">phmjl104@naver.com</a></dd></div>
+      <div><dt>Phone</dt><dd><a href="tel:01046701295">010-4670-1295</a></dd></div>
+    </dl>
+  </div>
 </section>
 
 <!-- ============ HD XR VIEW ============ -->
