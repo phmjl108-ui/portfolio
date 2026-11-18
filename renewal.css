@@ -161,3 +161,30 @@ body { background: #FFFFFF; }
 
 /* 원래 있던 제목 영역 패럴랙스(아래로 밀리며 투명해짐) 끔 — 참고 사이트와 같은 동작 */
 .project-hero .container { transform: none !important; opacity: 1 !important; }
+
+/* 이전·목록·다음 카드 제거 — WORK 메뉴와 You may also like 로 이동 */
+.project-nav { display: none !important; }
+
+/* Design System (피그마 값으로 그림) */
+.ds-cols { display: grid; grid-template-columns: 1.15fr 1fr; gap: 64px; margin-top: 40px; }
+.ds-group { margin-bottom: 36px; }
+.ds-group h3 { font-size: 15px; font-weight: 700; padding-bottom: 12px; margin-bottom: 18px; border-bottom: 1px solid var(--line); }
+.sw-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 16px 12px; }
+.sw { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sw-chip { display: block; aspect-ratio: 3 / 2; border-radius: 10px; margin-bottom: 8px; }
+.sw-chip.light { box-shadow: inset 0 0 0 1px #E3E3E3; }
+.sw-name { font-size: 12px; font-weight: 600; color: #222; overflow-wrap: anywhere; }
+.sw-hex { font-size: 11px; color: #999; }
+.ty-row { display: grid; grid-template-columns: 120px 110px 1fr; gap: 12px; align-items: center; padding: 10px 0; }
+.ty-name { font-size: 13px; color: #555; }
+.ty-spec { font-size: 12px; color: #999; }
+.ty-sample { color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Layout Guide */
+.lg-wrap { margin-top: 32px; background: #F6F7F9; border-radius: 16px; padding: clamp(20px, 4vw, 56px); }
+.lg-stage { position: relative; box-shadow: 0 20px 40px -24px rgba(0,0,0,.4); }
+.lg-stage img { width: 100%; display: block; }
+.lg-box { position: absolute; background: rgba(66, 112, 255, .16); outline: 1px solid rgba(66, 112, 255, .7); }
+.lg-box em { position: absolute; left: 4px; top: 4px; font-style: normal; font-size: 11px; font-weight: 600; color: #2340b8; background: rgba(255,255,255,.85); padding: 1px 5px; border-radius: 3px; white-space: nowrap; }
+.lg-meta { margin-top: 16px; font-size: 13px; color: #888; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.lg-meta b { color: #111; margin-right: 6px; }
+@media (max-width: 900px) { .ds-cols { grid-template-columns: 1fr; gap: 24px; } .ty-row { grid-template-columns: 90px 90px 1fr; } }
