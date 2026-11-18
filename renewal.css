@@ -158,3 +158,6 @@ body { background: #FFFFFF; }
 .view:not(.view-landing) > *:not(.project-cover) { position: relative; z-index: 1; background: #FFFFFF; }
 .project-cover + .project-hero { padding-top: 72px; }
 @media (max-width: 768px) { .project-cover { top: 58px; height: 42vh; margin: 58px 0 0; } }
+
+/* 원래 있던 제목 영역 패럴랙스(아래로 밀리며 투명해짐) 끔 — 참고 사이트와 같은 동작 */
+.project-hero .container { transform: none !important; opacity: 1 !important; }
