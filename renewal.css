@@ -132,3 +132,21 @@ body { background: #FFFFFF; }
   .asis-grid, .ds-pair, .like-grid { grid-template-columns: 1fr; }
   .to-top-btn { right: 16px; bottom: 16px; width: 44px; height: 44px; }
 }
+
+/* 요청 · 방향 · 팀 */
+.brief .container { display: grid; gap: 56px; }
+.brief-block { max-width: 880px; }
+.brief-quote { margin: 0; padding: 4px 0 4px 24px; border-left: 3px solid #000; font-size: clamp(18px, 1.8vw, 22px); line-height: 1.7; font-weight: 600; color: #111; }
+.brief-quote p + p { margin-top: 6px; }
+.brief-ctx, .brief-note { margin-top: 16px; font-size: 16px; line-height: 1.8; color: #555; }
+.brief-list { list-style: none; padding: 0; display: grid; gap: 10px; }
+.brief-list li { position: relative; padding-left: 20px; font-size: 16px; line-height: 1.7; color: #333; }
+.brief-list li::before { content: ""; position: absolute; left: 0; top: .72em; width: 8px; height: 2px; background: #000; }
+.brief-team { border-top: 1px solid #000; }
+.brief-team > div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+.brief-team dt { font-weight: 700; }
+@media (max-width: 768px) { .brief .container { gap: 40px; } .brief-team > div { grid-template-columns: 80px 1fr; } }
+.shot-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.shot-grid3 figcaption, .fig-narrow figcaption { margin-top: 8px; font-size: 13px; color: #666; }
+.fig-narrow { max-width: 420px; }
+@media (max-width: 768px) { .shot-grid3 { grid-template-columns: 1fr 1fr; gap: 12px; } }
