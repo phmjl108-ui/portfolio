@@ -448,3 +448,14 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .view .fig-shot img, .view .fig-float img, .view .sl-item img { box-shadow: none !important; filter: none !important; }
 .view .fig-shot::before, .view .fig-shot::after { box-shadow: none !important; filter: none !important; }
 .lg2-stage, .lg2-stage img { box-shadow: none !important; filter: none !important; }
+/* KISTI 다기종 */
+.md-block .fig-sec-text { max-width: 820px; margin-bottom: 40px; }
+.md-grid { display: grid; grid-template-columns: 2.1fr .78fr 1.2fr; gap: 20px; align-items: stretch; }
+.md-col { display: grid; gap: 20px; }
+.md-tile { margin: 0; display: flex; flex-direction: column; background: #F4F5F7; border-radius: 14px; overflow: hidden; }
+.md-tile img { display: block; width: 100%; height: auto; flex: 1; object-fit: contain; background: #F4F5F7; }
+.md-pc img { height: 100%; object-fit: cover; object-position: top; }
+.md-mobile img { height: 100%; object-fit: contain; background: #fff; }
+.md-tile figcaption { padding: 12px 14px 14px; font-size: 13px; color: #6B6C72; line-height: 1.4; background: #fff; border-top: 1px solid #ECEDF0; }
+.md-tile figcaption b { display: block; font-size: 14px; color: #111; margin-bottom: 2px; }
+@media (max-width: 960px) { .md-grid { grid-template-columns: 1fr 1fr; } .md-pc { grid-column: 1 / -1; } }
