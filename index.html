@@ -482,6 +482,7 @@ strong { font-weight: 600; }
 
 </style>
 <link rel="stylesheet" href="renewal.css">
+<link rel="stylesheet" href="home.css">
 </head>
 <body>
 
@@ -493,41 +494,114 @@ strong { font-weight: 600; }
 
 <header class="topbar" id="topbar">
   <nav class="topbar-tabs" aria-label="주 메뉴">
+    <button class="topbar-tab" data-view="home">Home</button>
     <button class="topbar-tab" data-view="landing">Work</button>
     <button class="topbar-tab" data-view="about">About</button>
     <button class="topbar-tab" data-view="contact">Contact</button>
   </nav>
-  <button class="topbar-brand" data-goto="landing">HYEMIN PARK</button>
+  <button class="topbar-brand" data-goto="home">HYEMIN PARK</button>
 </header>
 
 <main>
+
+<!-- HOME -->
+<section class="view view-home" id="view-home">
+  <div class="hm-hero">
+    <div class="hm-intro">
+      <p class="hm-eyebrow">UI/UX Designer</p>
+      <h1 class="hm-name">Park<br>Hyemin</h1>
+      <p class="hm-tag">현장에서 바로 읽히는 UI를 만듭니다.</p>
+      <div class="hm-meta"><span><b>Field</b>XR · VR · AR · Simulator · Digital Twin</span><span><b>Projects</b>2024 – 2026 · 14</span></div>
+    </div>
+    <div class="hm-stage" id="hmStage" aria-label="마우스로 돌려 볼 수 있는 선 그림 오브젝트"><canvas id="hmCanvas"></canvas><span class="hm-drag">DRAG TO ROTATE</span></div>
+    <span class="hm-scroll" aria-hidden="true"></span>
+  </div>
+
+  <section class="hm-think" aria-label="UI/UX에 대한 생각">
+    <div class="hm-pin">
+      <div>
+        <p class="hm-think-label">UI/UX에 대한 생각</p>
+        <ol class="hm-points">
+          <li class="on"><span class="n">01</span><h3>공간에서 읽히는 UI</h3><p>헤드셋 · 태블릿 · 대형 화면에서 먼저 정하는 것은 거리와 크기입니다.</p><span class="src">삼성 XR · Maintenance VR · Guidance AR · Simulator</span></li>
+          <li><span class="n">02</span><h3>복잡한 절차는 한 번에 한 단계로</h3><p>절차가 많을수록 지금 할 일 하나만 보이게 나눕니다.</p><span class="src">KAIA · Guidance AR · MCU · 한국기술교육대 · 특수선</span></li>
+          <li><span class="n">03</span><h3>흩어진 정보를 한 화면에</h3><p>문서 · 센서 · 영상 · 시스템이 따로 있던 것을 한 화면에서 찾게 합니다.</p><span class="src">특수선 · DX센터 · 철도연 · NIPA2 · HD 조선해양</span></li>
+        </ol>
+      </div>
+      <div class="hm-art" aria-hidden="true">
+        <svg viewBox="0 0 400 400">
+          <path class="accent" d="M140 70 h120 a8 8 0 0 1 8 8 v64 a8 8 0 0 1 -8 8 h-120 a8 8 0 0 1 -8 -8 v-64 a8 8 0 0 1 8 -8 z"/>
+          <path d="M70 200 Q200 150 330 200"/><path d="M100 230 Q200 190 300 230"/><path d="M40 170 Q200 100 360 170"/>
+          <path d="M120 270 h160 a30 30 0 0 1 30 30 v10 a30 30 0 0 1 -30 30 h-40 l-20 -18 h-40 l-20 18 h-40 a30 30 0 0 1 -30 -30 v-10 a30 30 0 0 1 30 -30 z"/>
+          <path d="M90 300 Q60 300 60 330"/><path d="M310 300 Q340 300 340 330"/>
+          <line x1="200" y1="270" x2="200" y2="150"/>
+        </svg>
+        <svg viewBox="0 0 400 400" style="opacity:0">
+          <rect x="40" y="290" width="96" height="64" rx="8"/><rect x="112" y="226" width="96" height="64" rx="8"/><rect x="184" y="162" width="96" height="64" rx="8"/>
+          <rect class="accent" x="256" y="98" width="96" height="64" rx="8"/>
+          <path d="M60 322 h40"/><path d="M132 258 h40"/><path d="M204 194 h40"/>
+          <circle class="accent" cx="304" cy="130" r="14"/><path class="accent" d="M297 130 l5 5 l9 -10"/>
+          <path d="M40 368 h320"/>
+        </svg>
+        <svg viewBox="0 0 400 400" style="opacity:0">
+          <rect x="30" y="40" width="70" height="50" rx="6"/><rect x="300" y="30" width="70" height="50" rx="6"/>
+          <rect x="20" y="300" width="70" height="50" rx="6"/><rect x="310" y="310" width="70" height="50" rx="6"/>
+          <circle cx="200" cy="40" r="18"/>
+          <path d="M100 70 L130 150"/><path d="M300 60 L270 150"/><path d="M90 320 L130 260"/><path d="M310 330 L270 260"/><path d="M200 58 L200 150"/>
+          <rect class="accent" x="120" y="150" width="160" height="110" rx="10"/>
+          <path class="accent" d="M120 178 h160"/><path class="accent" d="M180 178 v82"/>
+        </svg>
+      </div>
+      <div class="hm-bar"><i></i></div>
+    </div>
+  </section>
+
+  <section class="hm-about">
+    <p>
+      <span class="hm-line">실물 장비를 뜯어볼 수 없고,</span>
+      <span class="hm-line">현장에 매번 갈 수 없고, 문서가 너무 많은 문제를</span>
+      <span class="hm-line">화면으로 풀어 왔습니다.</span>
+      <span class="hm-line mute">대부분의 프로젝트에서 UI를 혼자 맡아</span>
+      <span class="hm-line mute">시안부터 디자인 시스템까지 정리했습니다.</span>
+    </p>
+  </section>
+
+  <section class="hm-work">
+    <div class="hm-work-head"><h2>Selected Work</h2><a class="hm-all" href="#work" data-goto="landing">모든 프로젝트 보기 →</a></div>
+    <div class="hm-cards">
+      <a class="hm-card" href="#samsung-xr" data-goto="samsung-xr"><span class="media"><img src="assets/cover/scr-samsung-xr.webp?v=1118x" alt="삼성전자서비스 XR" loading="lazy"></span><span class="pt">01 · 공간에서 읽히는 UI</span><span class="tt">삼성전자서비스 XR</span><span class="sb">냉장고 수리 XR 훈련</span></a>
+      <a class="hm-card" href="#kaia" data-goto="kaia"><span class="media"><img src="assets/cover/scr-kaia.webp?v=1118x" alt="KAIA_Axsprint" loading="lazy"></span><span class="pt">02 · 한 번에 한 단계</span><span class="tt">KAIA_Axsprint</span><span class="sb">철도 선로 작업 안전 훈련</span></a>
+      <a class="hm-card" href="#ship-xr" data-goto="ship-xr"><span class="media"><img src="assets/cover/scr-ship-xr.webp?v=1118x" alt="특수선 XR 기술교범" loading="lazy"></span><span class="pt">03 · 흩어진 정보를 한 화면에</span><span class="tt">특수선 XR 기술교범</span><span class="sb">태블릿 기술교범 뷰어</span></a>
+      <a class="hm-card" href="#hd-xr" data-goto="hd-xr"><span class="media"><img src="assets/cover/scr-hd-xr.webp?v=1118x" alt="HD 한국조선해양 XR 콘텐츠" loading="lazy"></span><span class="pt">03 · 흩어진 정보를 한 화면에</span><span class="tt">HD 한국조선해양 XR</span><span class="sb">LNG선 디지털 트윈 HiDTS</span></a>
+    </div>
+  </section>
+</section>
 
 <!-- WORK : 프로젝트 커버 격자 -->
 <section class="view view-landing" id="view-landing">
   <h1 class="sr-only">Park Hyemin UI/UX Designer 포트폴리오</h1>
   <div class="cover-grid">
       <a class="cover" data-goto="kaia" href="#kaia">
-        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-kaia.webp?v=1118x" alt="KAIA_Axsprint 대표 화면"None></span>
+        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-kaia.webp?v=1118x" alt="KAIA_Axsprint 대표 화면"></span>
         <span class="cover-info"><span class="cover-title">KAIA_Axsprint</span><span class="cover-sub">철도 선로 작업 안전 훈련 · PC</span><span class="cover-date">2026.07 ~ 2027.12</span></span>
       </a>
       <a class="cover" data-goto="samsung-xr" href="#samsung-xr">
-        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-samsung-xr.webp?v=1118x" alt="삼성전자서비스 XR 대표 화면"None></span>
+        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-samsung-xr.webp?v=1118x" alt="삼성전자서비스 XR 대표 화면"></span>
         <span class="cover-info"><span class="cover-title">삼성전자서비스 XR</span><span class="cover-sub">냉장고 수리 XR 교육 · XR 헤드셋</span><span class="cover-date">2026.09 ~ 2026.11</span></span>
       </a>
       <a class="cover" data-goto="ship-xr" href="#ship-xr">
-        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-ship-xr.webp?v=1118x" alt="특수선 XR 기술교범 대표 화면"None></span>
+        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-ship-xr.webp?v=1118x" alt="특수선 XR 기술교범 대표 화면"></span>
         <span class="cover-info"><span class="cover-title">특수선 XR 기술교범</span><span class="cover-sub">HD HYUNDAI 특수선 · Galaxy Tab S8 Ultra</span><span class="cover-date">2026.06 ~ 2026.11</span></span>
       </a>
       <a class="cover" data-goto="dx-center" href="#dx-center">
-        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-dx-center.webp?v=1118x" alt="중소조선연구원 DX센터 대표 화면"None></span>
+        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-dx-center.webp?v=1118x" alt="중소조선연구원 DX센터 대표 화면"></span>
         <span class="cover-info"><span class="cover-title">중소조선연구원 DX센터</span><span class="cover-sub">조선 생산 디지털 트윈 · 시뮬레이션 · PC</span><span class="cover-date">2026.03 ~</span></span>
       </a>
       <a class="cover" data-goto="krri-dt" href="#krri-dt">
-        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-krri-dt.webp?v=1118x" alt="철도기술연구원 디지털트윈 아키텍처 대표 화면"None></span>
+        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-krri-dt.webp?v=1118x" alt="철도기술연구원 디지털트윈 아키텍처 대표 화면"></span>
         <span class="cover-info"><span class="cover-title">철도기술연구원 디지털트윈 아키텍처</span><span class="cover-sub">철도차량 디지털 트윈 · PC</span><span class="cover-date">2026.08 ~ 2026.11</span></span>
       </a>
       <a class="cover" data-goto="vr-maintenance" href="#vr-maintenance">
-        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-vr-maintenance.webp?v=1118x" alt="Hyundai Maintenance VR 대표 화면"None></span>
+        <span class="cover-media"><img class="cover-img" src="assets/cover/scr-vr-maintenance.webp?v=1118x" alt="Hyundai Maintenance VR 대표 화면"></span>
         <span class="cover-info"><span class="cover-title">Hyundai Maintenance VR</span><span class="cover-sub">중장비 정비 교육 · Meta Quest</span><span class="cover-date">2024.05 ~ Ing</span></span>
       </a>
       <a class="cover" data-goto="ar-guidance" href="#ar-guidance">
@@ -2762,13 +2836,14 @@ function showView(name) {
   target.classList.add('active');
   document.querySelectorAll('.topbar-tab').forEach(t => t.classList.toggle('active', t.dataset.view === name));
   document.body.dataset.view = name;
-  history.replaceState(null, '', '#' + (name === 'landing' ? '' : name));
+  history.replaceState(null, '', name === 'home' ? location.pathname : '#' + (name === 'landing' ? 'work' : name));
+  document.dispatchEvent(new CustomEvent('portfolio:view', { detail: name }));
   window.scrollTo({ top: 0, behavior: 'instant' });
   setTimeout(() => target.querySelectorAll('.reveal').forEach((el, i) => setTimeout(() => el.classList.add('in'), i * 60)), 50);
 }
 document.querySelectorAll('.topbar-tab').forEach(t => t.addEventListener('click', () => showView(t.dataset.view)));
 document.querySelectorAll('[data-goto]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); showView(el.dataset.goto); }));
-function initFromHash() { const hash = (window.location.hash || '').slice(1) || 'landing'; showView(hash); }
+function initFromHash() { let hash = (window.location.hash || '').slice(1) || 'home'; if (hash === 'work') hash = 'landing'; showView(hash); }
 window.addEventListener('hashchange', initFromHash);
 
 const orbs = [document.getElementById('orb1'), document.getElementById('orb2')];
@@ -2900,5 +2975,6 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <button id="toTopBtn" class="to-top-btn" aria-label="맨 위로" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script src="home.js"></script>
 </body>
 </html>
