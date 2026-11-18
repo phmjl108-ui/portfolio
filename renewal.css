@@ -318,3 +318,19 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 /* 슬라이드: 원본 화면을 크게 */
 .sl-view { background: #F4F4F5; }
 .sl-item img:not([src*="assets/mock/"]) { width: 94% !important; height: 92% !important; object-fit: contain; border-radius: 8px !important; box-shadow: 0 24px 48px -28px rgba(0,0,0,.45) !important; mix-blend-mode: normal !important; }
+
+/* ===== 원래 있던 회고 복원: 화면별 Worked well / Could be better + Self-critique · Reflection ===== */
+.fig-crit { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+.fig-crit > div { padding: 18px 22px; border-radius: 12px; background: #FAFAFB; border: 1px solid #ECECEE; }
+.fig-crit b { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.fig-crit .w b { color: #16A34A; } .fig-crit .g b { color: #EA580C; }
+.fig-crit ul { margin: 0; padding-left: 16px; } .fig-crit li { font-size: 14px; line-height: 1.7; color: #555; }
+.retro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 8px; }
+.retro-col { padding: 28px; border-radius: 16px; background: #FAFAFB; border: 1px solid #ECECEE; }
+.retro-col h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+.retro-col.wins h3 { color: #16A34A; } .retro-col.gaps h3 { color: #EA580C; }
+.retro-col ol { margin: 0; padding-left: 20px; } .retro-col li { margin-bottom: 14px; }
+.retro-col li b { display: block; font-size: 15px; color: #111; } .retro-col li span { display: block; font-size: 14px; line-height: 1.7; color: #555; margin-top: 2px; }
+.refl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 12px; }
+.refl .n { font-size: 13px; font-weight: 700; color: #4270FF; } .refl h4 { font-size: 17px; font-weight: 700; margin: 8px 0; } .refl p { font-size: 14px; line-height: 1.8; color: #555; }
+@media (max-width: 860px) { .fig-crit, .retro-grid, .refl-grid { grid-template-columns: 1fr; } }
