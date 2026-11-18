@@ -264,3 +264,5 @@ body { background: #FFFFFF; }
 .lg2-zones .cz { border-left: 3px solid #4270FF; } .lg2-zones .sz { border-left: 3px solid #EC4899; }
 .lg2-zones b { font-size: 15px; color: #111; } .lg2-zones p { margin-top: 6px; font-size: 14px; line-height: 1.7; color: #666; }
 @media (max-width: 860px) { .lg2-head { grid-template-columns: 1fr; gap: 0; } .lg2-zones { grid-template-columns: 1fr; } .lg2-seg b { font-size: 10px; } .lg2-fix em, .lg2-area em, .lg2-cz em, .lg2-sz em { font-size: 9px; } }
+.shot-grid3.mock-grid { gap: 32px 24px; }
+.shot-grid3.mock-grid .fig-shot figcaption { text-align: center; }
