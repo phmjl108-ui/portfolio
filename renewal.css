@@ -413,3 +413,8 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .fig-float { background: #fff; border: 1px solid rgba(0,0,0,.06); }
 .fig-float img { width: 100%; height: auto; object-fit: contain; }
 .fig-sec.v-bleed-l .fig-float, .fig-sec.v-bleed-r .fig-float { width: 46%; }
+/* 원본보다 크게 늘리지 않음 (깨짐 방지) */
+.fig-sec .fig-shot img { max-width: min(100%, 1280px); margin-left: auto; margin-right: auto; display: block; }
+.fig-sec.v-bleed-r .fig-shot img, .fig-sec.v-bleed-l .fig-shot img { max-width: min(100%, 960px); }
+.fig-sec.v-bleed-r .container, .fig-sec.v-bleed-l .container { grid-template-columns: minmax(280px, 1fr) 1.7fr !important; }
+.fig-sec.v-bleed-l .container { grid-template-columns: 1.7fr minmax(280px, 1fr) !important; }
