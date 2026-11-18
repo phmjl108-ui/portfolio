@@ -183,7 +183,7 @@ body { background: #FFFFFF; }
 .lg-wrap { margin-top: 32px; background: #F6F7F9; border-radius: 16px; padding: clamp(20px, 4vw, 56px); }
 .lg-stage { position: relative; box-shadow: 0 20px 40px -24px rgba(0,0,0,.4); }
 .lg-stage img { width: 100%; display: block; }
-.lg-box { position: absolute; background: rgba(66, 112, 255, .16); outline: 1px solid rgba(66, 112, 255, .7); }
+.lg-box { position: absolute; background: rgba(66, 112, 255, .08); outline: 1px dashed rgba(66, 112, 255, .8); }
 .lg-box em { position: absolute; left: 4px; top: 4px; font-style: normal; font-size: 11px; font-weight: 600; color: #2340b8; background: rgba(255,255,255,.85); padding: 1px 5px; border-radius: 3px; white-space: nowrap; }
 .lg-meta { margin-top: 16px; font-size: 13px; color: #888; display: flex; flex-wrap: wrap; gap: 6px 14px; }
 .lg-meta b { color: #111; margin-right: 6px; }
