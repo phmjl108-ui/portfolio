@@ -40,7 +40,7 @@ window.PORTFOLIO = {
     { id: 'koreatech-xr', kr: '산업 XR 실습', cover: 'ktx-03-green-3d', group: 'xr', num: '08', tab: 'KOREATECH XR',
       client: '한국기술교육대학교 KOREATECH', title: 'Industrial XR Training for three domains.',
       meta: ['XR · Education · Digital Twin', 'PC Metaverse', '2024 — 2025'] },
-    { id: 'koreatech-step', kr: '재료 시험 시뮬레이터', cover: 'step-hard-02-rockwell', group: 'sim', num: '09', tab: 'KOREATECH STEP',
+    { id: 'koreatech-step', kr: '재료 시험 시뮬레이터', cover: 'step-ten-06-condition', group: 'sim', num: '09', tab: 'KOREATECH STEP',
       client: '한국기술교육대학교 · step 평생교육원', title: 'Lab Simulators for materials testing & heat treatment.',
       meta: ['Simulator · Lab Equipment', 'PC', '2024 — 2025'] }
   ]
