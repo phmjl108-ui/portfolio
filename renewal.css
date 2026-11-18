@@ -266,3 +266,9 @@ body { background: #FFFFFF; }
 @media (max-width: 860px) { .lg2-head { grid-template-columns: 1fr; gap: 0; } .lg2-zones { grid-template-columns: 1fr; } .lg2-seg b { font-size: 10px; } .lg2-fix em, .lg2-area em, .lg2-cz em, .lg2-sz em { font-size: 9px; } }
 .shot-grid3.mock-grid { gap: 32px 24px; }
 .shot-grid3.mock-grid .fig-shot figcaption { text-align: center; }
+/* 목업: 2열로 크게, 바깥 흰 여백을 잘라 기기를 키움 */
+.shot-grid3.mock-grid { grid-template-columns: repeat(2, 1fr); gap: 56px 48px; }
+.fig-shot img[src*="assets/mock/"] { transform: scale(1.2); clip-path: inset(8.333%); }
+.fig-shot img[src*="assets/mock/legacy-a4db90a2"], .fig-shot img[src*="assets/mock/legacy-86f33a24"], .fig-shot img[src*="assets/mock/legacy-6db80534"], .fig-shot img[src*="assets/mock/legacy-e0d1ed4a"], .fig-shot img[src*="assets/mock/legacy-fa80ab7d"], .fig-shot img[src*="assets/mock/legacy-27455b91"] { transform: none; clip-path: none; }
+.shot-grid3.mock-grid .fig-shot figcaption { margin-top: 14px; font-size: 14px; color: #555; }
+@media (max-width: 768px) { .shot-grid3.mock-grid { grid-template-columns: 1fr; gap: 32px; } }
