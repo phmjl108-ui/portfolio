@@ -357,3 +357,25 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .rl-h i { right: -34px; top: 50%; transform: translateY(-50%); } .rl-v i { top: -18px; left: 50%; transform: translateX(-50%); }
 @media (max-width: 768px) { .as-item img { height: 110px; } }
 .fig-shot img.xr-curve { box-shadow: none !important; border-radius: 0 !important; filter: drop-shadow(0 28px 36px rgba(0,0,0,.28)); }
+
+/* ===== 화면 섹션 배치 섞기: A 전체 폭 / B 글 왼쪽 + 화면 오른쪽 끝까지 / C 회색 띠 + 화면 왼쪽 끝까지 ===== */
+.fig-sec.v-bleed-r, .fig-sec.v-bleed-l { overflow: hidden; padding-top: 120px; padding-bottom: 120px; }
+.fig-sec.v-bleed-l { background: #EEF0F4; }
+.fig-sec.v-bleed-r .container, .fig-sec.v-bleed-l .container { display: grid !important; grid-template-columns: minmax(280px, 1fr) 1.9fr; gap: 64px; align-items: center; }
+.fig-sec.v-bleed-l .container { grid-template-columns: 1.9fr minmax(280px, 1fr); }
+.fig-sec.v-bleed-l .fig-sec-text { order: 2; }
+.fig-sec.v-bleed-r .fig-sec-text, .fig-sec.v-bleed-l .fig-sec-text { display: block; margin: 0; }
+.fig-sec.v-bleed-r .fig-points, .fig-sec.v-bleed-l .fig-points { display: block; }
+.fig-sec.v-bleed-r .fig-shot { margin-right: calc((100vw - 100%) / -2 - 120px); }
+.fig-sec.v-bleed-l .fig-shot { margin-left: calc((100vw - 100%) / -2 - 120px); }
+.fig-sec.v-bleed-r .fig-shot img, .fig-sec.v-bleed-l .fig-shot img { max-height: none; border: 14px solid #16171B; border-radius: 26px !important; box-shadow: 0 40px 80px -40px rgba(0,0,0,.5) !important; background: #16171B; }
+.fig-sec[data-dev="laptop"].v-bleed-r .fig-shot img, .fig-sec[data-dev="laptop"].v-bleed-l .fig-shot img { border-width: 12px 12px 22px; border-radius: 16px 16px 6px 6px !important; }
+.fig-sec[data-dev="monitor"].v-bleed-r .fig-shot img, .fig-sec[data-dev="monitor"].v-bleed-l .fig-shot img { border-width: 10px; border-radius: 10px !important; }
+.fig-sec.v-bleed-r .fig-shot img.xr-curve, .fig-sec.v-bleed-l .fig-shot img.xr-curve { border: 0; background: none; }
+.fig-sec.v-bleed-r .fig-crit, .fig-sec.v-bleed-l .fig-crit { grid-column: 1 / -1; }
+@media (max-width: 960px) {
+  .fig-sec.v-bleed-r .container, .fig-sec.v-bleed-l .container { grid-template-columns: 1fr !important; }
+  .fig-sec.v-bleed-l .fig-sec-text { order: 0; }
+  .fig-sec.v-bleed-r .fig-shot, .fig-sec.v-bleed-l .fig-shot { margin: 0; }
+}
+.view:not(.view-landing) > .fig-sec.v-bleed-l, .view:not(.view-landing) > .as-block, .view:not(.view-landing) > .cp-block { background: #EEF0F4 !important; }
