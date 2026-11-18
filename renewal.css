@@ -314,3 +314,7 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .fig-sec .fig-shot img { width: 100%; height: auto; max-height: 86vh; object-fit: contain; border-radius: 12px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.35) !important; transform: none !important; clip-path: none !important; }
 #view-hd-simulator .fig-sec .fig-shot img, #view-korail .fig-sec .fig-shot img[src*="mobile"] { width: auto; max-width: 100%; display: block; margin: 0 auto; }
 @media (max-width: 860px) { .fig-sec .fig-sec-text { grid-template-columns: 1fr; } .fig-sec .fig-sec-text > .fig-sec-desc { grid-column: 1; grid-row: auto; } }
+#view-hd-simulator .sl-item img[src*="assets/mock/simc"] { width: 100% !important; height: 100% !important; mix-blend-mode: multiply !important; border-radius: 0 !important; box-shadow: none !important; }
+/* 슬라이드: 원본 화면을 크게 */
+.sl-view { background: #F4F4F5; }
+.sl-item img:not([src*="assets/mock/"]) { width: 94% !important; height: 92% !important; object-fit: contain; border-radius: 8px !important; box-shadow: 0 24px 48px -28px rgba(0,0,0,.45) !important; mix-blend-mode: normal !important; }
