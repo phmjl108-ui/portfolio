@@ -303,3 +303,14 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 /* 시뮬레이터: 기기 없이 화면만 크게 */
 #view-hd-simulator .fig-shot img[src*="assets/fig/hd-sim"] { border-radius: 10px; box-shadow: 0 24px 48px -24px rgba(0,0,0,.4) !important; }
 #view-hd-simulator .sl-item img { width: auto !important; height: 92% !important; max-width: 100%; mix-blend-mode: normal !important; border-radius: 8px !important; }
+
+/* ===== 화면 섹션: UI 를 크게 — 글 위, 이미지 본문 폭 전체 ===== */
+.fig-sec .container, .fig-sec.flip .container { display: block; }
+.fig-sec .fig-sec-text { max-width: none; display: grid; grid-template-columns: minmax(260px, 1fr) 2fr; gap: 12px 56px; align-items: start; margin-bottom: 32px; }
+.fig-sec .fig-sec-text > .fig-sec-label, .fig-sec .fig-sec-text > .fig-sec-title { grid-column: 1; }
+.fig-sec .fig-sec-text > .fig-sec-desc { grid-column: 2; grid-row: 1 / span 2; align-self: end; }
+.fig-sec .fig-points { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0 32px; margin-top: 8px; }
+.fig-sec .fig-shot { margin: 0; }
+.fig-sec .fig-shot img { width: 100%; height: auto; max-height: 86vh; object-fit: contain; border-radius: 12px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.35) !important; transform: none !important; clip-path: none !important; }
+#view-hd-simulator .fig-sec .fig-shot img, #view-korail .fig-sec .fig-shot img[src*="mobile"] { width: auto; max-width: 100%; display: block; margin: 0 auto; }
+@media (max-width: 860px) { .fig-sec .fig-sec-text { grid-template-columns: 1fr; } .fig-sec .fig-sec-text > .fig-sec-desc { grid-column: 1; grid-row: auto; } }
