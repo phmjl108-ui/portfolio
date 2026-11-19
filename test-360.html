@@ -5,57 +5,111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>360 배경 테스트 — 정비 VR</title>
 <style>
-  html, body { margin: 0; height: 100%; background: #111; font-family: 'Pretendard', system-ui, sans-serif; }
-  #wrap { position: relative; height: 100%; overflow: hidden; cursor: grab; touch-action: none; }
-  #wrap.drag { cursor: grabbing; }
-  canvas { display: block; }
-  .hint { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); padding: 8px 14px; border-radius: 999px; background: rgba(0,0,0,.45); color: #fff; font-size: 13px; pointer-events: none; transition: opacity .4s; }
-  .panel { position: absolute; left: 50%; top: 50%; width: 360px; transform: translate(-50%, -50%); pointer-events: none; }
-  .panel img { width: 100%; display: block; }
-  .msg { position: absolute; inset: 0; display: grid; place-items: center; color: #ddd; font-size: 15px; }
+  :root { --ink: #1A1B1F; --sub: #6B6C72; }
+  html, body { margin: 0; background: #fff; color: var(--ink); font-family: 'Pretendard', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+  .sec { padding: 72px 0; }
+  .label { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--sub); letter-spacing: .02em; }
+  h2 { margin: 0 0 12px; font-size: 32px; letter-spacing: -.02em; }
+  .desc { margin: 0 0 28px; max-width: 640px; font-size: 16px; line-height: 1.6; color: #4A4B50; }
+
+  .vr360 { position: relative; height: 620px; border-radius: 20px; overflow: hidden; background: #1b1f24; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .vr360.drag { cursor: grabbing; }
+  .vr360 canvas { display: block; width: 100%; height: 100%; }
+  .vr360 .ui { position: absolute; left: 0; top: 0; transform-origin: 50% 50%; will-change: transform, opacity; cursor: pointer; transition: filter .2s ease; z-index: 2; }
+  .vr360 .ui img { display: block; width: 100%; height: auto; pointer-events: none; }
+  .vr360 .ui:hover { filter: brightness(1.12); }
+  .vr360 .ui.is-focus { filter: drop-shadow(0 0 18px rgba(255, 255, 255, .35)); }
+  .vr360 .hint { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); padding: 8px 14px; border-radius: 999px; background: rgba(0, 0, 0, .5); color: #fff; font-size: 13px; pointer-events: none; transition: opacity .4s; z-index: 5; white-space: nowrap; }
+  .vr360 .msg { position: absolute; inset: 0; display: grid; place-items: center; color: #ddd; font-size: 15px; }
+  @media (max-width: 640px) { .vr360 { height: 460px; } h2 { font-size: 24px; } }
 </style>
 </head>
 <body>
-<div id="wrap">
-  <div class="msg" id="msg">360 이미지를 불러오는 중…</div>
-  <div class="hint" id="hint">드래그해서 둘러보기</div>
-</div>
+<section class="sec">
+  <div class="container">
+    <p class="label">VR SPACE UI</p>
+    <h2>정비장 공간 속 UI</h2>
+    <p class="desc">헤드셋 안에서 보이는 그대로, 정비장 360° 공간에 UI 패널을 띄웠습니다. 드래그해 둘러보고 패널을 누르면 그쪽으로 시선이 돌아갑니다.</p>
+    <div class="vr360" id="vr360">
+      <div class="msg" id="msg">360 이미지를 불러오는 중…</div>
+      <div class="ui" data-yaw="-36" data-pitch="3" data-w="440"><img src="assets/comp/vr-maintenance/type-list-popup.webp" alt="장비 유형 선택 팝업"></div>
+      <div class="ui" data-yaw="36" data-pitch="4" data-w="320"><img src="assets/comp/vr-maintenance/warning-popup.webp" alt="경고 팝업"></div>
+      <div class="ui" data-yaw="0" data-pitch="-15" data-w="380"><img src="assets/comp/vr-maintenance/main-menu-buttons.webp" alt="메인 메뉴 버튼"></div>
+      <div class="hint" id="hint">드래그해서 둘러보기 · 패널을 누르면 시선 이동</div>
+    </div>
+  </div>
+</section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function () {
-  var SRC = "assets/pano/vr-maint-360.webp?v=6";
-  var wrap = document.getElementById('wrap'), msg = document.getElementById('msg'), hint = document.getElementById('hint');
+  var SRC = 'assets/pano/vr-maint-360.webp?v=6';
+  var box = document.getElementById('vr360'), msg = document.getElementById('msg'), hint = document.getElementById('hint');
+  var uis = [].slice.call(box.querySelectorAll('.ui'));
   var renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
   if (THREE.sRGBEncoding) renderer.outputEncoding = THREE.sRGBEncoding;
-  wrap.appendChild(renderer.domElement);
+  box.insertBefore(renderer.domElement, box.firstChild);
   var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1100);
+  var camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1100);
   var geo = new THREE.SphereGeometry(500, 64, 40); geo.scale(-1, 1, 1);
   var mat = new THREE.MeshBasicMaterial({ color: 0x222222 });
   scene.add(new THREE.Mesh(geo, mat));
   new THREE.TextureLoader().load(SRC, function (tex) {
     if (THREE.sRGBEncoding) tex.encoding = THREE.sRGBEncoding;
     mat.map = tex; mat.color.set(0xffffff); mat.needsUpdate = true; msg.remove();
-  }, undefined, function () { msg.textContent = '360 이미지를 찾을 수 없습니다: ' + SRC; });
+  }, undefined, function () { msg.textContent = '360 이미지를 찾을 수 없습니다'; });
 
-  var lon = 180, lat = 0, vLon = 0, vLat = 0, down = false, px = 0, py = 0, auto = true;
-  var HFOV = 80; // 가로 시야 고정(넓은 화면에서 가장자리 휨 방지)
-  function applyFov() { var a = camera.aspect, v = 2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(HFOV) / 2) / a); camera.fov = Math.min(75, THREE.MathUtils.radToDeg(v)); camera.updateProjectionMatrix(); }
-  function size() { var w = wrap.clientWidth, h = wrap.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; applyFov(); }
+  // 파노라마 가운데(정면)가 lon 180 방향
+  var BASE = 180, lon = BASE, lat = 0, vLon = 0, vLat = 0, down = false, px = 0, py = 0, moved = 0, auto = true, goal = null;
+  var HFOV = 80;
+  function applyFov() { var v = 2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(HFOV) / 2) / camera.aspect); camera.fov = Math.min(70, THREE.MathUtils.radToDeg(v)); camera.updateProjectionMatrix(); }
+  function size() { var w = box.clientWidth, h = box.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; applyFov(); }
   window.addEventListener('resize', size); size();
-  wrap.addEventListener('pointerdown', function (e) { down = true; auto = false; px = e.clientX; py = e.clientY; wrap.setPointerCapture(e.pointerId); wrap.classList.add('drag'); hint.style.opacity = 0; });
-  wrap.addEventListener('pointermove', function (e) { if (!down) return; vLon = (px - e.clientX) * 0.12; vLat = (e.clientY - py) * 0.12; lon += vLon; lat += vLat; px = e.clientX; py = e.clientY; });
-  wrap.addEventListener('pointerup', function () { down = false; wrap.classList.remove('drag'); });
-  wrap.addEventListener('wheel', function (e) { e.preventDefault(); HFOV = Math.max(50, Math.min(90, HFOV + e.deltaY * 0.03)); applyFov(); }, { passive: false });
+
+  function dirOf(yawDeg, pitchDeg) { // 패널 각도 → 공간 방향(시점 계산과 같은 규칙)
+    var phi = THREE.MathUtils.degToRad(90 - pitchDeg), th = THREE.MathUtils.degToRad(BASE + yawDeg);
+    return new THREE.Vector3(Math.sin(phi) * Math.cos(th), Math.cos(phi), Math.sin(phi) * Math.sin(th));
+  }
+  uis.forEach(function (u) {
+    u._d = dirOf(+u.dataset.yaw, +u.dataset.pitch);
+    u.addEventListener('click', function () {
+      if (moved > 6) return;
+      goal = { lon: BASE + (+u.dataset.yaw), lat: Math.max(-12, Math.min(12, +u.dataset.pitch)) };
+      auto = false; hint.style.opacity = 0;
+      uis.forEach(function (o) { o.classList.toggle('is-focus', o === u); });
+    });
+  });
+
+  box.addEventListener('pointerdown', function (e) { down = true; moved = 0; auto = false; goal = null; px = e.clientX; py = e.clientY; box.classList.add('drag'); hint.style.opacity = 0; });
+  window.addEventListener('pointermove', function (e) { if (!down) return; var dx = px - e.clientX, dy = e.clientY - py; moved += Math.abs(dx) + Math.abs(dy); vLon = dx * 0.1; vLat = dy * 0.1; lon += vLon; lat += vLat; px = e.clientX; py = e.clientY; });
+  window.addEventListener('pointerup', function () { down = false; box.classList.remove('drag'); });
+
+  var tmp = new THREE.Vector3(), fwd = new THREE.Vector3(), cr = new THREE.Vector3();
   (function loop() {
-    if (!down) { lon += vLon; lat += vLat; vLon *= 0.93; vLat *= 0.93; if (auto) lon += 0.04; }
-    // 화면 위·아래 끝이 ±40°를 넘지 않게(천장 꼭대기·바닥 바로 아래는 보이지 않음)
-    var lim = Math.max(0, 40 - camera.fov / 2);
-    lat = Math.max(-lim, Math.min(lim, lat));
+    if (goal) { lon += (goal.lon - lon) * 0.08; lat += (goal.lat - lat) * 0.08; if (Math.abs(goal.lon - lon) < 0.05 && Math.abs(goal.lat - lat) < 0.05) goal = null; }
+    else if (!down) { lon += vLon; lat += vLat; vLon *= 0.93; vLat *= 0.93; if (auto) lon += 0.03; }
+    var lim = Math.max(0, 40 - camera.fov / 2); lat = Math.max(-lim, Math.min(lim, lat));
     var phi = THREE.MathUtils.degToRad(90 - lat), th = THREE.MathUtils.degToRad(lon);
     camera.lookAt(500 * Math.sin(phi) * Math.cos(th), 500 * Math.cos(phi), 500 * Math.sin(phi) * Math.sin(th));
-    renderer.render(scene, camera); requestAnimationFrame(loop);
+    camera.updateMatrixWorld();
+    renderer.render(scene, camera);
+    // 패널: 공간에 고정된 위치를 화면 좌표로
+    var W = box.clientWidth, H = box.clientHeight;
+    camera.getWorldDirection(fwd);
+    var k = (W / 2) / Math.tan(THREE.MathUtils.degToRad(HFOV) / 2) / 900;
+    uis.forEach(function (u) {
+      var facing = u._d.dot(fwd);
+      if (facing < 0.15) { u.style.opacity = 0; u.style.pointerEvents = 'none'; return; }
+      tmp.copy(u._d).multiplyScalar(400).project(camera);
+      var x = (tmp.x + 1) / 2 * W, y = (1 - tmp.y) / 2 * H, w = +u.dataset.w * k;
+      var side = cr.crossVectors(fwd, u._d).y; // 옆으로 갈수록 살짝 돌아감
+      u.style.width = w + 'px';
+      u.style.transform = 'translate(' + (x - w / 2) + 'px,' + (y - u.offsetHeight / 2) + 'px) perspective(900px) rotateY(' + (-side * 40) + 'deg)';
+      u.style.opacity = String(Math.min(1, (facing - 0.15) / 0.25));
+      u.style.pointerEvents = 'auto';
+    });
+    requestAnimationFrame(loop);
   })();
 })();
 </script>
