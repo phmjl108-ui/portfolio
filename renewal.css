@@ -462,3 +462,19 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 /* 겹친 창: 흰 바탕·테두리 대신 그림자 — 이미지 모양(둥근 모서리) 그대로 따라감 */
 .view .fig-float, .view .fig-sec .fig-float, .view .fig-sec[data-dev="vr"] .fig-float { background: none !important; border: 0 !important; box-shadow: none !important; overflow: visible !important; }
 .view .fig-float img, .view .fig-sec .fig-shot .fig-float img { filter: drop-shadow(0 14px 30px rgba(0,0,0,.38)) drop-shadow(0 3px 8px rgba(0,0,0,.24)) !important; }
+
+/* 디자인 시스템 판(예시: 상태별 부품 모음) */
+.view .dsb { margin-top: 24px; padding: 40px; background: #fff; border: 1px solid #ECEDF0; border-radius: 16px; }
+.view .dsb-cols { display: grid; grid-template-columns: 400px 274px auto; gap: 48px; justify-content: space-between; align-items: start; }
+.view .dsb-bot { display: grid; grid-template-columns: repeat(4, auto); gap: 48px; justify-content: space-between; align-items: start; margin: 12px 0 28px; padding-top: 28px; border-top: 1px solid #F0F1F3; }
+.view .dsb-g { margin-bottom: 28px; }
+.view .dsb-g:last-child { margin-bottom: 0; }
+.view .dsb-t { margin: 0 0 12px; font-size: 13px; font-weight: 700; color: #1A1B1F; }
+.view .dsb-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 12px; }
+.view .dsb-cell { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.view .dsb-row .dsb-cell { margin-bottom: 0; }
+.view .dsb-l { font-size: 11px; color: #8A8B90; min-height: 14px; }
+.view .dsb img { display: block; max-width: 100%; height: auto; border-radius: 0; box-shadow: none; }
+.view .dsb-tbl img { width: 100%; height: auto; }
+@media (max-width: 1100px) { .view .dsb-cols, .view .dsb-bot { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .view .dsb { padding: 20px; } .view .dsb-cols, .view .dsb-bot { grid-template-columns: 1fr; } }
