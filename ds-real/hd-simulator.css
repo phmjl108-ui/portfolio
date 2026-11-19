@@ -1,0 +1,98 @@
+/* 굴착기 시뮬레이터(hd-simulator) 실제 UI — 피그마 wQWpNAn19mIdPqumo2dMEs (Button Status Type · PC) 를 HTML/CSS 로 재현.
+   피그마는 4096 화면 기준이라 판은 zoom .5(상태 이미지와 같은 크기), 패널은 zoom .25~.45 로 줄임. 모든 규칙은 .view#view-hd-simulator 안 */
+.view#view-hd-simulator { --hs-t: #03DAC6; --hs-f: 'Exo', 'Pretendard', sans-serif; }
+.view#view-hd-simulator .hs, .view#view-hd-simulator .hs-p { font-family: var(--hs-f); color: #fff; letter-spacing: 0; -webkit-font-smoothing: antialiased; }
+.view#view-hd-simulator .hs button, .view#view-hd-simulator .hs-p button { font-family: var(--hs-f); -webkit-tap-highlight-color: transparent; }
+.view#view-hd-simulator .hs svg, .view#view-hd-simulator .hs-p svg { display: block; flex: none; }
+.view#view-hd-simulator .hs-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.view#view-hd-simulator .hs button:focus-visible, .view#view-hd-simulator .hs-p button:focus-visible { outline: 4px solid var(--hs-t); outline-offset: 4px; }
+.view#view-hd-simulator .hs-z5 { zoom: .5; }
+.view#view-hd-simulator .hs-z25 { zoom: .25; }
+.view#view-hd-simulator .hs-z45 { zoom: .45; }
+.view#view-hd-simulator .hs-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
+.view#view-hd-simulator .hs-col { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
+.view#view-hd-simulator .hs-shp { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.view#view-hd-simulator .hs-hint { margin: 8px 0 0; font: 400 12px/16px 'Pretendard', sans-serif; color: #6B6C72; }
+
+/* 1. 키 안내 버튼 (Common/Status Button Type 2194:4267, 395×112): 가운데가 진한 검정 띠 + 위·아래 흰 선(양끝 흐림) */
+.view#view-hd-simulator .hs-keys { display: grid; grid-template-columns: repeat(2, 395px); gap: 24px; }
+.view#view-hd-simulator .hs-key { position: relative; display: flex; align-items: center; justify-content: center; gap: 32px; width: 395px; height: 112px; padding: 0; border: 0; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, #000 40%, #000 60%, rgba(0,0,0,0) 100%); cursor: pointer; transition: transform .08s ease; }
+.view#view-hd-simulator .hs-key::before, .view#view-hd-simulator .hs-key::after { content: ""; position: absolute; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, rgba(255,255,255,0), #fff 50%, rgba(255,255,255,0)); transition: background .12s ease; }
+.view#view-hd-simulator .hs-key::before { top: 0; } .view#view-hd-simulator .hs-key::after { bottom: 0; }
+.view#view-hd-simulator .hs-key i { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: #fff; color: #090A0A; font: 500 44px/1 var(--hs-f); font-style: normal; transition: background-color .12s ease; }
+.view#view-hd-simulator .hs-key span { font: 700 52px/69px var(--hs-f); color: #fff; text-shadow: 0 0 8px rgba(0,0,0,.25); transition: color .12s ease; }
+.view#view-hd-simulator .hs-key:hover span, .view#view-hd-simulator .hs-key.is-on span { color: var(--hs-t); }
+.view#view-hd-simulator .hs-key.is-on i { background: var(--hs-t); }
+.view#view-hd-simulator .hs-key.is-on::before, .view#view-hd-simulator .hs-key.is-on::after { background: linear-gradient(90deg, rgba(3,218,198,0), var(--hs-t) 50%, rgba(3,218,198,0)); }
+.view#view-hd-simulator .hs-key.is-on { transform: scale(.97); }
+
+/* 2. 팝업 버튼 (Btn - Popup Left/Center/Right 3564:99295·99294·99297, 364×123) — 기본 #2D3133, Hover·선택 #03DAC6 */
+.view#view-hd-simulator .hs-pbs { display: flex; flex-wrap: wrap; gap: 36px; }
+.view#view-hd-simulator .hs-pb { position: relative; display: flex; align-items: center; justify-content: center; width: 364px; height: 123px; padding: 0; border: 0; background: none; color: #fff; cursor: pointer; }
+.view#view-hd-simulator .hs-pb .hs-shp path { fill: #2D3133; transition: fill .15s ease; }
+.view#view-hd-simulator .hs-pb span { position: relative; font: 700 52px/38px var(--hs-f); text-shadow: 0 0 8px rgba(0,0,0,.25); }
+.view#view-hd-simulator .hs-pb[aria-checked="true"] .hs-shp path { fill: var(--hs-t); }
+.view#view-hd-simulator .hs-pb:active { transform: scale(.98); }
+
+/* 3·4. 타일 (Btn - ISO 3588:222479 471×471 · Btn - Bucket 등 3563:102066 314×314) — 기본 테두리 #ABB1B4·흰 글자, Hover·선택 #03DAC6 */
+.view#view-hd-simulator .hs-tile { position: relative; display: flex; flex-direction: column; align-items: center; width: 314px; height: 314px; flex: none; padding: 0; border: 0; background: none; color: #fff; cursor: pointer; transition: transform .1s ease; }
+.view#view-hd-simulator .hs-tbg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.view#view-hd-simulator .hs-tf { fill: #000; fill-opacity: .95; }
+.view#view-hd-simulator .hs-te { fill: none; stroke: #ABB1B4; stroke-width: 1.25; transition: stroke .15s ease; }
+.view#view-hd-simulator .hs-ti { position: relative; margin-top: 34px; fill: currentColor; transition: fill .15s ease; }
+.view#view-hd-simulator .hs-tile > span { position: absolute; left: 0; right: 0; top: 204px; height: 86px; display: flex; align-items: center; justify-content: center; font: 700 32px/40px var(--hs-f); text-align: center; transition: color .15s ease; }
+.view#view-hd-simulator .hs-tile:hover, .view#view-hd-simulator .hs-tile[aria-checked="true"] { color: var(--hs-t); }
+.view#view-hd-simulator .hs-tile:hover .hs-te, .view#view-hd-simulator .hs-tile[aria-checked="true"] .hs-te { stroke: var(--hs-t); stroke-width: 2.5; }
+.view#view-hd-simulator .hs-tile:active { transform: scale(.98); }
+.view#view-hd-simulator .hs-iso { width: 471px; height: 471px; justify-content: center; }
+.view#view-hd-simulator .hs-iso > span { top: 171px; height: 129px; font-size: 78px; line-height: 94px; }
+
+/* 5. 메뉴 버튼 (Btn - Menu 3564:98276, 1146×152): 검정 50% + 5px 테두리(흰색 → Hover·선택 #03DAC6) */
+.view#view-hd-simulator .hs-menus, .view#view-hd-simulator .hs-mlist { display: flex; flex-direction: column; gap: 48px; }
+.view#view-hd-simulator .hs-menu { position: relative; display: flex; align-items: center; justify-content: center; width: 1146px; height: 152px; flex: none; padding: 0; border: 0; background: none; color: #fff; cursor: pointer; }
+.view#view-hd-simulator .hs-menu .hs-shp path { fill: rgba(0,0,0,.5); stroke: #fff; stroke-width: 5; transition: stroke .15s ease; }
+.view#view-hd-simulator .hs-menu span { position: relative; font: 700 48px/64px var(--hs-f); transition: color .15s ease; }
+.view#view-hd-simulator .hs-menu[aria-checked="true"] { color: var(--hs-t); }
+.view#view-hd-simulator .hs-menu[aria-checked="true"] .hs-shp path { stroke: var(--hs-t); }
+.view#view-hd-simulator .hs-menu:active { transform: scale(.99); }
+
+/* 6. 장비 모델 선택 (Btn - Type Select 3564:98777, 613×152) — 장비 사진은 기존 상태 이미지에서 잘라 씀 */
+.view#view-hd-simulator .hs-model { position: relative; display: flex; align-items: center; width: 613px; height: 152px; padding: 0 0 0 68px; border: 0; background: none; color: #fff; cursor: pointer; }
+.view#view-hd-simulator .hs-model .hs-tf { fill: #000; fill-opacity: 1; }
+.view#view-hd-simulator .hs-model .hs-te { stroke: #fff; stroke-width: 5; }
+.view#view-hd-simulator .hs-model:hover .hs-te, .view#view-hd-simulator .hs-model[aria-checked="true"] .hs-te { stroke: var(--hs-t); }
+.view#view-hd-simulator .hs-mimg { position: relative; width: 120px; height: 120px; background-position: -68px -16px; background-size: 613px 152px; background-repeat: no-repeat; }
+.view#view-hd-simulator .hs-model span { position: relative; margin-left: 24px; font: 500 44px/58px var(--hs-f); transition: color .15s ease; }
+.view#view-hd-simulator .hs-model:hover span, .view#view-hd-simulator .hs-model[aria-checked="true"] span { color: var(--hs-t); }
+
+/* ── 카드 슬라이드 패널 ── */
+.view#view-hd-simulator .cf-card .hs-p { display: flex; justify-content: center; }
+.view#view-hd-simulator .cf-card:not(.is-center) .hs-p * { pointer-events: none; }
+.view#view-hd-simulator .cf-card.hs-c-dq, .view#view-hd-simulator .cf-card.hs-c-at { width: 586px; margin-left: -293px; }
+/* 팝업 (ui_popup_basic 2535:96996 · ui/popup/title 2579:70488, 1378×700 → ×0.25) */
+.view#view-hd-simulator .hs-pop { position: relative; width: 1378px; height: 700px; }
+.view#view-hd-simulator .hs-pf { position: absolute; left: 0; top: 0; }
+.view#view-hd-simulator .hs-pop-tx { position: absolute; left: 88px; top: 151px; width: 1202px; display: flex; flex-direction: column; gap: 24px; text-align: center; }
+.view#view-hd-simulator .hs-pop-t { margin: 0; font: 600 72px/96px var(--hs-f); color: #fff; }
+.view#view-hd-simulator .hs-pop-s { margin: 0; font: 500 60px/80px var(--hs-f); color: #fff; }
+.view#view-hd-simulator .hs-pop-bs { position: absolute; left: 307px; top: 477px; display: flex; gap: 36px; }
+.view#view-hd-simulator .hs-pop.is-done .hs-pb[aria-checked="true"] { animation: hs-blink .5s ease 2; }
+@keyframes hs-blink { 50% { opacity: .45; } }
+.view#view-hd-simulator .hs-mlist { position: absolute; left: 116px; top: 175px; }
+/* 실격 조건 안내 (ui_maintenance_bg1 2535:76179, 2340×1263 → ×0.25) */
+.view#view-hd-simulator .hs-dq { position: relative; width: 2340px; height: 1263px; }
+.view#view-hd-simulator .hs-dq-h { position: absolute; left: 68px; top: 50px; display: flex; align-items: center; gap: 43px; margin: 0; font: 700 52px/69px var(--hs-f); color: #fff; text-shadow: 0 0 8px rgba(0,0,0,.25); }
+.view#view-hd-simulator .hs-dq-l { position: absolute; left: 125px; top: 470px; margin: 0; padding: 0; list-style: none; counter-reset: hs; font: 500 52px/68px 'Noto Sans KR', 'Pretendard', sans-serif; color: #fff; }
+.view#view-hd-simulator .hs-dq-l li { counter-increment: hs; }
+.view#view-hd-simulator .hs-dq-l li::before { content: counter(hs); display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; margin-right: 14px; border: 3.5px solid #fff; border-radius: 50%; box-sizing: border-box; font-size: 34px; line-height: 1; vertical-align: 4px; }
+/* 어태치먼트 선택 (Frame 1138 2503:69656, 314 타일 6개 → ×0.45, 가로 스크롤 + 아래 진행 막대) */
+.view#view-hd-simulator .hs-at { width: 560px; }
+.view#view-hd-simulator .hs-at-sc { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; overscroll-behavior-x: contain; outline: none; scroll-snap-type: x proximity; border-radius: 6px; }
+.view#view-hd-simulator .hs-at-sc::-webkit-scrollbar { display: none; }
+.view#view-hd-simulator .hs-at-sc:focus-visible { box-shadow: 0 0 0 2px var(--hs-t); }
+.view#view-hd-simulator .hs-at-row { display: flex; gap: 22px; width: max-content; padding: 2px; }
+.view#view-hd-simulator .hs-at-row .hs-tile { scroll-snap-align: start; }
+.view#view-hd-simulator .hs-at-bar { position: relative; height: 4px; margin-top: 12px; border-radius: 2px; background: #E1E4E8; cursor: pointer; }
+.view#view-hd-simulator .hs-at-bar span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: var(--hs-t); }
+@media (prefers-reduced-motion: reduce) { .view#view-hd-simulator .hs *, .view#view-hd-simulator .hs-p * { animation: none !important; transition: none !important; } }
+@media (max-width: 700px) { .view#view-hd-simulator .cf-card.hs-c-dq, .view#view-hd-simulator .cf-card.hs-c-at { width: 348px; margin-left: -174px; } .view#view-hd-simulator .hs-dq { zoom: .145; } .view#view-hd-simulator .hs-at { width: 340px; } .view#view-hd-simulator .hs-menus { zoom: .3; } }
