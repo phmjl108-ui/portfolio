@@ -508,3 +508,5 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .view .dsx-states[hidden] { display: none; }
 .view .dsx-states > .dsb-cell, .view .dsx-states > .dsb-row { margin: 0; }
 .view .dsx-states > .dsb-row { flex-basis: 100%; }
+.view .dsx-hold { position: relative; display: inline-block; flex: none; }
+.view .dsb .dsx-hold > img { position: absolute; left: 0; top: 0; z-index: 3; max-width: none; }

@@ -12,6 +12,10 @@
     var on = false; // 토글된 상태인지
     preload(alt); preload(hover);
     function rest() { return on ? alt : base; }
+    if (img.dataset.s) { // 자리는 고정, 바뀐 상태 이미지는 제 크기로 위에 겹쳐 그림
+      var sc = +img.dataset.s;
+      img.addEventListener('load', function () { img.style.width = (img.naturalWidth / sc) + 'px'; img.style.height = 'auto'; });
+    }
     if (hover) {
       img.addEventListener('mouseenter', function () { if (!on) img.src = hover; });
       img.addEventListener('mouseleave', function () { img.src = rest(); });
