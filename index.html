@@ -481,7 +481,7 @@ strong { font-weight: 600; }
 }
 
 </style>
-<link rel="stylesheet" href="renewal.css?v=1119ds11">
+<link rel="stylesheet" href="renewal.css?v=1119ds12">
 <link rel="stylesheet" href="home.css?v=14">
 </head>
 <body>
@@ -1883,6 +1883,149 @@ strong { font-weight: 600; }
       </div>
     </div>
   </section>
+  <section class="section-block vr360-block">
+    <div class="container">
+      <p class="fig-sec-label">VR SPACE UI</p>
+      <h2 class="fig-sec-title">정비장 공간 속 UI</h2>
+      <p class="fig-sec-desc">헤드셋 안 정비장 공간에 떠 있는 패널을 카드로 넘겨 봅니다. 드래그하거나 화살표·점을 누르면 카드가 돌아가고, 뒤의 공간도 그 방향으로 함께 돕니다.</p>
+      <div class="vrc-box" id="vrcBox" tabindex="0" role="region" aria-roledescription="carousel" aria-label="정비 VR 패널">
+        <div class="msg" id="vrcMsg">360 이미지를 불러오는 중…</div>
+        <div class="vrc-stage" id="vrcStage">
+          <!-- 1. 인 게임 메뉴 열기 (피그마 ui_popup_info 689×350) -->
+          <figure class="vrc-card" data-w="400" data-fw="689" data-fh="350"><div class="vp"><div class="vp-in" role="group" aria-label="인 게임 메뉴 열기 안내">
+            <div class="pn" id="pnInfo" style="width:689px;height:350px">
+              <svg class="abs" style="left:0;top:0" width="689" height="350" viewBox="0 0 689 350" aria-hidden="true">
+                <defs>
+                  <pattern id="gInfo" patternUnits="userSpaceOnUse" width="37.77" height="37.77" x="1.1" y="-5"><path d="M18.885 0V37.77M0 18.885H37.77" stroke="#fff" stroke-width=".75"/><circle cx="18.885" cy="18.885" r="1.4" fill="#fff"/></pattern>
+                  <linearGradient id="gdInfo" x1="648.144" y1="313.639" x2="688.951" y2="324.066" gradientUnits="userSpaceOnUse"><stop stop-color="#03DAC6"/><stop offset="0.51" stop-color="#007957"/><stop offset="1" stop-color="#03DAC6"/></linearGradient>
+                </defs>
+                <g transform="translate(3 5)">
+                  <path d="M683.97 193.87C683.97 197.114 682.705 200.166 680.415 202.456C677.67 205.202 676.156 208.853 676.156 212.738V293.862C676.156 297.105 674.891 300.158 672.601 302.448L637.6 337.454C635.305 339.749 632.258 341.009 629.015 341.009H505.088C501.845 341.009 498.793 339.744 496.503 337.454L488.867 329.816C486.122 327.071 482.471 325.557 478.586 325.557H227.335C223.45 325.557 219.799 327.071 217.054 329.816L208.819 338.053C206.524 340.348 203.477 341.608 200.234 341.608H12.1445C5.44708 341.608 0 336.16 0 329.462V45.0392C0 41.7954 1.26476 38.7433 3.55473 36.453L36.448 3.55522C38.7092 1.29367 41.8376 0 45.033 0H45.0569L657.443 1.25055C660.677 1.25534 663.719 2.52028 666.004 4.80578L680.405 19.204C682.7 21.499 683.96 24.5464 683.96 27.7902V193.87H683.97Z" fill="#000" fill-opacity=".8"/>
+                  <path d="M683.97 193.87C683.97 197.114 682.705 200.166 680.415 202.456C677.67 205.202 676.156 208.853 676.156 212.738V293.862C676.156 297.105 674.891 300.158 672.601 302.448L637.6 337.454C635.305 339.749 632.258 341.009 629.015 341.009H505.088C501.845 341.009 498.793 339.744 496.503 337.454L488.867 329.816C486.122 327.071 482.471 325.557 478.586 325.557H227.335C223.45 325.557 219.799 327.071 217.054 329.816L208.819 338.053C206.524 340.348 203.477 341.608 200.234 341.608H12.1445C5.44708 341.608 0 336.16 0 329.462V45.0392C0 41.7954 1.26476 38.7433 3.55473 36.453L36.448 3.55522C38.7092 1.29367 41.8376 0 45.033 0H45.0569L657.443 1.25055C660.677 1.25534 663.719 2.52028 666.004 4.80578L680.405 19.204C682.7 21.499 683.96 24.5464 683.96 27.7902V193.87H683.97Z" fill="url(#gInfo)" opacity=".2"/>
+                </g>
+                <path transform="translate(0 1)" fill-rule="evenodd" clip-rule="evenodd" fill="url(#gdInfo)" d="M29.9661 3.80916L3.71762 28.5712C2.31393 29.8984 0 28.9018 0 26.966V2.20404C0 0.987018 0.986893 0 2.20374 0H28.4522C30.45 0 31.4177 2.43882 29.9661 3.80916ZM684.741 21.1158L670.34 6.71764C667.604 3.97695 663.963 2.46767 660.088 2.45808L47.7012 1.20752H47.6724C43.8446 1.20752 40.0982 2.75994 37.3915 5.46709L4.49823 38.3649C1.75313 41.1103 0.239258 44.7614 0.239258 48.6472V333.075C0.239258 341.091 6.75946 347.617 14.7792 347.617H202.873C206.759 347.617 210.409 346.103 213.154 343.357L221.39 335.121C223.684 332.826 226.731 331.565 229.975 331.565H481.216C484.459 331.565 487.511 332.83 489.801 335.121L497.437 342.758C500.182 345.504 503.833 347.018 507.718 347.018H631.645C635.53 347.018 639.181 345.504 641.926 342.758L676.927 307.752C679.672 305.007 681.186 301.356 681.186 297.47V216.346C681.186 213.103 682.451 210.051 684.741 207.76C687.486 205.015 689 201.364 689 197.478V31.3982C689 27.5123 687.486 23.8613 684.741 21.1158ZM686.604 197.478C686.604 200.722 685.34 203.774 683.05 206.064C680.305 208.81 678.791 212.461 678.791 216.346V297.47C678.791 300.714 677.526 303.766 675.236 306.056L640.235 341.062C637.94 343.357 634.893 344.617 631.65 344.617H507.723C504.479 344.617 501.428 343.352 499.138 341.062L491.501 333.424C488.756 330.679 485.106 329.165 481.22 329.165H229.97C226.085 329.165 222.434 330.679 219.689 333.424L211.454 341.661C209.159 343.956 206.112 345.216 202.869 345.216H14.7792C8.08171 345.216 2.63463 339.768 2.63463 333.07V48.6472C2.63463 45.4035 3.89939 42.3513 6.18936 40.061L39.0826 7.16323C41.3438 4.90169 44.4722 3.60802 47.6676 3.60802H47.6916L660.078 4.85857C663.312 4.86336 666.354 6.1283 668.639 8.4138L683.04 22.812C685.335 25.1071 686.595 28.1544 686.595 31.3982V197.478H686.604ZM483.228 341.23C482.102 340.104 480.574 339.471 478.983 339.471H233.161C231.57 339.471 230.042 340.104 228.916 341.23L225.39 344.756C224.777 345.369 225.208 346.424 226.08 346.424L486.174 346.539C487.046 346.539 487.482 345.484 486.864 344.871L483.223 341.23H483.228ZM684.357 222.8L686.992 220.165V212.259L684.357 214.895V222.8ZM686.992 231.665L684.357 234.3V226.394L686.992 223.759V231.665ZM684.357 245.799L686.992 243.164V235.258L684.357 237.893V245.799ZM686.992 254.663L684.357 257.298V249.393L686.992 246.757V254.663ZM684.357 268.798L686.992 266.163V258.257L684.357 260.892V268.798ZM678.062 314.364C678.877 313.545 680.094 313.305 681.162 313.746V313.736C682.23 314.182 682.92 315.212 682.92 316.367V345.484C682.92 347.056 681.641 348.33 680.074 348.33H650.966C649.811 348.33 648.777 347.645 648.336 346.577C647.895 345.508 648.139 344.291 648.954 343.477L678.062 314.364ZM680.074 345.94C680.324 345.94 680.525 345.738 680.525 345.489L680.52 345.499V316.381C680.52 316.118 680.348 316.008 680.242 315.964C680.199 315.945 680.132 315.926 680.06 315.926C679.964 315.926 679.859 315.955 679.753 316.06L650.645 345.173C650.463 345.355 650.506 345.556 650.549 345.662C650.592 345.767 650.707 345.94 650.966 345.94H680.074Z"/>
+              </svg>
+              <div class="abs ctr" style="top:44px;font-weight:600;font-size:36px">인 게임 메뉴 열기</div>
+              <svg class="abs gs" style="left:180px;top:115px" width="328" height="120" viewBox="0 0 328 120" role="img" aria-label="제스처 진행 표시">
+                <g class="gs-hand" id="gsL"><path fill="#fff" d="M55.899 37.4905C55.8518 35.4287 54.621 32.5552 52.6947 31.0127C51.423 29.9926 51.3853 29.8962 51.8826 27.9774C52.1533 26.9045 52.7419 24.4944 53.1479 22.6658C54.1867 18.0228 54.0167 18.6043 54.1866 18.0228C56.56 9.95895 56.4341 5.83217 55.8738 3.76723C55.6157 2.81561 54.9673 2.01949 54.1174 1.50947C53.7775 1.30733 53.3714 1.03988 52.8772 0.831523C50.6613 -0.104543 50.3465 -0.151191 48.4926 0.206442C47.9512 0.293518 46.6858 1.14562 45.7352 2.03815C44.0638 3.55576 43.3399 5.25374 35.7478 24.6748C31.275 36.1937 27.3436 46.6428 27.0697 47.8028C26.5724 49.9019 26.7077 58.2488 27.3876 66.5117C27.8377 71.6896 26.393 73.8354 20.6548 76.7369L18.9834 77.6294L16.9941 76.4694C14.5547 75.0855 12.3388 75.042 10.3494 76.3792C9.49014 76.9608 6.82409 79.3709 4.42873 81.7811C1.35663 84.8163 0 86.4241 0 87.1829C0 88.7471 31.7251 120.001 33.3052 120.001C34.7972 120.001 43.5193 111.517 44.558 109.061C45.4173 106.962 45.1026 103.926 43.8341 102.81C43.3367 102.362 42.9307 101.784 42.9307 101.47C42.9307 101.202 44.0135 100.086 45.326 98.9692C49.44 95.5328 51.8354 93.2098 52.9654 91.6455C53.5068 90.7965 54.2559 90.0222 55.1687 88.3522C56.368 86.1535 57.2084 83.4884 56.8181 72.8216C56.5694 66.0825 54.1961 61.6883 54.5707 54.5232C54.9421 47.4265 56.0249 42.9079 55.9021 37.4905H55.899ZM51.7472 5.25063C52.5153 6.09962 52.5153 6.4106 52.0179 8.50976C51.1586 12.1701 50.7085 14.179 49.9373 17.5283C49.5313 19.2232 49.034 21.369 48.8073 22.2149C48.5839 23.0639 48.0834 25.163 47.6333 26.9014C47.0006 29.5355 46.5945 30.2943 44.9231 31.8119C42.8457 33.7338 42.8898 33.5534 38.0078 48.8695C36.4277 53.7799 36.563 55.254 38.5492 55.254C40.5353 55.254 40.4472 55.6552 45.0113 41.1881C46.6386 36.0537 47.542 34.7134 49.3519 34.7134C52.1973 34.7134 52.9213 36.5451 52.0179 41.2783C49.5344 53.8266 49.5344 58.6468 52.0179 69.4069C52.6947 72.3986 52.5153 80.8823 51.7032 84.0077C50.7085 87.8484 49.6257 89.4562 45.9178 92.6686C40.9917 96.9105 40.0411 97.6693 39.4557 97.6693C38.7317 97.6693 22.5088 81.6411 22.6913 81.1031C22.7826 80.8357 24.2746 79.7192 25.9901 78.5126C28.2942 76.995 29.5154 75.7884 30.4188 74.1806L31.6842 71.9912L31.3694 64.1793C30.7367 50.0699 30.8721 48.4185 33.4028 42.5222C33.6294 42.0309 34.1267 40.7372 34.5768 39.6207C35.027 38.5043 35.5243 37.2106 35.7068 36.7193C36.3395 35.1581 39.3676 27.4332 40.0915 25.558C40.4976 24.5753 40.9508 23.3686 41.1302 22.8773C41.3569 22.3859 42.0336 20.5573 42.7135 18.8594C43.3902 17.1178 44.1142 15.3328 44.2936 14.8414C44.5202 14.3501 45.197 12.5215 45.8737 10.8235C47.3216 7.11965 48.3132 5.15422 48.993 4.7064C49.8523 4.12486 50.8911 4.30523 51.7504 5.2413L51.7472 5.25063ZM27.6583 92.6282C37.9165 102.72 40.6738 105.711 40.6738 106.604C40.6738 107.496 39.6792 108.703 37.1044 111.247C34.0764 114.195 33.4437 114.64 32.7229 114.285C32.2256 114.018 25.8988 107.901 18.5774 100.667C6.87445 89.0581 5.38247 87.4068 5.78851 86.648C6.69189 84.9966 12.6567 79.8187 13.6513 79.8187C14.3753 79.8187 18.5333 83.6594 27.6615 92.6344L27.6583 92.6282Z"/></g>
+                <g class="gs-hand" id="gsR"><path transform="translate(271 0)" fill="#fff" d="M2.34429 54.5232C2.71886 61.6883 0.342382 66.0825 0.0968663 72.8216C-0.293441 83.4884 0.543828 86.1535 1.74623 88.3522C2.65904 90.0222 3.40818 90.7996 3.94958 91.6455C5.07958 93.2067 7.47494 95.5297 11.5889 98.9692C12.8983 100.086 13.9843 101.202 13.9843 101.47C13.9843 101.781 13.5782 102.362 13.0809 102.81C11.8155 103.926 11.4976 106.962 12.3569 109.061C13.3957 111.517 22.1178 120.001 23.6098 120.001C25.1899 120.001 56.915 88.7471 56.915 87.1829C56.915 86.4241 55.5583 84.8163 52.4862 81.7811C50.0909 79.3709 47.4248 76.9608 46.5655 76.3792C44.5762 75.0389 42.3634 75.0824 39.9208 76.4694L37.9315 77.6294L36.2601 76.7369C30.522 73.8354 29.0741 71.6896 29.5273 66.5117C30.2072 58.2519 30.3426 49.9019 29.8452 47.8028C29.5745 46.6397 25.64 36.1937 21.1672 24.6748C13.5751 5.25063 12.8511 3.55576 11.1797 2.03815C10.2291 1.14562 8.96378 0.296628 8.42238 0.206442C6.56842 -0.151191 6.25366 -0.104543 4.03772 0.831523C3.54354 1.03677 3.13435 1.30422 2.79755 1.50947C1.94768 2.01949 1.29612 2.81561 1.04116 3.76723C0.480879 5.83217 0.358116 9.95895 2.72829 18.0228C2.90141 18.6075 2.72831 18.0228 3.76703 22.6658C4.17307 24.4944 4.76167 26.9077 5.03237 27.9774C5.52969 29.8993 5.49194 29.9957 4.22029 31.0127C2.29393 32.5552 1.06004 35.4287 1.01597 37.4905C0.893214 42.9079 1.97602 47.4265 2.34744 54.5232H2.34429ZM5.16771 5.25063C6.02702 4.31145 7.06574 4.13419 7.92505 4.71573C8.60179 5.16355 9.59646 7.12587 11.0444 10.8328C11.7211 12.5308 12.401 14.3594 12.6245 14.8507C12.8039 15.3421 13.5279 17.1272 14.2046 18.8687C14.8845 20.5667 15.5612 22.3953 15.7879 22.8866C15.9673 23.378 16.4205 24.5846 16.8266 25.5673C17.5505 27.4426 20.5786 35.1674 21.2113 36.7286C21.3907 37.2199 21.888 38.5136 22.3412 39.6301C22.7945 40.7465 23.2918 42.0402 23.5153 42.5316C26.046 48.4247 26.1814 50.0792 25.5487 64.1886L25.2339 72.0006L26.4993 74.1899C27.4027 75.7977 28.6239 77.0012 30.928 78.5219C32.6435 79.7285 34.1355 80.8419 34.2267 81.1124C34.4093 81.6473 18.1832 97.6786 17.4624 97.6786C16.8738 97.6786 15.9264 96.9198 11.0003 92.678C7.29553 89.4624 6.20959 87.8577 5.21493 84.017C4.40284 80.8916 4.22028 72.408 4.90017 69.4163C7.38366 58.6562 7.38366 53.8359 4.90017 41.2876C3.9968 36.5544 4.72077 34.7227 7.56623 34.7227C9.37613 34.7227 10.2795 36.0631 11.9068 41.1974C16.4709 55.6614 16.2883 55.2633 18.3689 55.2633C20.4495 55.2633 20.4936 53.7892 18.9103 48.8788C14.0283 33.5627 14.0755 33.7431 11.9949 31.8212C10.3236 30.3036 9.91751 29.5448 9.28483 26.9108C8.83472 25.1693 8.33425 23.0701 8.11077 22.2242C7.88414 21.3752 7.3868 19.2325 6.98076 17.5377C6.21273 14.1884 5.75948 12.1794 4.90017 8.51908C4.40284 6.41993 4.40284 6.10895 5.17086 5.25996L5.16771 5.25063ZM29.2535 92.6282C38.3816 83.6532 42.5397 79.8125 43.2636 79.8125C44.2583 79.8125 50.2231 84.9904 51.1264 86.6417C51.5325 87.4006 50.0405 89.0519 38.3376 100.661C31.0161 107.895 24.6894 114.012 24.1921 114.279C23.4681 114.637 22.8386 114.189 19.8105 111.241C17.2358 108.697 16.2411 107.447 16.2411 106.598C16.2411 105.705 18.9985 102.713 29.2566 92.622L29.2535 92.6282Z"/></g>
+                <g id="gsBoxes"></g>
+              </svg>
+              <div class="abs ctr" style="top:257px;font-weight:400;font-size:30px">제스처로 정비를 시작하세요!</div>
+            </div>
+          </div></div><figcaption>인 게임 메뉴 열기 안내</figcaption></figure>
+
+          <!-- 2. 튜토리얼 (피그마 Dialog - Tutorial 734×477, Step 1~3) -->
+          <figure class="vrc-card" data-w="400" data-fw="734" data-fh="477"><div class="vp"><div class="vp-in" role="dialog" aria-label="튜토리얼">
+            <div class="pn" id="pnTut" style="width:734px;height:477px">
+              <svg class="abs pop2" data-h="477" data-c="#03DAC6" style="left:0;top:0" aria-hidden="true"></svg>
+              <button type="button" class="abs btn-sq" id="tutBack" style="left:30px;top:30px;width:60px;height:60px" aria-label="이전 안내">
+                <svg width="60" height="60" viewBox="0 0 60 60"><path class="sh" opacity="0.8" stroke-width="2" d="M54.5596 1C54.6023 1.00003 54.7221 1.01846 54.8779 1.08301C55.0339 1.14764 55.1309 1.21863 55.1602 1.24805L55.1611 1.25L58.75 4.83887C58.78 4.86884 58.8521 4.96663 58.917 5.12305C58.9818 5.27929 59 5.39843 59 5.44043V54.5615C59 54.6042 58.9816 54.724 58.917 54.8799C58.8524 55.0358 58.7815 55.1327 58.752 55.1621L58.75 55.1631L55.1631 58.75C55.133 58.78 55.036 58.8522 54.8799 58.917C54.7234 58.9819 54.6034 59 54.5615 59H6.64258V58.999H5.64258C5.60069 58.999 5.48146 58.9808 5.3252 58.916C5.16885 58.8511 5.07103 58.779 5.04102 58.749L1.25 54.958C1.22002 54.928 1.1479 54.8302 1.08301 54.6738C1.01823 54.5176 1.00005 54.3985 1 54.3564V1H54.5596Z"/><path class="ic" transform="translate(6 6)" d="M39.6914 23.9754C39.6914 22.9156 38.954 22.127 37.9075 22.127L19.0914 22.127L14.0726 22.3242L16.9269 19.8596L19.7812 16.9269C20.0904 16.5818 20.3045 16.1382 20.3045 15.6207C20.3045 14.6102 19.5434 13.8462 18.5919 13.8462C18.0924 13.8462 17.6643 13.9941 17.355 14.3145L9.43434 22.546C8.95862 23.0389 8.76833 23.4578 8.76833 23.9754C8.76833 24.5176 8.98241 24.9612 9.43434 25.4295L17.355 33.6363C17.6643 33.9567 18.0924 34.1539 18.5919 34.1539C19.5434 34.1539 20.3045 33.3652 20.3045 32.3548C20.3045 31.8126 20.1142 31.369 19.7812 31.0486L16.9269 28.1404L14.0488 25.6266L19.0914 25.8238L37.9075 25.8238C38.954 25.8238 39.6914 25.0598 39.6914 23.9754Z"/></svg>
+              </button>
+              <div class="abs ctr" style="top:51px;font-weight:700;font-size:40px">Tutorial</div>
+              <button type="button" class="abs btn-txt" id="tutSkip" style="left:635px;top:40px;width:60px;height:40px;font-weight:700;font-size:30px;line-height:40px">Skip</button>
+              <p class="abs tut-body" id="tutBody" style="left:0;right:0;top:150px;margin:0;text-align:center;white-space:pre-line;font-weight:500;font-size:28px" aria-live="polite"></p>
+            </div>
+          </div></div><figcaption>튜토리얼 팝업</figcaption></figure>
+
+          <!-- 3. 장비 유형 선택 (피그마 2차 Info popup 4665:27642, 1464×540) -->
+          <figure class="vrc-card" data-w="560" data-fw="1464" data-fh="540"><div class="vp"><div class="vp-in" role="dialog" aria-label="Type list">
+            <div class="pn" id="pnType" style="width:1464px;height:540px">
+              <svg class="abs" style="left:0;top:0" width="1464" height="540" viewBox="0 0 1464 540" aria-hidden="true">
+                <defs>
+                  <filter id="fTlBase" x="0" y="0" width="1445.89" height="507" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="17.5"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.372549 0 0 0 0 0 0 0 0 1 0"/><feBlend mode="normal" in2="shape" result="effect1_innerShadow"/></filter>
+                  <radialGradient id="rgTlBase" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(722.956 253.492) scale(570.536 403.708)"><stop stop-color="#6A6A6A"/><stop offset="1" stop-color="#020000"/></radialGradient>
+                  <pattern id="gTl" patternUnits="userSpaceOnUse" width="64.4" height="64.4" x="12.8" y="-26.2"><path d="M32.2 0V64.4M0 32.2H64.4" stroke="#fff" stroke-width="1"/><circle cx="32.2" cy="32.2" r="2" fill="#fff"/></pattern>
+                </defs>
+                <g transform="translate(9 17)">
+                  <path id="pTlBase" opacity="0.8" filter="url(#fTlBase)" fill="url(#rgTlBase)" d="M5.14 10.47L16.51 0H622.55H823.34H1429.38L1440.75 10.47V205.77L1445.89 210.74V295.58L1440.75 300.54V496.53L1429.38 507H16.51L5.14 496.53V300.54L0 295.58V210.74L5.14 205.77V10.47Z"/>
+                  <path fill="url(#gTl)" opacity=".13" d="M5.14 10.47L16.51 0H622.55H823.34H1429.38L1440.75 10.47V205.77L1445.89 210.74V295.58L1440.75 300.54V496.53L1429.38 507H16.51L5.14 496.53V300.54L0 295.58V210.74L5.14 205.77V10.47Z"/>
+                </g>
+                <g fill="#FF5F00"><path d="M6.16953 23.56L21.8395 8.86997H524.01L527.15 5.71997H20.5995L3.01953 22.2V173L6.16953 176.04V23.56Z"/><path d="M1442.16 8.86997L1457.83 23.56V176.04L1460.98 173V22.2L1443.4 5.71997H936.85L939.89 8.86997H1442.16Z"/><path d="M931.28 0H532.7L527.15 5.72H936.85L931.28 0Z"/><path d="M1458.86 213.86V190.48L1451.38 197.71V26.63L1439.05 15.27H24.95L12.62 26.63V197.71L5.14 190.48V213.86L0 218.82V321.17L5.14 326.13V349.52L12.62 342.29V513.37L24.95 524.73H1439.05L1451.38 513.37V342.29L1458.86 349.52V326.13L1464 321.17V218.82L1458.86 213.86ZM1454.95 312.42L1449.81 317.38V340.03V512.68L1438.44 523.15H25.57L14.2 512.68V340.03V317.38L9.06 312.42V227.58L14.2 222.62V199.97V27.31L25.57 16.84H1438.43L1449.8 27.31V199.97V222.62L1454.94 227.58V312.42H1454.95Z"/><path d="M21.8395 531.13L6.16953 516.44V363.96L3.01953 367V517.8L20.5995 534.28H527.15L524.01 531.13H21.8395Z"/><path d="M1457.83 516.44L1442.16 531.13H939.89L936.85 534.28H1443.4L1460.98 517.8V367L1457.83 363.96V516.44Z"/><path d="M532.7 540H931.28L936.85 534.28H527.15L532.7 540Z"/><path d="M18.1592 229.62L14.1992 233.47V306.55L18.1592 310.38V229.62Z"/><path d="M1445.84 310.38L1449.8 306.55V233.47L1445.84 229.62V310.38Z"/></g>
+                <g fill="#E1E1FF"><path d="M1435.59 20.38L1434.1 33.03L1446.96 30.85L1435.59 20.38Z"/><path d="M16.9609 30.85L29.8309 33.03L28.3309 20.38L16.9609 30.85Z"/><path d="M1435.59 519.62L1446.96 509.15L1434.1 506.97L1435.59 519.62Z"/><path d="M28.3309 519.62L29.8309 506.97L16.9609 509.15L28.3309 519.62Z"/></g>
+                <defs><linearGradient id="lgTlLine" x1="666" x2="792" y1="0" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+                <rect x="666" y="108" width="126" height="2" fill="url(#lgTlLine)"/>
+              </svg>
+              <div class="abs" style="left:666px;top:54px;width:126px;text-align:center;font-weight:600;font-size:32px">Type list</div>
+              <button type="button" class="abs btn-x" data-close="pnType" style="left:1366px;top:54px;width:44px;height:44px" aria-label="닫기"><svg width="44" height="44" viewBox="0 0 44 44"><path d="M32.5 13.615L30.385 11.5L22 19.885L13.615 11.5L11.5 13.615L19.885 22L11.5 30.385L13.615 32.5L22 24.115L30.385 32.5L32.5 30.385L24.115 22L32.5 13.615Z"/></svg></button>
+              <div class="abs tl-row" id="tlRow" role="radiogroup" aria-label="장비 유형" style="left:76px;top:168px;width:1312px;height:276px"></div>
+              <div class="abs sb-thumb" id="tlThumb" style="left:76px;top:454px;width:430px;height:6px"></div>
+            </div>
+          </div></div><figcaption>장비 유형 선택 팝업</figcaption></figure>
+
+          <!-- 4. 경고 (피그마 1차 ui/popup/경고 2202:46203, 734×366) -->
+          <figure class="vrc-card" data-w="400" data-fw="734" data-fh="366"><div class="vp"><div class="vp-in" role="alertdialog" aria-label="경고">
+            <div class="pn" id="pnWarn" style="width:734px;height:366px">
+              <svg class="abs pop2" data-h="366" data-c="#E52C2C" style="left:0;top:0" aria-hidden="true"></svg>
+              <div class="abs" style="left:105px;top:66px;width:525px;display:flex;flex-direction:column;align-items:center;gap:36px">
+                <div style="display:flex;align-items:center;gap:16px;height:53px">
+                  <svg class="wn-ic" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" fill="#E62C2C" d="M5.4852 38.3262C3.7106 41.4214 5.94518 45.2783 9.51303 45.2783L43.933 45.2783C47.5629 45.2783 49.7888 41.3 47.8898 38.2065L30.0923 9.21392C28.2483 6.20992 23.8609 6.27567 22.1077 9.33358L5.4852 38.3262ZM23.1134 16.7782L23.8033 34.3865H28.0083L28.7967 16.7782H23.1134ZM23.4748 40.4639C23.4748 40.9458 23.7267 41.1867 24.2304 41.1867H27.5155C27.7345 41.1867 27.9097 41.1319 28.0411 41.0224C28.1944 40.9129 28.2711 40.7268 28.2711 40.4639V36.8503C28.2711 36.3466 28.0192 36.0947 27.5155 36.0947H24.2304C23.7267 36.0947 23.4748 36.3466 23.4748 36.8503V40.4639Z"/></svg>
+                  <div class="wn-tt" style="font-weight:700;font-size:40px;color:#e52c2c">WARNING</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:16px;width:525px;text-align:center">
+                  <div class="wn-st" style="font-weight:700;font-size:24px">사망 또는 중상 방지</div>
+                  <div class="wn-bd" style="font-weight:300;font-size:24px">엔진이 뜨거운 상태에서는 오일을 교환하지 마십시오.<br>뜨거운 엔진부품으로 인한 화상을 예방하려면 엔진이 식은 후에 엔진 오일과 필터를 교환하십시오.</div>
+                </div>
+              </div>
+            </div>
+          </div></div><figcaption>경고 팝업</figcaption></figure>
+
+          <!-- 5. 사양 비교 (피그마 2차 Frame 1125 4722:47169, 1100×694) -->
+          <figure class="vrc-card" data-w="460" data-fw="1100" data-fh="694"><div class="vp"><div class="vp-in" role="dialog" aria-label="Dimensions">
+            <div class="pn" id="pnDim" style="width:1100px;height:694px">
+              <svg class="abs" style="left:0;top:0" width="1100" height="694" viewBox="0 0 1100 694" aria-hidden="true"><path opacity="0.8" d="M1088.59 1L1099 11.4141V682.586L1088.59 693H11.4141L1 682.586V11.4141L11.4141 1H1088.59Z" fill="#020000" stroke="#9F9F9F" stroke-width="2"/></svg>
+              <div class="abs ctr" style="top:28px;font-weight:500;font-size:24px">Dimensions</div>
+              <button type="button" class="abs btn-x" data-close="pnDim" style="left:1028px;top:28px;width:44px;height:44px" aria-label="닫기"><svg width="44" height="44" viewBox="0 0 44 44"><path d="M32.5 13.615L30.385 11.5L22 19.885L13.615 11.5L11.5 13.615L19.885 22L11.5 30.385L13.615 32.5L22 24.115L30.385 32.5L32.5 30.385L24.115 22L32.5 13.615Z"/></svg></button>
+              <!-- 머리 띠: 왼쪽 Caterpillar 320 / 오른쪽 DEVELON E23 -->
+              <svg class="abs" style="left:50px;top:90px" width="462" height="60" viewBox="0 0 462 60" aria-hidden="true"><defs><linearGradient id="lgDmLA" x1="462" y1="30" x2="40" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0.475962" stop-color="#999999"/><stop offset="1" stop-color="#999999" stop-opacity="0"/></linearGradient></defs><path opacity="0.6" d="M433.876 0H0V60H462L433.876 0Z" fill="url(#lgDmLA)"/></svg>
+              <svg class="abs" style="left:324px;top:86px" width="188" height="68" viewBox="0 0 188 68" aria-hidden="true"><defs><filter id="fDmLB" x="0" y="0" width="188" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="-4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="ds"/><feBlend mode="normal" in="SourceGraphic" in2="ds" result="shape"/></filter><linearGradient id="lgDmLB" x1="98" y1="4" x2="98" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0.903846" stop-color="#999999"/><stop offset="1" stop-color="#DBDBDB"/></linearGradient></defs><g opacity="0.6" filter="url(#fDmLB)"><path d="M159.981 4H8L36.0193 64H188L159.981 4Z" fill="url(#lgDmLB)"/></g></svg>
+              <div class="abs" style="left:272px;top:105px;font-weight:600;font-size:24px">320</div>
+              <div class="abs" style="left:363px;top:105px;font-weight:500;font-size:24px">Caterpillar</div>
+              <svg class="abs" style="left:586px;top:90px" width="462" height="60" viewBox="0 0 462 60" aria-hidden="true"><defs><linearGradient id="lgDmRA" x1="0" y1="30" x2="489" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0.475962" stop-color="#FF5F00"/><stop offset="1" stop-color="#FF5F00" stop-opacity="0"/></linearGradient></defs><path opacity="0.6" d="M28.1242 0H462V60H0L28.1242 0Z" fill="url(#lgDmRA)"/></svg>
+              <svg class="abs" style="left:586px;top:86px" width="188" height="68" viewBox="0 0 188 68" aria-hidden="true"><defs><filter id="fDmRB" x="0" y="0" width="188" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="ds"/><feBlend mode="normal" in="SourceGraphic" in2="ds" result="shape"/></filter><linearGradient id="lgDmRB" x1="90" y1="4" x2="90" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0.903846" stop-color="#FF5F00"/><stop offset="1" stop-color="white"/></linearGradient></defs><g opacity="0.6" filter="url(#fDmRB)"><path d="M28.0193 4H180L151.981 64H0L28.0193 4Z" fill="url(#lgDmRB)"/></g></svg>
+              <div class="abs" style="left:623px;top:104px;font-weight:500;font-size:24px">DEVELON</div>
+              <div class="abs" style="left:782px;top:104px;font-weight:600;font-size:24px">E23</div>
+              <svg class="abs" style="left:487px;top:82px" width="124" height="60" viewBox="0 0 124 60" aria-hidden="true"><defs><linearGradient id="lgDmVs" x1="63.501" y1="0" x2="63.501" y2="61" gradientUnits="userSpaceOnUse"><stop stop-color="#666666"/><stop offset="1"/></linearGradient></defs><path opacity="0.3" d="M95.9717 60H28.0283L0 0H124L95.9717 60Z" fill="url(#lgDmVs)"/></svg>
+              <div class="abs dm-vs" style="left:519px;top:82px;width:60px;height:60px;line-height:60px;text-align:center;font-weight:600;font-size:48px">VS</div>
+              <!-- 표 두 개: 머리줄은 고정, 행은 세로 스크롤 -->
+              <div class="abs dm-head" aria-hidden="true" style="left:50px;top:154px"><span style="width:180px;color:#abb1b4">Specification</span><span style="width:94px;color:#abb1b4">Unit</span><span>Value</span></div>
+              <div class="abs dm-head" aria-hidden="true" style="left:570px;top:154px"><span style="width:180px">Specification</span><span style="width:94px">Unit</span><span>Mono boom</span></div>
+              <div class="abs dm-scroll" id="dmScroll" tabindex="0" aria-label="사양 비교 표" style="left:50px;top:190px;width:1000px;height:464px">
+                <table class="dm-tb" style="left:0;--rs:#5e6568" aria-label="Caterpillar 320 사양">
+                  <colgroup><col style="width:222px"><col style="width:98px"><col style="width:160px"></colgroup>
+                  <thead><tr><th scope="col" style="color:#abb1b4">Specification</th><th scope="col" style="color:#abb1b4">Unit</th><th scope="col">Value</th></tr></thead>
+                  <tbody>
+                    <tr><td>Model</td><td>-</td><td>Caterpillar</td></tr>
+                    <tr><td>Undercarriage width<br>(std)</td><td>-</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                    <tr><td>Undercarriage width<br>(std)</td><td>cm³(≈in³)</td><td>4,408 cm³ (269in³)</td></tr>
+                    <tr><td>Number Of Cylinders</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                    <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                    <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>189.1 hp(SAE J1995,<br>at 1700 rpm)</td></tr>
+                  </tbody>
+                </table>
+                <table class="dm-tb" style="left:520px;--rs:#ff5f00" aria-label="DEVELON E23 사양">
+                  <colgroup><col style="width:222px"><col style="width:98px"><col style="width:160px"></colgroup>
+                  <thead><tr><th scope="col">Specification</th><th scope="col">Unit</th><th scope="col">Mono boom</th></tr></thead>
+                  <tbody>
+                    <tr class="h68"><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                    <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                    <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                    <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                    <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                    <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>189.1 hp(SAE J1995,<br>at 1700 rpm)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="abs sb-thumb" id="dmThumb" style="left:1058px;top:483px;width:8px;height:167px"></div>
+            </div>
+          </div></div><figcaption>사양 비교 패널</figcaption></figure>
+        </div>
+        <button type="button" class="vrc-nav vrc-prev" aria-label="이전 패널"></button>
+        <button type="button" class="vrc-nav vrc-next" aria-label="다음 패널"></button>
+        <div class="vrc-dots" id="vrcDots"></div>
+      </div>
+    </div>
+  </section>
   <section class="section-block">
     <div class="container">
       <div class="section-tag"><span class="num">/01</span><span class="dash">—</span><span>Overview</span></div>
@@ -3240,5 +3383,6 @@ window.addEventListener('DOMContentLoaded', () => {
 <script src="slider.js?v=2"></script>
 <script src="home.js?v=8"></script>
 <script src="ds.js?v=8"></script>
+<script src="vr360.js?v=1" defer></script>
 </body>
 </html>

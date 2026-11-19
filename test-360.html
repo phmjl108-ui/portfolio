@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>360 배경 테스트 — 정비 VR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root { --ink: #1A1B1F; --sub: #6B6C72; }
   html, body { margin: 0; background: #fff; color: var(--ink); font-family: 'Pretendard', system-ui, -apple-system, 'Segoe UI', sans-serif; }
@@ -21,6 +24,94 @@
   .cf-stage.is-drag { cursor: grabbing; }
   .cf-card { position: absolute; left: 50%; top: 46%; margin: 0; transform-style: preserve-3d; will-change: transform, filter, opacity; cursor: pointer; }
   .cf-card img { display: block; width: 100%; height: auto; pointer-events: none; filter: drop-shadow(0 18px 36px rgba(0,0,0,.45)); }
+
+  /* ── 정비 VR 패널: 피그마 원본 px 로 만들고 카드 폭에 맞춰 축소 ── */
+  .vp { position: relative; filter: drop-shadow(0 18px 36px rgba(0,0,0,.45)); }
+  .vp-in { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  .cf-card:not(.is-center) .vp-in { pointer-events: none; }
+  .cf-card.is-center { cursor: default; }
+  .pn { position: relative; font-family: 'Exo', 'Noto Sans KR', sans-serif; color: #fff; line-height: 1.33; transform-origin: 50% 50%; -webkit-font-smoothing: antialiased; }
+  .pn .abs { position: absolute; }
+  .pn svg { display: block; overflow: visible; }
+  .pn button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .pn button:focus-visible { outline: 3px solid #03dac6; outline-offset: 4px; }
+  .pn .ctr { left: 0; right: 0; text-align: center; white-space: pre-line; }
+  .pn { word-break: keep-all; }
+  .pn .ctr, .pn .tut-body { pointer-events: none; }
+  .pn.is-closing { animation: pnOut .26s ease-in forwards; }
+  .pn.is-opening { animation: pnIn .42s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes pnOut { to { opacity: 0; transform: scale(.94); } }
+  @keyframes pnIn { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+
+  /* 1. 인 게임 메뉴 열기 — 제스처 진행 */
+  .gs-hand { transition: transform .32s cubic-bezier(.3,.7,.3,1); }
+  .gs-box rect { transform-box: fill-box; transform-origin: 50% 50%; transform: scale(0); opacity: 0; transition: transform .26s cubic-bezier(.3,1.5,.5,1), opacity .2s; }
+  .gs-box.on rect { transform: scale(1); opacity: 1; }
+  .gs-done .gs-box path { fill: #03dac6; transition: fill .2s; }
+  .gs-done .gs-box rect { fill: #03dac6; }
+
+  /* 2·4. 팝업 공통 버튼 (Btn - Reset: Normal / hover / 눌림) */
+  .btn-sq .sh { fill: #000; fill-opacity: .8; stroke: #c6cacc; transition: fill .15s, fill-opacity .15s, stroke .15s; }
+  .btn-sq .ic { fill: #fff; transition: fill .15s; }
+  .btn-sq:hover .sh { fill-opacity: 1; }
+  .btn-sq:active .sh { fill: #002c1f; fill-opacity: .8; stroke: #03dac6; }
+  .btn-sq:active .ic { fill: #03dac6; }
+  .btn-txt { transition: color .15s, transform .1s; text-shadow: 0 0 4px rgba(0,0,0,.25); }
+  .btn-txt:hover { color: #03dac6; }
+  .btn-txt:active { transform: scale(.94); }
+  .tut-body { transition: opacity .22s ease, transform .22s ease; }
+  .tut-body.is-out { opacity: 0; transform: translateY(10px); }
+
+  /* 3. Type list */
+  .tl-row { display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x pan-y; }
+  .tl-row::-webkit-scrollbar { display: none; }
+  .tl-row.is-drag { cursor: grabbing; }
+  .tl-row.is-drag .tl-it { pointer-events: none; }
+  .tl-it { position: relative; flex: none; width: 256px; height: 276px; transition: transform .12s; }
+  .tl-it .sh-def, .tl-it .sh-sel, .tl-it .gl { position: absolute; left: 0; top: 0; transition: opacity .25s; }
+  .tl-it .sh-def path { transition: stroke .15s, fill-opacity .15s; }
+  .tl-it .sh-sel, .tl-it .gl { opacity: 0; }
+  .tl-it .gl1 { left: 37px; top: 62px; width: 181px; height: 119px; background: #ff5f00; filter: blur(30px); }
+  .tl-it .gl2 { left: 20px; top: 212px; width: 216px; height: 32px; background: #ff5f00; filter: blur(11.5px); }
+  .tl-it .ico { position: absolute; left: 68px; top: 54px; width: 120px; height: 120px; transition: transform .32s cubic-bezier(.3,1.3,.5,1); }
+  .tl-it .ico svg { width: 100%; height: 100%; }
+  .tl-it .lb { position: absolute; left: 0; right: 0; top: 196px; height: 64px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 500; font-size: 24px; white-space: pre-line; }
+  .tl-it .lock { position: absolute; left: 98px; top: 108px; width: 60px; height: 60px; }
+  .tl-it:not([aria-disabled="true"]):hover .sh-def path { stroke: #ff5f00; fill-opacity: .75; }
+  .tl-it:not([aria-disabled="true"]):active { transform: scale(.97); }
+  .tl-it.is-sel .sh-sel, .tl-it.is-sel .gl { opacity: 1; }
+  .tl-it.is-sel .sh-def { opacity: 0; }
+  .tl-it.is-sel .ico { transform: scale(1.5); }
+  .tl-it[aria-disabled="true"] { cursor: not-allowed; }
+  .tl-it[aria-disabled="true"] .lb { color: #4f4f4f; }
+  .btn-x path { fill: #c6cacc; transition: fill .15s; }
+  .btn-x:hover path { fill: #ff5f00; }
+  .btn-x:active { transform: scale(.92); }
+  .sb-thumb { background: #fff; opacity: .5; border-radius: 4px; touch-action: none; }
+  .sb-thumb.is-live { cursor: grab; }
+
+  /* 4. 경고 — 등장 모션만 */
+  .pn.play .wn-ic { animation: wnIc .5s cubic-bezier(.3,1.5,.5,1) both .08s; }
+  .pn.play .wn-tt { animation: wnUp .4s ease both .14s; }
+  .pn.play .wn-st { animation: wnUp .4s ease both .24s; }
+  .pn.play .wn-bd { animation: wnUp .4s ease both .32s; }
+  @keyframes wnIc { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+  @keyframes wnUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  /* 5. 사양 비교 */
+  .dm-scroll { overflow-y: auto; overflow-x: hidden; scrollbar-width: none; overscroll-behavior: contain; }
+  .dm-scroll::-webkit-scrollbar { display: none; }
+  .dm-tb { position: absolute; top: 0; width: 480px; table-layout: fixed; border-collapse: separate; border-spacing: 0 4px; margin: 0; font-size: 16px; font-weight: 500; line-height: 21px; }
+  /* 머리줄은 스크롤 밖에 고정해 그리고(dm-head), 표 안 thead 는 화면에서만 숨겨 읽기 프로그램용으로 둔다 */
+  .dm-tb th { height: 0; padding: 0; border: 0; font-size: 0; line-height: 0; overflow: hidden; }
+  .dm-head { display: flex; align-items: center; width: 480px; height: 40px; padding-left: 40px; box-sizing: border-box; background: rgba(0,0,0,.3); font-size: 16px; font-weight: 500; line-height: 21px; color: #90989c; }
+  .dm-head span { flex: none; }
+  .dm-tb td { height: 70px; padding: 0; color: #e1e3e4; background: rgba(0,0,0,.5); border-top: 1px solid var(--rs); border-bottom: 1px solid var(--rs); vertical-align: middle; }
+  .dm-tb td:first-child { padding-left: 40px; border-left: 1px solid var(--rs); }
+  .dm-tb td:last-child { border-right: 1px solid var(--rs); }
+  .dm-tb tr.h68 td { height: 66px; }
+  .dm-vs { background: linear-gradient(#eef0f0, #90989c); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 4px 2px rgba(0,0,0,.25)); }
+  @media (prefers-reduced-motion: reduce) { .pn, .pn * { animation: none !important; transition: none !important; } }
   .cf-card figcaption { position: absolute; left: 0; right: 0; top: 100%; margin-top: 12px; text-align: center; font-size: 13px; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.6); opacity: 0; transition: opacity .25s ease; }
   .cf-card.is-center figcaption { opacity: 1; }
   .cf-nav { position: absolute; top: 46%; width: 44px; height: 44px; margin-top: -22px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); cursor: pointer; z-index: 5; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
@@ -44,11 +135,134 @@
     <div class="vr360" id="vr360" tabindex="0" role="region" aria-roledescription="carousel" aria-label="정비 VR 패널">
       <div class="msg" id="msg">360 이미지를 불러오는 중…</div>
       <div class="cf-stage" id="stage">
-        <figure class="cf-card" data-w="400"><img src="assets/comp/vr-maintenance/info-popup.png" alt="인 게임 메뉴 열기 안내" draggable="false"><figcaption>인 게임 메뉴 열기 안내</figcaption></figure>
-        <figure class="cf-card" data-w="400"><img src="assets/comp/vr-maintenance/tutorial-dialog.png" alt="튜토리얼 팝업" draggable="false"><figcaption>튜토리얼 팝업</figcaption></figure>
-        <figure class="cf-card" data-w="560"><img src="assets/comp/vr-maintenance/type-list-popup.webp" alt="장비 유형 선택 팝업" draggable="false"><figcaption>장비 유형 선택 팝업</figcaption></figure>
-        <figure class="cf-card" data-w="400"><img src="assets/comp/vr-maintenance/warning-popup.webp" alt="경고 팝업" draggable="false"><figcaption>경고 팝업</figcaption></figure>
-        <figure class="cf-card" data-w="460"><img src="assets/comp/vr-maintenance/dimensions-compare-panel.webp" alt="사양 비교 패널" draggable="false"><figcaption>사양 비교 패널</figcaption></figure>
+        <!-- 1. 인 게임 메뉴 열기 (피그마 ui_popup_info 689×350) -->
+        <figure class="cf-card" data-w="400" data-fw="689" data-fh="350"><div class="vp"><div class="vp-in" role="group" aria-label="인 게임 메뉴 열기 안내">
+          <div class="pn" id="pnInfo" style="width:689px;height:350px">
+            <svg class="abs" style="left:0;top:0" width="689" height="350" viewBox="0 0 689 350" aria-hidden="true">
+              <defs>
+                <pattern id="gInfo" patternUnits="userSpaceOnUse" width="37.77" height="37.77" x="1.1" y="-5"><path d="M18.885 0V37.77M0 18.885H37.77" stroke="#fff" stroke-width=".75"/><circle cx="18.885" cy="18.885" r="1.4" fill="#fff"/></pattern>
+                <linearGradient id="gdInfo" x1="648.144" y1="313.639" x2="688.951" y2="324.066" gradientUnits="userSpaceOnUse"><stop stop-color="#03DAC6"/><stop offset="0.51" stop-color="#007957"/><stop offset="1" stop-color="#03DAC6"/></linearGradient>
+              </defs>
+              <g transform="translate(3 5)">
+                <path d="M683.97 193.87C683.97 197.114 682.705 200.166 680.415 202.456C677.67 205.202 676.156 208.853 676.156 212.738V293.862C676.156 297.105 674.891 300.158 672.601 302.448L637.6 337.454C635.305 339.749 632.258 341.009 629.015 341.009H505.088C501.845 341.009 498.793 339.744 496.503 337.454L488.867 329.816C486.122 327.071 482.471 325.557 478.586 325.557H227.335C223.45 325.557 219.799 327.071 217.054 329.816L208.819 338.053C206.524 340.348 203.477 341.608 200.234 341.608H12.1445C5.44708 341.608 0 336.16 0 329.462V45.0392C0 41.7954 1.26476 38.7433 3.55473 36.453L36.448 3.55522C38.7092 1.29367 41.8376 0 45.033 0H45.0569L657.443 1.25055C660.677 1.25534 663.719 2.52028 666.004 4.80578L680.405 19.204C682.7 21.499 683.96 24.5464 683.96 27.7902V193.87H683.97Z" fill="#000" fill-opacity=".8"/>
+                <path d="M683.97 193.87C683.97 197.114 682.705 200.166 680.415 202.456C677.67 205.202 676.156 208.853 676.156 212.738V293.862C676.156 297.105 674.891 300.158 672.601 302.448L637.6 337.454C635.305 339.749 632.258 341.009 629.015 341.009H505.088C501.845 341.009 498.793 339.744 496.503 337.454L488.867 329.816C486.122 327.071 482.471 325.557 478.586 325.557H227.335C223.45 325.557 219.799 327.071 217.054 329.816L208.819 338.053C206.524 340.348 203.477 341.608 200.234 341.608H12.1445C5.44708 341.608 0 336.16 0 329.462V45.0392C0 41.7954 1.26476 38.7433 3.55473 36.453L36.448 3.55522C38.7092 1.29367 41.8376 0 45.033 0H45.0569L657.443 1.25055C660.677 1.25534 663.719 2.52028 666.004 4.80578L680.405 19.204C682.7 21.499 683.96 24.5464 683.96 27.7902V193.87H683.97Z" fill="url(#gInfo)" opacity=".2"/>
+              </g>
+              <path transform="translate(0 1)" fill-rule="evenodd" clip-rule="evenodd" fill="url(#gdInfo)" d="M29.9661 3.80916L3.71762 28.5712C2.31393 29.8984 0 28.9018 0 26.966V2.20404C0 0.987018 0.986893 0 2.20374 0H28.4522C30.45 0 31.4177 2.43882 29.9661 3.80916ZM684.741 21.1158L670.34 6.71764C667.604 3.97695 663.963 2.46767 660.088 2.45808L47.7012 1.20752H47.6724C43.8446 1.20752 40.0982 2.75994 37.3915 5.46709L4.49823 38.3649C1.75313 41.1103 0.239258 44.7614 0.239258 48.6472V333.075C0.239258 341.091 6.75946 347.617 14.7792 347.617H202.873C206.759 347.617 210.409 346.103 213.154 343.357L221.39 335.121C223.684 332.826 226.731 331.565 229.975 331.565H481.216C484.459 331.565 487.511 332.83 489.801 335.121L497.437 342.758C500.182 345.504 503.833 347.018 507.718 347.018H631.645C635.53 347.018 639.181 345.504 641.926 342.758L676.927 307.752C679.672 305.007 681.186 301.356 681.186 297.47V216.346C681.186 213.103 682.451 210.051 684.741 207.76C687.486 205.015 689 201.364 689 197.478V31.3982C689 27.5123 687.486 23.8613 684.741 21.1158ZM686.604 197.478C686.604 200.722 685.34 203.774 683.05 206.064C680.305 208.81 678.791 212.461 678.791 216.346V297.47C678.791 300.714 677.526 303.766 675.236 306.056L640.235 341.062C637.94 343.357 634.893 344.617 631.65 344.617H507.723C504.479 344.617 501.428 343.352 499.138 341.062L491.501 333.424C488.756 330.679 485.106 329.165 481.22 329.165H229.97C226.085 329.165 222.434 330.679 219.689 333.424L211.454 341.661C209.159 343.956 206.112 345.216 202.869 345.216H14.7792C8.08171 345.216 2.63463 339.768 2.63463 333.07V48.6472C2.63463 45.4035 3.89939 42.3513 6.18936 40.061L39.0826 7.16323C41.3438 4.90169 44.4722 3.60802 47.6676 3.60802H47.6916L660.078 4.85857C663.312 4.86336 666.354 6.1283 668.639 8.4138L683.04 22.812C685.335 25.1071 686.595 28.1544 686.595 31.3982V197.478H686.604ZM483.228 341.23C482.102 340.104 480.574 339.471 478.983 339.471H233.161C231.57 339.471 230.042 340.104 228.916 341.23L225.39 344.756C224.777 345.369 225.208 346.424 226.08 346.424L486.174 346.539C487.046 346.539 487.482 345.484 486.864 344.871L483.223 341.23H483.228ZM684.357 222.8L686.992 220.165V212.259L684.357 214.895V222.8ZM686.992 231.665L684.357 234.3V226.394L686.992 223.759V231.665ZM684.357 245.799L686.992 243.164V235.258L684.357 237.893V245.799ZM686.992 254.663L684.357 257.298V249.393L686.992 246.757V254.663ZM684.357 268.798L686.992 266.163V258.257L684.357 260.892V268.798ZM678.062 314.364C678.877 313.545 680.094 313.305 681.162 313.746V313.736C682.23 314.182 682.92 315.212 682.92 316.367V345.484C682.92 347.056 681.641 348.33 680.074 348.33H650.966C649.811 348.33 648.777 347.645 648.336 346.577C647.895 345.508 648.139 344.291 648.954 343.477L678.062 314.364ZM680.074 345.94C680.324 345.94 680.525 345.738 680.525 345.489L680.52 345.499V316.381C680.52 316.118 680.348 316.008 680.242 315.964C680.199 315.945 680.132 315.926 680.06 315.926C679.964 315.926 679.859 315.955 679.753 316.06L650.645 345.173C650.463 345.355 650.506 345.556 650.549 345.662C650.592 345.767 650.707 345.94 650.966 345.94H680.074Z"/>
+            </svg>
+            <div class="abs ctr" style="top:44px;font-weight:600;font-size:36px">인 게임 메뉴 열기</div>
+            <svg class="abs gs" style="left:180px;top:115px" width="328" height="120" viewBox="0 0 328 120" role="img" aria-label="제스처 진행 표시">
+              <g class="gs-hand" id="gsL"><path fill="#fff" d="M55.899 37.4905C55.8518 35.4287 54.621 32.5552 52.6947 31.0127C51.423 29.9926 51.3853 29.8962 51.8826 27.9774C52.1533 26.9045 52.7419 24.4944 53.1479 22.6658C54.1867 18.0228 54.0167 18.6043 54.1866 18.0228C56.56 9.95895 56.4341 5.83217 55.8738 3.76723C55.6157 2.81561 54.9673 2.01949 54.1174 1.50947C53.7775 1.30733 53.3714 1.03988 52.8772 0.831523C50.6613 -0.104543 50.3465 -0.151191 48.4926 0.206442C47.9512 0.293518 46.6858 1.14562 45.7352 2.03815C44.0638 3.55576 43.3399 5.25374 35.7478 24.6748C31.275 36.1937 27.3436 46.6428 27.0697 47.8028C26.5724 49.9019 26.7077 58.2488 27.3876 66.5117C27.8377 71.6896 26.393 73.8354 20.6548 76.7369L18.9834 77.6294L16.9941 76.4694C14.5547 75.0855 12.3388 75.042 10.3494 76.3792C9.49014 76.9608 6.82409 79.3709 4.42873 81.7811C1.35663 84.8163 0 86.4241 0 87.1829C0 88.7471 31.7251 120.001 33.3052 120.001C34.7972 120.001 43.5193 111.517 44.558 109.061C45.4173 106.962 45.1026 103.926 43.8341 102.81C43.3367 102.362 42.9307 101.784 42.9307 101.47C42.9307 101.202 44.0135 100.086 45.326 98.9692C49.44 95.5328 51.8354 93.2098 52.9654 91.6455C53.5068 90.7965 54.2559 90.0222 55.1687 88.3522C56.368 86.1535 57.2084 83.4884 56.8181 72.8216C56.5694 66.0825 54.1961 61.6883 54.5707 54.5232C54.9421 47.4265 56.0249 42.9079 55.9021 37.4905H55.899ZM51.7472 5.25063C52.5153 6.09962 52.5153 6.4106 52.0179 8.50976C51.1586 12.1701 50.7085 14.179 49.9373 17.5283C49.5313 19.2232 49.034 21.369 48.8073 22.2149C48.5839 23.0639 48.0834 25.163 47.6333 26.9014C47.0006 29.5355 46.5945 30.2943 44.9231 31.8119C42.8457 33.7338 42.8898 33.5534 38.0078 48.8695C36.4277 53.7799 36.563 55.254 38.5492 55.254C40.5353 55.254 40.4472 55.6552 45.0113 41.1881C46.6386 36.0537 47.542 34.7134 49.3519 34.7134C52.1973 34.7134 52.9213 36.5451 52.0179 41.2783C49.5344 53.8266 49.5344 58.6468 52.0179 69.4069C52.6947 72.3986 52.5153 80.8823 51.7032 84.0077C50.7085 87.8484 49.6257 89.4562 45.9178 92.6686C40.9917 96.9105 40.0411 97.6693 39.4557 97.6693C38.7317 97.6693 22.5088 81.6411 22.6913 81.1031C22.7826 80.8357 24.2746 79.7192 25.9901 78.5126C28.2942 76.995 29.5154 75.7884 30.4188 74.1806L31.6842 71.9912L31.3694 64.1793C30.7367 50.0699 30.8721 48.4185 33.4028 42.5222C33.6294 42.0309 34.1267 40.7372 34.5768 39.6207C35.027 38.5043 35.5243 37.2106 35.7068 36.7193C36.3395 35.1581 39.3676 27.4332 40.0915 25.558C40.4976 24.5753 40.9508 23.3686 41.1302 22.8773C41.3569 22.3859 42.0336 20.5573 42.7135 18.8594C43.3902 17.1178 44.1142 15.3328 44.2936 14.8414C44.5202 14.3501 45.197 12.5215 45.8737 10.8235C47.3216 7.11965 48.3132 5.15422 48.993 4.7064C49.8523 4.12486 50.8911 4.30523 51.7504 5.2413L51.7472 5.25063ZM27.6583 92.6282C37.9165 102.72 40.6738 105.711 40.6738 106.604C40.6738 107.496 39.6792 108.703 37.1044 111.247C34.0764 114.195 33.4437 114.64 32.7229 114.285C32.2256 114.018 25.8988 107.901 18.5774 100.667C6.87445 89.0581 5.38247 87.4068 5.78851 86.648C6.69189 84.9966 12.6567 79.8187 13.6513 79.8187C14.3753 79.8187 18.5333 83.6594 27.6615 92.6344L27.6583 92.6282Z"/></g>
+              <g class="gs-hand" id="gsR"><path transform="translate(271 0)" fill="#fff" d="M2.34429 54.5232C2.71886 61.6883 0.342382 66.0825 0.0968663 72.8216C-0.293441 83.4884 0.543828 86.1535 1.74623 88.3522C2.65904 90.0222 3.40818 90.7996 3.94958 91.6455C5.07958 93.2067 7.47494 95.5297 11.5889 98.9692C12.8983 100.086 13.9843 101.202 13.9843 101.47C13.9843 101.781 13.5782 102.362 13.0809 102.81C11.8155 103.926 11.4976 106.962 12.3569 109.061C13.3957 111.517 22.1178 120.001 23.6098 120.001C25.1899 120.001 56.915 88.7471 56.915 87.1829C56.915 86.4241 55.5583 84.8163 52.4862 81.7811C50.0909 79.3709 47.4248 76.9608 46.5655 76.3792C44.5762 75.0389 42.3634 75.0824 39.9208 76.4694L37.9315 77.6294L36.2601 76.7369C30.522 73.8354 29.0741 71.6896 29.5273 66.5117C30.2072 58.2519 30.3426 49.9019 29.8452 47.8028C29.5745 46.6397 25.64 36.1937 21.1672 24.6748C13.5751 5.25063 12.8511 3.55576 11.1797 2.03815C10.2291 1.14562 8.96378 0.296628 8.42238 0.206442C6.56842 -0.151191 6.25366 -0.104543 4.03772 0.831523C3.54354 1.03677 3.13435 1.30422 2.79755 1.50947C1.94768 2.01949 1.29612 2.81561 1.04116 3.76723C0.480879 5.83217 0.358116 9.95895 2.72829 18.0228C2.90141 18.6075 2.72831 18.0228 3.76703 22.6658C4.17307 24.4944 4.76167 26.9077 5.03237 27.9774C5.52969 29.8993 5.49194 29.9957 4.22029 31.0127C2.29393 32.5552 1.06004 35.4287 1.01597 37.4905C0.893214 42.9079 1.97602 47.4265 2.34744 54.5232H2.34429ZM5.16771 5.25063C6.02702 4.31145 7.06574 4.13419 7.92505 4.71573C8.60179 5.16355 9.59646 7.12587 11.0444 10.8328C11.7211 12.5308 12.401 14.3594 12.6245 14.8507C12.8039 15.3421 13.5279 17.1272 14.2046 18.8687C14.8845 20.5667 15.5612 22.3953 15.7879 22.8866C15.9673 23.378 16.4205 24.5846 16.8266 25.5673C17.5505 27.4426 20.5786 35.1674 21.2113 36.7286C21.3907 37.2199 21.888 38.5136 22.3412 39.6301C22.7945 40.7465 23.2918 42.0402 23.5153 42.5316C26.046 48.4247 26.1814 50.0792 25.5487 64.1886L25.2339 72.0006L26.4993 74.1899C27.4027 75.7977 28.6239 77.0012 30.928 78.5219C32.6435 79.7285 34.1355 80.8419 34.2267 81.1124C34.4093 81.6473 18.1832 97.6786 17.4624 97.6786C16.8738 97.6786 15.9264 96.9198 11.0003 92.678C7.29553 89.4624 6.20959 87.8577 5.21493 84.017C4.40284 80.8916 4.22028 72.408 4.90017 69.4163C7.38366 58.6562 7.38366 53.8359 4.90017 41.2876C3.9968 36.5544 4.72077 34.7227 7.56623 34.7227C9.37613 34.7227 10.2795 36.0631 11.9068 41.1974C16.4709 55.6614 16.2883 55.2633 18.3689 55.2633C20.4495 55.2633 20.4936 53.7892 18.9103 48.8788C14.0283 33.5627 14.0755 33.7431 11.9949 31.8212C10.3236 30.3036 9.91751 29.5448 9.28483 26.9108C8.83472 25.1693 8.33425 23.0701 8.11077 22.2242C7.88414 21.3752 7.3868 19.2325 6.98076 17.5377C6.21273 14.1884 5.75948 12.1794 4.90017 8.51908C4.40284 6.41993 4.40284 6.10895 5.17086 5.25996L5.16771 5.25063ZM29.2535 92.6282C38.3816 83.6532 42.5397 79.8125 43.2636 79.8125C44.2583 79.8125 50.2231 84.9904 51.1264 86.6417C51.5325 87.4006 50.0405 89.0519 38.3376 100.661C31.0161 107.895 24.6894 114.012 24.1921 114.279C23.4681 114.637 22.8386 114.189 19.8105 111.241C17.2358 108.697 16.2411 107.447 16.2411 106.598C16.2411 105.705 18.9985 102.713 29.2566 92.622L29.2535 92.6282Z"/></g>
+              <g id="gsBoxes"></g>
+            </svg>
+            <div class="abs ctr" style="top:257px;font-weight:400;font-size:30px">제스처로 정비를 시작하세요!</div>
+          </div>
+        </div></div><figcaption>인 게임 메뉴 열기 안내</figcaption></figure>
+
+        <!-- 2. 튜토리얼 (피그마 Dialog - Tutorial 734×477, Step 1~3) -->
+        <figure class="cf-card" data-w="400" data-fw="734" data-fh="477"><div class="vp"><div class="vp-in" role="dialog" aria-label="튜토리얼">
+          <div class="pn" id="pnTut" style="width:734px;height:477px">
+            <svg class="abs pop2" data-h="477" data-c="#03DAC6" style="left:0;top:0" aria-hidden="true"></svg>
+            <button type="button" class="abs btn-sq" id="tutBack" style="left:30px;top:30px;width:60px;height:60px" aria-label="이전 안내">
+              <svg width="60" height="60" viewBox="0 0 60 60"><path class="sh" opacity="0.8" stroke-width="2" d="M54.5596 1C54.6023 1.00003 54.7221 1.01846 54.8779 1.08301C55.0339 1.14764 55.1309 1.21863 55.1602 1.24805L55.1611 1.25L58.75 4.83887C58.78 4.86884 58.8521 4.96663 58.917 5.12305C58.9818 5.27929 59 5.39843 59 5.44043V54.5615C59 54.6042 58.9816 54.724 58.917 54.8799C58.8524 55.0358 58.7815 55.1327 58.752 55.1621L58.75 55.1631L55.1631 58.75C55.133 58.78 55.036 58.8522 54.8799 58.917C54.7234 58.9819 54.6034 59 54.5615 59H6.64258V58.999H5.64258C5.60069 58.999 5.48146 58.9808 5.3252 58.916C5.16885 58.8511 5.07103 58.779 5.04102 58.749L1.25 54.958C1.22002 54.928 1.1479 54.8302 1.08301 54.6738C1.01823 54.5176 1.00005 54.3985 1 54.3564V1H54.5596Z"/><path class="ic" transform="translate(6 6)" d="M39.6914 23.9754C39.6914 22.9156 38.954 22.127 37.9075 22.127L19.0914 22.127L14.0726 22.3242L16.9269 19.8596L19.7812 16.9269C20.0904 16.5818 20.3045 16.1382 20.3045 15.6207C20.3045 14.6102 19.5434 13.8462 18.5919 13.8462C18.0924 13.8462 17.6643 13.9941 17.355 14.3145L9.43434 22.546C8.95862 23.0389 8.76833 23.4578 8.76833 23.9754C8.76833 24.5176 8.98241 24.9612 9.43434 25.4295L17.355 33.6363C17.6643 33.9567 18.0924 34.1539 18.5919 34.1539C19.5434 34.1539 20.3045 33.3652 20.3045 32.3548C20.3045 31.8126 20.1142 31.369 19.7812 31.0486L16.9269 28.1404L14.0488 25.6266L19.0914 25.8238L37.9075 25.8238C38.954 25.8238 39.6914 25.0598 39.6914 23.9754Z"/></svg>
+            </button>
+            <div class="abs ctr" style="top:51px;font-weight:700;font-size:40px">Tutorial</div>
+            <button type="button" class="abs btn-txt" id="tutSkip" style="left:635px;top:40px;width:60px;height:40px;font-weight:700;font-size:30px;line-height:40px">Skip</button>
+            <p class="abs tut-body" id="tutBody" style="left:0;right:0;top:150px;margin:0;text-align:center;white-space:pre-line;font-weight:500;font-size:28px" aria-live="polite"></p>
+          </div>
+        </div></div><figcaption>튜토리얼 팝업</figcaption></figure>
+
+        <!-- 3. 장비 유형 선택 (피그마 2차 Info popup 4665:27642, 1464×540) -->
+        <figure class="cf-card" data-w="560" data-fw="1464" data-fh="540"><div class="vp"><div class="vp-in" role="dialog" aria-label="Type list">
+          <div class="pn" id="pnType" style="width:1464px;height:540px">
+            <svg class="abs" style="left:0;top:0" width="1464" height="540" viewBox="0 0 1464 540" aria-hidden="true">
+              <defs>
+                <filter id="fTlBase" x="0" y="0" width="1445.89" height="507" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="17.5"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.372549 0 0 0 0 0 0 0 0 1 0"/><feBlend mode="normal" in2="shape" result="effect1_innerShadow"/></filter>
+                <radialGradient id="rgTlBase" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(722.956 253.492) scale(570.536 403.708)"><stop stop-color="#6A6A6A"/><stop offset="1" stop-color="#020000"/></radialGradient>
+                <pattern id="gTl" patternUnits="userSpaceOnUse" width="64.4" height="64.4" x="12.8" y="-26.2"><path d="M32.2 0V64.4M0 32.2H64.4" stroke="#fff" stroke-width="1"/><circle cx="32.2" cy="32.2" r="2" fill="#fff"/></pattern>
+              </defs>
+              <g transform="translate(9 17)">
+                <path id="pTlBase" opacity="0.8" filter="url(#fTlBase)" fill="url(#rgTlBase)" d="M5.14 10.47L16.51 0H622.55H823.34H1429.38L1440.75 10.47V205.77L1445.89 210.74V295.58L1440.75 300.54V496.53L1429.38 507H16.51L5.14 496.53V300.54L0 295.58V210.74L5.14 205.77V10.47Z"/>
+                <path fill="url(#gTl)" opacity=".13" d="M5.14 10.47L16.51 0H622.55H823.34H1429.38L1440.75 10.47V205.77L1445.89 210.74V295.58L1440.75 300.54V496.53L1429.38 507H16.51L5.14 496.53V300.54L0 295.58V210.74L5.14 205.77V10.47Z"/>
+              </g>
+              <g fill="#FF5F00"><path d="M6.16953 23.56L21.8395 8.86997H524.01L527.15 5.71997H20.5995L3.01953 22.2V173L6.16953 176.04V23.56Z"/><path d="M1442.16 8.86997L1457.83 23.56V176.04L1460.98 173V22.2L1443.4 5.71997H936.85L939.89 8.86997H1442.16Z"/><path d="M931.28 0H532.7L527.15 5.72H936.85L931.28 0Z"/><path d="M1458.86 213.86V190.48L1451.38 197.71V26.63L1439.05 15.27H24.95L12.62 26.63V197.71L5.14 190.48V213.86L0 218.82V321.17L5.14 326.13V349.52L12.62 342.29V513.37L24.95 524.73H1439.05L1451.38 513.37V342.29L1458.86 349.52V326.13L1464 321.17V218.82L1458.86 213.86ZM1454.95 312.42L1449.81 317.38V340.03V512.68L1438.44 523.15H25.57L14.2 512.68V340.03V317.38L9.06 312.42V227.58L14.2 222.62V199.97V27.31L25.57 16.84H1438.43L1449.8 27.31V199.97V222.62L1454.94 227.58V312.42H1454.95Z"/><path d="M21.8395 531.13L6.16953 516.44V363.96L3.01953 367V517.8L20.5995 534.28H527.15L524.01 531.13H21.8395Z"/><path d="M1457.83 516.44L1442.16 531.13H939.89L936.85 534.28H1443.4L1460.98 517.8V367L1457.83 363.96V516.44Z"/><path d="M532.7 540H931.28L936.85 534.28H527.15L532.7 540Z"/><path d="M18.1592 229.62L14.1992 233.47V306.55L18.1592 310.38V229.62Z"/><path d="M1445.84 310.38L1449.8 306.55V233.47L1445.84 229.62V310.38Z"/></g>
+              <g fill="#E1E1FF"><path d="M1435.59 20.38L1434.1 33.03L1446.96 30.85L1435.59 20.38Z"/><path d="M16.9609 30.85L29.8309 33.03L28.3309 20.38L16.9609 30.85Z"/><path d="M1435.59 519.62L1446.96 509.15L1434.1 506.97L1435.59 519.62Z"/><path d="M28.3309 519.62L29.8309 506.97L16.9609 509.15L28.3309 519.62Z"/></g>
+              <defs><linearGradient id="lgTlLine" x1="666" x2="792" y1="0" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+              <rect x="666" y="108" width="126" height="2" fill="url(#lgTlLine)"/>
+            </svg>
+            <div class="abs" style="left:666px;top:54px;width:126px;text-align:center;font-weight:600;font-size:32px">Type list</div>
+            <button type="button" class="abs btn-x" data-close="pnType" style="left:1366px;top:54px;width:44px;height:44px" aria-label="닫기"><svg width="44" height="44" viewBox="0 0 44 44"><path d="M32.5 13.615L30.385 11.5L22 19.885L13.615 11.5L11.5 13.615L19.885 22L11.5 30.385L13.615 32.5L22 24.115L30.385 32.5L32.5 30.385L24.115 22L32.5 13.615Z"/></svg></button>
+            <div class="abs tl-row" id="tlRow" role="radiogroup" aria-label="장비 유형" style="left:76px;top:168px;width:1312px;height:276px"></div>
+            <div class="abs sb-thumb" id="tlThumb" style="left:76px;top:454px;width:430px;height:6px"></div>
+          </div>
+        </div></div><figcaption>장비 유형 선택 팝업</figcaption></figure>
+
+        <!-- 4. 경고 (피그마 1차 ui/popup/경고 2202:46203, 734×366) -->
+        <figure class="cf-card" data-w="400" data-fw="734" data-fh="366"><div class="vp"><div class="vp-in" role="alertdialog" aria-label="경고">
+          <div class="pn" id="pnWarn" style="width:734px;height:366px">
+            <svg class="abs pop2" data-h="366" data-c="#E52C2C" style="left:0;top:0" aria-hidden="true"></svg>
+            <div class="abs" style="left:105px;top:66px;width:525px;display:flex;flex-direction:column;align-items:center;gap:36px">
+              <div style="display:flex;align-items:center;gap:16px;height:53px">
+                <svg class="wn-ic" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" fill="#E62C2C" d="M5.4852 38.3262C3.7106 41.4214 5.94518 45.2783 9.51303 45.2783L43.933 45.2783C47.5629 45.2783 49.7888 41.3 47.8898 38.2065L30.0923 9.21392C28.2483 6.20992 23.8609 6.27567 22.1077 9.33358L5.4852 38.3262ZM23.1134 16.7782L23.8033 34.3865H28.0083L28.7967 16.7782H23.1134ZM23.4748 40.4639C23.4748 40.9458 23.7267 41.1867 24.2304 41.1867H27.5155C27.7345 41.1867 27.9097 41.1319 28.0411 41.0224C28.1944 40.9129 28.2711 40.7268 28.2711 40.4639V36.8503C28.2711 36.3466 28.0192 36.0947 27.5155 36.0947H24.2304C23.7267 36.0947 23.4748 36.3466 23.4748 36.8503V40.4639Z"/></svg>
+                <div class="wn-tt" style="font-weight:700;font-size:40px;color:#e52c2c">WARNING</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:16px;width:525px;text-align:center">
+                <div class="wn-st" style="font-weight:700;font-size:24px">사망 또는 중상 방지</div>
+                <div class="wn-bd" style="font-weight:300;font-size:24px">엔진이 뜨거운 상태에서는 오일을 교환하지 마십시오.<br>뜨거운 엔진부품으로 인한 화상을 예방하려면 엔진이 식은 후에 엔진 오일과 필터를 교환하십시오.</div>
+              </div>
+            </div>
+          </div>
+        </div></div><figcaption>경고 팝업</figcaption></figure>
+
+        <!-- 5. 사양 비교 (피그마 2차 Frame 1125 4722:47169, 1100×694) -->
+        <figure class="cf-card" data-w="460" data-fw="1100" data-fh="694"><div class="vp"><div class="vp-in" role="dialog" aria-label="Dimensions">
+          <div class="pn" id="pnDim" style="width:1100px;height:694px">
+            <svg class="abs" style="left:0;top:0" width="1100" height="694" viewBox="0 0 1100 694" aria-hidden="true"><path opacity="0.8" d="M1088.59 1L1099 11.4141V682.586L1088.59 693H11.4141L1 682.586V11.4141L11.4141 1H1088.59Z" fill="#020000" stroke="#9F9F9F" stroke-width="2"/></svg>
+            <div class="abs ctr" style="top:28px;font-weight:500;font-size:24px">Dimensions</div>
+            <button type="button" class="abs btn-x" data-close="pnDim" style="left:1028px;top:28px;width:44px;height:44px" aria-label="닫기"><svg width="44" height="44" viewBox="0 0 44 44"><path d="M32.5 13.615L30.385 11.5L22 19.885L13.615 11.5L11.5 13.615L19.885 22L11.5 30.385L13.615 32.5L22 24.115L30.385 32.5L32.5 30.385L24.115 22L32.5 13.615Z"/></svg></button>
+            <!-- 머리 띠: 왼쪽 Caterpillar 320 / 오른쪽 DEVELON E23 -->
+            <svg class="abs" style="left:50px;top:90px" width="462" height="60" viewBox="0 0 462 60" aria-hidden="true"><defs><linearGradient id="lgDmLA" x1="462" y1="30" x2="40" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0.475962" stop-color="#999999"/><stop offset="1" stop-color="#999999" stop-opacity="0"/></linearGradient></defs><path opacity="0.6" d="M433.876 0H0V60H462L433.876 0Z" fill="url(#lgDmLA)"/></svg>
+            <svg class="abs" style="left:324px;top:86px" width="188" height="68" viewBox="0 0 188 68" aria-hidden="true"><defs><filter id="fDmLB" x="0" y="0" width="188" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="-4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="ds"/><feBlend mode="normal" in="SourceGraphic" in2="ds" result="shape"/></filter><linearGradient id="lgDmLB" x1="98" y1="4" x2="98" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0.903846" stop-color="#999999"/><stop offset="1" stop-color="#DBDBDB"/></linearGradient></defs><g opacity="0.6" filter="url(#fDmLB)"><path d="M159.981 4H8L36.0193 64H188L159.981 4Z" fill="url(#lgDmLB)"/></g></svg>
+            <div class="abs" style="left:272px;top:105px;font-weight:600;font-size:24px">320</div>
+            <div class="abs" style="left:363px;top:105px;font-weight:500;font-size:24px">Caterpillar</div>
+            <svg class="abs" style="left:586px;top:90px" width="462" height="60" viewBox="0 0 462 60" aria-hidden="true"><defs><linearGradient id="lgDmRA" x1="0" y1="30" x2="489" y2="30" gradientUnits="userSpaceOnUse"><stop offset="0.475962" stop-color="#FF5F00"/><stop offset="1" stop-color="#FF5F00" stop-opacity="0"/></linearGradient></defs><path opacity="0.6" d="M28.1242 0H462V60H0L28.1242 0Z" fill="url(#lgDmRA)"/></svg>
+            <svg class="abs" style="left:586px;top:86px" width="188" height="68" viewBox="0 0 188 68" aria-hidden="true"><defs><filter id="fDmRB" x="0" y="0" width="188" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dx="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="ds"/><feBlend mode="normal" in="SourceGraphic" in2="ds" result="shape"/></filter><linearGradient id="lgDmRB" x1="90" y1="4" x2="90" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0.903846" stop-color="#FF5F00"/><stop offset="1" stop-color="white"/></linearGradient></defs><g opacity="0.6" filter="url(#fDmRB)"><path d="M28.0193 4H180L151.981 64H0L28.0193 4Z" fill="url(#lgDmRB)"/></g></svg>
+            <div class="abs" style="left:623px;top:104px;font-weight:500;font-size:24px">DEVELON</div>
+            <div class="abs" style="left:782px;top:104px;font-weight:600;font-size:24px">E23</div>
+            <svg class="abs" style="left:487px;top:82px" width="124" height="60" viewBox="0 0 124 60" aria-hidden="true"><defs><linearGradient id="lgDmVs" x1="63.501" y1="0" x2="63.501" y2="61" gradientUnits="userSpaceOnUse"><stop stop-color="#666666"/><stop offset="1"/></linearGradient></defs><path opacity="0.3" d="M95.9717 60H28.0283L0 0H124L95.9717 60Z" fill="url(#lgDmVs)"/></svg>
+            <div class="abs dm-vs" style="left:519px;top:82px;width:60px;height:60px;line-height:60px;text-align:center;font-weight:600;font-size:48px">VS</div>
+            <!-- 표 두 개: 머리줄은 고정, 행은 세로 스크롤 -->
+            <div class="abs dm-head" aria-hidden="true" style="left:50px;top:154px"><span style="width:180px;color:#abb1b4">Specification</span><span style="width:94px;color:#abb1b4">Unit</span><span>Value</span></div>
+            <div class="abs dm-head" aria-hidden="true" style="left:570px;top:154px"><span style="width:180px">Specification</span><span style="width:94px">Unit</span><span>Mono boom</span></div>
+            <div class="abs dm-scroll" id="dmScroll" tabindex="0" aria-label="사양 비교 표" style="left:50px;top:190px;width:1000px;height:464px">
+              <table class="dm-tb" style="left:0;--rs:#5e6568" aria-label="Caterpillar 320 사양">
+                <colgroup><col style="width:222px"><col style="width:98px"><col style="width:160px"></colgroup>
+                <thead><tr><th scope="col" style="color:#abb1b4">Specification</th><th scope="col" style="color:#abb1b4">Unit</th><th scope="col">Value</th></tr></thead>
+                <tbody>
+                  <tr><td>Model</td><td>-</td><td>Caterpillar</td></tr>
+                  <tr><td>Undercarriage width<br>(std)</td><td>-</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                  <tr><td>Undercarriage width<br>(std)</td><td>cm³(≈in³)</td><td>4,408 cm³ (269in³)</td></tr>
+                  <tr><td>Number Of Cylinders</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                  <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                  <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>189.1 hp(SAE J1995,<br>at 1700 rpm)</td></tr>
+                </tbody>
+              </table>
+              <table class="dm-tb" style="left:520px;--rs:#ff5f00" aria-label="DEVELON E23 사양">
+                <colgroup><col style="width:222px"><col style="width:98px"><col style="width:160px"></colgroup>
+                <thead><tr><th scope="col">Specification</th><th scope="col">Unit</th><th scope="col">Mono boom</th></tr></thead>
+                <tbody>
+                  <tr class="h68"><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                  <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                  <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                  <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                  <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>3,065 mm<br>(10 ft 0 in)</td></tr>
+                  <tr><td>Undercarriage width<br>(std)</td><td>mm</td><td>189.1 hp(SAE J1995,<br>at 1700 rpm)</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="abs sb-thumb" id="dmThumb" style="left:1058px;top:483px;width:8px;height:167px"></div>
+          </div>
+        </div></div><figcaption>사양 비교 패널</figcaption></figure>
       </div>
       <button type="button" class="cf-nav cf-prev" aria-label="이전 패널"></button>
       <button type="button" class="cf-nav cf-next" aria-label="다음 패널"></button>
@@ -85,6 +299,8 @@
   var dotsBox = document.getElementById('dots'), prev = box.querySelector('.cf-prev'), next = box.querySelector('.cf-next');
   cards.forEach(function (c, i) {
     c.style.width = c.dataset.w + 'px'; c.style.marginLeft = (-c.dataset.w / 2) + 'px';
+    var vp = c.querySelector('.vp');
+    if (vp) { var s = c.dataset.w / c.dataset.fw; c.dataset.s = s; vp.style.height = (c.dataset.fh * s) + 'px'; vp.firstElementChild.style.transform = 'scale(' + s + ')'; }
     var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', (i + 1) + '번째 패널');
     b.addEventListener('click', function () { go(i); }); dotsBox.appendChild(b);
   });
@@ -101,6 +317,8 @@
       c.style.zIndex = String(100 - Math.round(ad * 10));
       c.classList.toggle('is-center', ad < 0.5);
     });
+    var ck = Math.round(clamp(pos, 0, n - 1));
+    if (ck !== centerK && Math.abs(pos - ck) < 0.5) { centerK = ck; onCenter(ck); }
     var k = Math.round(clamp(pos, 0, n - 1));
     dots.forEach(function (b, i) { b.classList.toggle('is-on', i === k); });
     prev.disabled = target <= 0; next.disabled = target >= n - 1;
@@ -116,6 +334,8 @@
   var down = false, sx = 0, sp = 0, moved = 0, lastX = 0, lastT = 0, vel = 0;
   stage.addEventListener('pointerdown', function (e) {
     if (e.button !== 0) return;
+    // 가운데 카드 안(버튼·스크롤·표)에서 누르면 넘김을 시작하지 않는다
+    if (e.target.closest && e.target.closest('.cf-card.is-center .vp-in')) return;
     down = true; moved = 0; sx = lastX = e.clientX; lastT = performance.now(); sp = pos; vel = 0;
     stage.setPointerCapture(e.pointerId); stage.classList.add('is-drag');
   });
@@ -135,8 +355,197 @@
     }
     go(pos - vel * 0.35);
   }
+  // 트랙패드 좌우 스크롤(가로 휠)로 카드 한 장씩 넘기기. 세로 휠은 건드리지 않아 페이지 스크롤이 그대로 된다
+  var wheelAcc = 0, wheelAt = 0;
+  stage.addEventListener('wheel', function (e) {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) { wheelAcc = 0; return; }
+    e.preventDefault();
+    var now = performance.now();
+    wheelAcc += e.deltaX;
+    if (now - wheelAt < 350 || Math.abs(wheelAcc) < 20) return;
+    go(target + (wheelAcc > 0 ? 1 : -1)); wheelAcc = 0; wheelAt = now;
+  }, { passive: false });
   stage.addEventListener('pointerup', up);
   stage.addEventListener('pointercancel', up);
+
+  // ── 패널 UI 동작 ──
+  var centerK = -1, NS = 'http://www.w3.org/2000/svg';
+  function $(id) { return document.getElementById(id); }
+  function scaleOf(el) { var c = el.closest('.cf-card'); return c ? +c.dataset.s : 1; }
+
+  // 팝업 공통 바탕(ui_popup_type02): 반투명 검정 + 모서리 컷 테두리 + 그리드
+  var POP2 = {
+    477: { bk: 'M33.0867 475.593C30.6057 475.593 27.1646 474.165 25.4125 472.399L3.18182 450.083C1.42972 448.324 0 444.869 0 442.379V4.92478C0 2.20912 2.20064 0 4.90589 0H701.185C703.666 0 707.107 1.42819 708.859 3.19408L729.905 24.3214C731.657 26.0802 733.087 29.5346 733.087 32.0251V443.589C733.087 446.079 731.664 449.534 729.905 451.293L708.873 472.406C707.121 474.165 703.68 475.6 701.199 475.6H33.0867V475.593Z',
+           bd: 'M701.616 1.41411C703.929 1.41411 707.16 2.75788 708.793 4.39712L729.839 25.5244C731.472 27.1637 732.811 30.407 732.811 32.7287V444.292C732.811 446.614 731.472 449.857 729.839 451.497L708.807 472.61C707.174 474.249 703.943 475.593 701.63 475.593H33.511C31.1982 475.593 27.9674 474.249 26.3344 472.61L4.10372 450.294C2.47076 448.654 1.13215 445.411 1.13215 443.089V5.63535C1.13215 3.31367 3.02442 1.41411 5.3372 1.41411H701.616ZM701.616 0.00703153H5.3372C2.24649 0.00703153 -0.269531 2.53274 -0.269531 5.63535V443.096C-0.269531 445.791 1.21625 449.393 3.11553 451.3L25.3462 473.616C27.2455 475.523 30.8338 477.014 33.518 477.014H701.637C704.321 477.014 707.91 475.523 709.809 473.616L730.841 452.503C732.741 450.596 734.226 446.994 734.226 444.299V32.7287C734.226 30.0341 732.741 26.432 730.841 24.5254L709.795 3.3981C707.896 1.49151 704.307 0 701.623 0L701.616 0.00703153Z' },
+    366: { bk: 'M33.0867 364.237C30.6057 364.237 27.1646 362.809 25.4125 361.043L3.18182 338.727C1.42972 336.968 0 333.514 0 331.023V4.92478C0 2.20912 2.20064 0 4.90589 0H701.185C703.666 0 707.107 1.42819 708.859 3.19408L729.905 24.3214C731.657 26.0802 733.087 29.5346 733.087 32.0251V332.233C733.087 334.724 731.664 338.178 729.905 339.937L708.873 361.05C707.121 362.809 703.68 364.244 701.199 364.244H33.0867V364.237Z',
+           bd: 'M701.616 1.41411C703.929 1.41411 707.16 2.75788 708.793 4.39712L729.839 25.5244C731.472 27.1637 732.811 30.407 732.811 32.7287V332.722C732.811 335.044 731.472 338.287 729.839 339.926L708.807 361.039C707.174 362.679 703.943 364.022 701.63 364.022H33.511C31.1982 364.022 27.9674 362.679 26.3344 361.039L4.10372 338.723C2.47076 337.084 1.13215 333.841 1.13215 331.519V5.63535C1.13215 3.31367 3.02442 1.41411 5.3372 1.41411H701.616ZM701.616 0.00703153H5.3372C2.24649 0.00703153 -0.269531 2.53274 -0.269531 5.63535L-0.269531 331.526C-0.269531 334.221 1.21625 337.823 3.11553 339.729L25.3462 362.046C27.2455 363.952 30.8338 365.444 33.518 365.444H701.637C704.321 365.444 707.91 363.952 709.809 362.046L730.841 340.932C732.741 339.026 734.226 335.424 734.226 332.729V32.7287C734.226 30.0341 732.741 26.432 730.841 24.5254L709.795 3.3981C707.896 1.49151 704.307 0 701.623 0L701.616 0.00703153Z' }
+  };
+  [].forEach.call(document.querySelectorAll('svg.pop2'), function (sv) {
+    var h = +sv.dataset.h, P = POP2[h], id = 'gP' + h;
+    sv.setAttribute('width', 734); sv.setAttribute('height', h); sv.setAttribute('viewBox', '0 0 734 ' + h);
+    sv.innerHTML = '<defs><pattern id="' + id + '" patternUnits="userSpaceOnUse" width="55.25" height="55.25" x="2.9" y="-15.9">' +
+      '<path d="M27.625 0V55.25M0 27.625H55.25" stroke="#fff" stroke-width=".53"/><circle cx="27.625" cy="27.625" r="2.05" fill="#fff"/></pattern></defs>' +
+      '<g transform="translate(0 1)"><path d="' + P.bk + '" fill="#000" opacity=".8"/><path d="' + P.bk + '" fill="url(#' + id + ')" opacity=".2"/></g>' +
+      '<path d="' + P.bd + '" fill="' + sv.dataset.c + '"/>';
+  });
+
+  // 1. 제스처 진행: 다섯 칸이 차례로 차고, 손이 벌어지며, 다 차면 청록으로 완료
+  var BOX = 'M27.9511 35.0761H7.55434C3.39001 35.0761 0 31.7267 0 27.6124V7.46365C0 3.34931 3.39001 0 7.55434 0H27.9511C32.1154 0 35.5054 3.34931 35.5054 7.46365V27.6124C35.5054 31.7267 32.1154 35.0761 27.9511 35.0761ZM7.55434 3.72872C5.4706 3.72872 3.77717 5.40182 3.77717 7.46054V27.6093C3.77717 29.668 5.4706 31.3411 7.55434 31.3411H27.9511C30.0348 31.3411 31.7282 29.668 31.7282 27.6093V7.46054C31.7282 5.40182 30.0348 3.72872 27.9511 3.72872H7.55434Z';
+  var gsBoxes = $('gsBoxes'), gsEls = [];
+  [70, 109, 148, 187, 226].forEach(function (x) {
+    var g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'gs-box'); g.setAttribute('transform', 'translate(' + x + ' 29)');
+    g.innerHTML = '<path d="' + BOX + '" fill="#fff"/><rect x="6.5" y="6.5" width="22.5" height="22.1" rx="2.5" fill="#fff"/>';
+    gsBoxes.appendChild(g); gsEls.push(g);
+  });
+  var gsSvg = gsBoxes.ownerSVGElement, gsL = $('gsL'), gsR = $('gsR'), gsT = 0, gsTimer = null;
+  function gsShow(k) {
+    gsEls.forEach(function (g, i) { g.classList.toggle('on', i < k); });
+    var d = Math.min(k, 5) * 3;
+    gsL.style.transform = 'translateX(' + (-d) + 'px)'; gsR.style.transform = 'translateX(' + d + 'px)';
+    gsSvg.classList.toggle('gs-done', k >= 5);
+  }
+  function gsRun(on) {
+    clearInterval(gsTimer); gsT = 0; gsShow(0);
+    if (on && !reduce) gsTimer = setInterval(function () { gsT = (gsT + 1) % 9; gsShow(gsT <= 5 ? gsT : 5); }, 420);
+    else if (on) gsShow(5);
+  }
+
+  // 2. 튜토리얼: 뒤로 = 이전 안내, Skip = 다음 안내 (피그마 Dialog - Tutorial Step 1~3 문구)
+  var TUT = [
+    '핸드 그립을 통해 Object를 잡거나, 놓을 수 있습니다.\nCube를 자유롭게 조작해보세요.\n\n핸드 트래킹에 적응 되셨다면 NEXT버튼을 선택하세요.\n\n핸드 트래킹 가이드를 넘어가고 싶으시다면 \nSKIP 버튼을 누르세요.',
+    'Maintenance에 필요한 Menu를 활성화 시켜보겠습니다.\n\n양 손바닥을 맞댄 후 서로 반대 방향으로 \n움직여 Menu를 활성화 시키세요.',
+    '활성화된 Menu를 닫아보겠습니다.\n활성화된 Menu의 양 끝에 손바닥을 갖다 댄 후\n손바닥을 박수를 치듯 모아 닫아주세요.'
+  ];
+  var tutStep = 0, tutBody = $('tutBody'), tutBusy = null;
+  tutBody.textContent = TUT[0];
+  // 2·3단계에는 피그마처럼 제스처 손 아이콘(ui_ic_gesture_hand, 203,321)이 함께 나온다
+  var tutGs = gsSvg.cloneNode(true); tutGs.removeAttribute('role'); tutGs.removeAttribute('aria-label'); tutGs.setAttribute('aria-hidden', 'true');
+  [].forEach.call(tutGs.querySelectorAll('[id]'), function (e) { e.removeAttribute('id'); });
+  tutGs.setAttribute('class', 'abs tut-body is-out'); tutGs.style.left = '203px'; tutGs.style.top = '321px';
+  $('pnTut').appendChild(tutGs);
+  function tutGo(k) {
+    k = (k + TUT.length) % TUT.length; if (k === tutStep) return; tutStep = k;
+    clearTimeout(tutBusy); tutBody.classList.add('is-out');
+    tutGs.classList.add('is-out');
+    tutBusy = setTimeout(function () { tutBody.textContent = TUT[k]; tutBody.classList.remove('is-out'); tutGs.classList.toggle('is-out', k === 0); }, reduce ? 0 : 200);
+  }
+  $('tutBack').addEventListener('click', function () { if (tutStep > 0) tutGo(tutStep - 1); });
+  $('tutSkip').addEventListener('click', function () { tutGo(tutStep + 1); });
+
+  // 3. Type list
+  var SH_DEF = '<svg class="sh-def" width="256" height="276" viewBox="0 0 256 276"><path d="M238.641 0.5L255.499 17.5195L255.313 256.333L238.437 275.5H17.3779L0.5 256.333L0.685547 17.5186L17.5459 0.5H238.641Z" fill="black" fill-opacity="0.6" stroke="#9F9F9F"/></svg>';
+  function shSel(i) { var f = 'fTlSel' + i; return '<svg class="sh-sel" width="256" height="276" viewBox="0 0 256 276"><defs><filter id="' + f + '" x="0" y="0" width="256" height="276" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="10"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.372549 0 0 0 0 0 0 0 0 1 0"/><feBlend mode="normal" in2="shape" result="is"/></filter></defs><g filter="url(#' + f + ')"><path d="M17.338 0H238.848L256 17.314L255.814 256.522L238.662 276H17.1518L0 256.522L0.186162 17.314L17.338 0Z" fill="#FF5F00" fill-opacity="0.6"/></g><path d="M238.431 1L254.999 17.7236L254.813 256.145L238.21 275H17.6035L1 256.144L1.18555 17.7246L17.7559 1H238.431Z" stroke="#FF5F00" stroke-width="2" fill="none"/></svg>'; }
+  var LOCK = '<svg class="lock" width="60" height="60" viewBox="0 0 60 60"><path d="M45 20H42.5V15C42.5 8.1 36.9 2.5 30 2.5C23.1 2.5 17.5 8.1 17.5 15V20H15C12.25 20 10 22.25 10 25V50C10 52.75 12.25 55 15 55H45C47.75 55 50 52.75 50 50V25C50 22.25 47.75 20 45 20ZM30 42.5C27.25 42.5 25 40.25 25 37.5C25 34.75 27.25 32.5 30 32.5C32.75 32.5 35 34.75 35 37.5C35 40.25 32.75 42.5 30 42.5ZM37.75 20H22.25V15C22.25 10.725 25.725 7.25 30 7.25C34.275 7.25 37.75 10.725 37.75 15V20Z" fill="white"/></svg>';
+  var TYPES = [
+    { n: 'Wheel Excavator', v: '0 0 120 120', d: '<path d="M112.853 75.8595H101.107C101.107 84.224 91.3175 88.9247 87.0117 92.2472V97.1582H108.155C114.977 97.1582 120.002 91.8104 120.002 85.387C120.002 80.6783 115.203 75.8611 112.854 75.8611L112.853 75.8595Z"/><path d="M101.095 71.1507H112.764L93.9782 21.5962L82.2229 21.703L84.0191 26.4085L65.7793 54.6498V73.4817L88.5476 38.2734L101.095 71.1507Z"/><path d="M31.3646 73.5222L61.1581 73.4688V42.8949L49.4124 38.1862H30.619V57.0229L2.40234 57.0342L2.42978 73.4753L31.3662 73.5238L31.3646 73.5222ZM42.2856 42.8836L54.0313 47.5811V66.4178L42.2856 68.6872V42.8836Z"/><path d="M25.9887 87.7552V87.7682H37.9296V87.7552C37.9296 84.1755 39.1545 80.874 41.2074 78.2584H22.7109C24.7638 80.874 25.9887 84.1755 25.9887 87.7552Z"/><path d="M53.2962 77.1097C47.4395 77.1097 42.6738 81.8865 42.6738 87.7566C42.6738 93.6268 47.4395 98.4036 53.2962 98.4036C59.1529 98.4036 63.9186 93.6268 63.9186 87.7566C63.9186 81.8865 59.1529 77.1097 53.2962 77.1097ZM53.2962 93.6479C50.0556 93.6479 47.4186 91.0047 47.4186 87.7566C47.4186 84.5085 50.0556 81.8654 53.2962 81.8654C56.5369 81.8654 59.1739 84.5085 59.1739 87.7566C59.1739 91.0047 56.5369 93.6479 53.2962 93.6479Z"/><path d="M10.6224 77.1097C4.76572 77.1097 0 81.8865 0 87.7566C0 93.6268 4.76572 98.4036 10.6224 98.4036C16.4791 98.4036 21.2448 93.6268 21.2448 87.7566C21.2448 81.8865 16.4791 77.1097 10.6224 77.1097ZM10.6224 93.6479C7.38178 93.6479 4.74474 91.0047 4.74474 87.7566C4.74474 84.5085 7.38178 81.8654 10.6224 81.8654C13.863 81.8654 16.5017 84.5085 16.5017 87.7566C16.5017 91.0047 13.8647 93.6479 10.6224 93.6479Z"/>' },
+    { n: 'Crawler Dozer', v: '0 0 120 120', d: '<path d="M16.8652 67.0145H21.0211V67.0087L53.0309 66.9493V66.9666H75.3367L75.3137 47.455L52.9811 41.8723V30.7031L39.0215 25.1204H16.6888V41.8703L5.52148 41.8243L5.54258 67.0145H16.8633H16.8652ZM30.6695 30.6704L44.6272 36.2531V58.5858L30.6695 61.382V30.6704Z"/><path d="M103.25 83.7146L103.215 60.6416L114.417 41.8396H106.042L94.875 58.5896L94.8405 72.5147H80.8828L86.5019 83.7146H94.8462L94.875 94.8799H114.417L120 89.2973L103.25 83.7146Z"/><path d="M75.3673 72.5991L5.54433 72.5492L0 83.7855L5.54433 94.8819H75.3347L80.9193 83.7759L75.3711 72.5991H75.3653H75.3673ZM70.9506 87.8148H9.90731L7.92815 83.8009L9.96868 79.7045H70.9659L72.9815 83.7606L70.9506 87.8167V87.8148Z"/>' },
+    { n: 'Crawler Excavator', v: '0 0 181 180', d: '<path d="M149.24 107.677H166.912L131.571 28.125H113.899L117.004 35.1144L87.3926 81.0583V112.098L125.195 53.5533L149.24 107.677Z"/><path d="M30.5577 112.183L78.5573 112.095V63.5728L60.8882 54.6433H34.3846V85.5641L7.875 85.5823L7.92052 112.107L30.5577 112.183ZM47.6349 63.4817L69.7227 72.3202V99.051L47.6349 103.256V63.4817Z"/><path d="M166.912 116.518H149.24C149.24 130.306 134.26 137.559 127.152 143.037V151.875H160.603C171.865 151.875 180.166 144.785 180.166 134.195C180.166 126.435 170.791 116.515 166.912 116.515V116.518Z"/><path d="M8.06367 120.827L0 136.153L7.93924 151.423H81.969L90.0478 136.144L82.0145 120.83H8.06367V120.827ZM75.9963 141.497H13.9604L11.1957 136.178L14.0545 130.746H76.0206L78.84 136.12L75.9963 141.497Z"/>', sel: true },
+    { n: 'Wheel Loader', v: '0 0 120 120', lock: true, d: '<path d="M98.0835 55.644H72.2441V62.9647H79.5994V87.4156H115.109L120 82.5284L98.0835 55.644Z"/><path d="M16.0902 63.062H19.7309V63.057L47.7728 63.005V63.0201H67.3135L67.2934 45.9453L47.7291 41.0598V31.2855L35.5016 26.4H15.9373V41.0581L6.1543 41.0178L6.17278 63.062H16.0902ZM28.1832 31.257L40.4107 36.1424V55.686L28.1832 58.1329V31.257Z"/><path d="M59.9983 66.6906C52.5725 66.6906 46.5293 72.7256 46.5293 80.1453C46.5293 87.565 52.5708 93.6001 59.9983 93.6001C67.4259 93.6001 73.4674 87.565 73.4674 80.1453C73.4674 72.7256 67.4259 66.6906 59.9983 66.6906ZM59.9983 87.5918C55.8889 87.5918 52.5439 84.2521 52.5439 80.1453C52.5439 76.0386 55.8872 72.6988 59.9983 72.6988C64.1094 72.6988 67.4528 76.0386 67.4528 80.1453C67.4528 84.2521 64.1094 87.5918 59.9983 87.5918Z"/><path d="M13.469 66.6167C6.0415 66.6167 0 72.6518 0 80.0715C0 87.4911 6.0415 93.5262 13.469 93.5262C20.8966 93.5262 26.9381 87.4911 26.9381 80.0715C26.9381 72.6518 20.8966 66.6167 13.469 66.6167ZM13.469 87.518C9.35962 87.518 6.01462 84.1782 6.01462 80.0715C6.01462 75.9647 9.35794 72.6249 13.469 72.6249C17.5802 72.6249 20.9235 75.9647 20.9235 80.0715C20.9235 84.1782 17.5802 87.518 13.469 87.518Z"/><path d="M28.6465 67.8082C30.891 70.5757 32.3947 73.9658 32.8517 77.6748H40.6253C41.0974 73.9608 42.6195 70.5707 44.8809 67.8082H28.6465Z"/>' },
+    { n: 'Compact \nTrack Loader', v: '0 0 120 120', lock: true, d: '<path d="M23.5574 69.546C16.9149 69.546 11.5098 74.9511 11.5098 81.5936C11.5098 88.2361 16.9149 93.6412 23.5574 93.6412C30.1998 93.6412 35.6049 88.2361 35.6049 81.5936C35.6049 74.9511 30.1998 69.546 23.5574 69.546ZM23.5574 88.2599C19.8819 88.2599 16.8911 85.269 16.8911 81.5936C16.8911 77.9182 19.8819 74.9274 23.5574 74.9274C27.2328 74.9274 30.2254 77.9182 30.2254 81.5936C30.2254 85.269 27.2346 88.2599 23.5574 88.2599Z"/><path d="M64.0273 65.4863L98.7113 65.4241V65.4406H120.001L119.979 46.8182L98.6637 41.49V30.8298L85.3422 25.5016H64.0273V65.4863ZM77.369 30.7987L90.6906 36.127V57.4418L77.369 60.1105V30.7987Z"/><path d="M0 41.4882V59.7591L18.6589 65.4644H58.6968V41.4882H0Z"/><path d="M67.9343 81.5919V81.6065H81.4773V81.5919C81.4773 77.5413 82.8666 73.8054 85.1948 70.8457H64.2168C66.545 73.8054 67.9343 77.5413 67.9343 81.5919Z"/><path d="M98.905 69.546C92.2625 69.546 86.8574 74.9511 86.8574 81.5936C86.8574 88.2361 92.2625 93.6412 98.905 93.6412C105.547 93.6412 110.953 88.2361 110.953 81.5936C110.953 74.9511 105.547 69.546 98.905 69.546ZM98.905 88.2599C95.2296 88.2599 92.2388 85.269 92.2388 81.5936C92.2388 77.9182 95.2296 74.9274 98.905 74.9274C102.58 74.9274 105.571 77.9182 105.571 81.5936C105.571 85.269 102.58 88.2599 98.905 88.2599Z"/><path d="M50.5066 69.546C43.8641 69.546 38.459 74.9511 38.459 81.5936C38.459 88.2361 43.8641 93.6412 50.5066 93.6412C57.149 93.6412 62.5542 88.2361 62.5542 81.5936C62.5542 74.9511 57.149 69.546 50.5066 69.546ZM50.5066 88.2599C46.8312 88.2599 43.8403 85.269 43.8403 81.5936C43.8403 77.9182 46.8312 74.9274 50.5066 74.9274C54.182 74.9274 57.1747 77.9182 57.1747 81.5936C57.1747 85.269 54.1838 88.2599 50.5066 88.2599Z"/>' },
+    { n: 'Articulated\nDump Truck', v: '-5 -24 141 120', line: 1, lock: true, d: 'M41.2953 25.5738C41.2953 25.5738 38.7199 39.73 38.5568 39.5497C38.3937 39.3695 15.0004 39.5497 15.0004 39.5497L17.1208 26.9731L18.3913 25.4279L37.0717 18.1223H57.0225L62.1734 6.22388C62.1734 6.22388 58.1042 4.0262 57.7952 4.1378C57.4861 4.2494 40.4025 6.3269 40.4025 6.3269L40.0506 5.19372L57.4003 2.00879L75.3509 7.23688|M14.2878 41.5672H10.2874L10.8539 47.01L20.795 53.6631H56.207L61.5038 49.8V41.0693L14.2878 41.5672Z|M15.7902 39.5498V41.5586|M37.8959 39.5498V41.3183|M14.554 41.5585C14.4721 42.1595 14.4721 42.7689 14.554 43.3699C14.7171 43.533 38.9604 43.3699 38.9604 43.3699V41.3096|M19.8851 41.5586V43.6361|M21.4819 41.4985V43.6361|M28.5128 41.5586V43.4472|M30.058 41.5586V43.4215|M38.9603 43.3701L41.3469 53.6632|M42.978 43.6445V47.8081H47.2017L47.8971 47.1128H49.1762L50.0347 43.6445H42.978Z|M10.4248 42.9062L12.777 43.6445V46.7093L10.7167 45.722|M16.6057 50.856V53.3627H20.3486|M18.151 27.8662C18.005 28.1152 16.8633 37.4296 16.8633 37.4296H35.4921L37.6211 27.8662H18.151Z|M23.1559 30.6475C23.1559 30.7934 22.8555 32.9224 22.8555 32.9224H29.1051L29.5945 30.6475H23.1559Z|M18.3914 25.4282C18.9408 25.2135 41.3555 25.4282 41.3555 25.4282L57.0226 18.1226|M59.9414 18.7578L61.1261 24.5353L68.4746 23.6682V7.03106L64.208 6.38721L59.9414 18.7578Z|M41.965 6.12939L37.0631 18.1222|M69.6163 7.23682L72.5266 8.23264L72.7841 22.7837L69.9168 23.3933L69.6163 7.23682Z|M44.9096 37.4296L45.7681 29.7033L57.7352 24.0374L57.8811 20.2344C57.8811 20.2344 42.7119 27.1021 42.5746 27.0077C42.4372 26.9133 40.7117 37.4296 40.7117 37.4296H44.9096Z|M57.3145 52.8559L60.7655 53.6628H65.633V50.8556L72.7841 49.1215L76.527 34.9653H85.7384L87.9447 48.5206H86.4252|M48.6869 41.0693V36.9143L56.705 34.6308L64.9721 33.7723C64.9721 33.2486 67.3071 26.75 67.3071 26.75H84.7084L88.7861 33.3602L89.3183 36.9143|M38.7629 38.8545H48.6869|M36.4106 53.6631V55.5861H55.3571V53.6631|M36.4193 54.9421C35.4279 55.5915 34.3891 56.1654 33.3116 56.6591V59.0886H59.9243V56.2556L55.34 54.6245|M59.9414 59.0886C60.4124 58.4436 60.9349 57.8378 61.5038 57.2773V53.6631|M75.351 26.415V5.30518H79.4716V26.767|M79.4717 9.49463H94.7696L102.659 16.4311L120.764 20.4916V26.7413H118.781L113.527 34.9655H106.986L102.719 38.5367H101.045V27.8745H98.3752L89.3183 36.94V47.3618L88.0392 48.6152|M107.003 17.4097V21.247L113.441 26.4236L118.781 26.7413|M101.045 28.4754C101.045 28.2608 107.003 25.0415 107.003 25.0415V21.2471|M22.1172 23.9686C22.2288 23.9257 22.1172 18.998 22.1172 18.998H23.4392V23.4449|M22.1171 18.9981H20.4001V8.08693L21.2586 7.45166H24.5551V18.9981H23.4391|M20.4001 8.78223H23.2245V18.998|M20.4001 11.6323H21.25|M20.4001 13.4009H21.25|M20.4001 15.1777H21.25|M79.4716 12.1304H77.7031|M77.7031 16.019H79.4716H100.118V24.5351H79.4716|M79.4716 20.0024H77.7031|M47.3992 3.84584V2.64398H45.1757C45.1757 2.64398 44.4804 1.2876 45.1757 1.2876H50.0089V3.3651|M61.8901 3.31366V1.78558H64.1136C64.1136 1.78558 64.8089 0.429199 64.1136 0.429199H59.2804V2.5067|M80.8881 63.4152C82.8083 63.4152 84.3649 60.2712 84.3649 56.3929C84.3649 52.5146 82.8083 49.3706 80.8881 49.3706C78.9679 49.3706 77.4113 52.5146 77.4113 56.3929C77.4113 60.2712 78.9679 63.4152 80.8881 63.4152Z|M107.87 58.2558C108.88 58.2558 109.698 55.6422 109.698 52.4182C109.698 49.1942 108.88 46.5806 107.87 46.5806C106.86 46.5806 106.041 49.1942 106.041 52.4182C106.041 55.6422 106.86 58.2558 107.87 58.2558Z|M117.021 56.6934C117.87 56.6934 118.558 54.4295 118.558 51.637C118.558 48.8444 117.87 46.5806 117.021 46.5806C116.172 46.5806 115.484 48.8444 115.484 51.637C115.484 54.4295 116.172 56.6934 117.021 56.6934Z|M107.089 64.9091C109.744 64.9091 111.896 59.2322 111.896 52.2294C111.896 45.2267 109.744 39.5498 107.089 39.5498C104.434 39.5498 102.281 45.2267 102.281 52.2294C102.281 59.2322 104.434 64.9091 107.089 64.9091Z|M111.381 46.3573C112.239 42.4684 113.871 39.584 115.673 39.584C118.326 39.584 120.481 45.2671 120.481 52.2636C120.481 59.2602 118.326 64.9432 115.673 64.9432C113.802 64.9432 112.171 62.1103 111.381 57.9724|M115.673 39.5498H98.5039C95.8512 39.5498 92.8466 45.2329 92.8466 52.2294C92.8466 59.226 95.8512 64.9091 98.5039 64.9091H115.673|M80.2014 71.5706C84.2978 71.5706 87.6186 64.7407 87.6186 56.3156C87.6186 47.8905 84.2978 41.0605 80.2014 41.0605C76.105 41.0605 72.7842 47.8905 72.7842 56.3156C72.7842 64.7407 76.105 71.5706 80.2014 71.5706Z|M63.4525 53.6631C63.3839 54.5216 63.3409 55.38 63.3409 56.3158C63.3409 64.746 66.6632 71.5708 70.7581 71.5708H80.2013|M43.7077 59.0886C43.0724 66.1882 40.0506 71.5708 36.4193 71.5708C32.3244 71.5708 29.0021 64.703 29.0021 56.3158V53.6631|M19.6706 53.6631C19.6019 54.5216 19.559 55.38 19.559 56.3158C19.559 64.746 22.8812 71.5708 26.9762 71.5708H36.4193|M80.2013 41.0605H74.9131|M88.6229 48.0488L89.9106 52.9507H92.838|M111.896 34.9653L109.561 37.3004H104.024' },
+    { n: 'Special\nEquipment', v: '-5 -12 140 120', line: 1, lock: true, d: 'M9.1901 47.5956H5.19245L2.42554 42.6187L5.19245 12.6768|M24.3812 17.3124L23.7613 9.32609L19.027 0.576172|M59.7941 21.0495L19.027 0.576172|M79.7015 43.6967L59.7941 21.0493|M79.7823 18.7769V44.4697H91.362L92.2064 42.116H94.7488V39.5737L102.097 33.2673V21.5618L97.2192 19.9987H91.5507V18.3008H79.7823V18.7769Z|M80.9412 40.8489H88.694L91.389 38.9714V22.1094H80.9412V40.8489Z|M92.9341 21.5527H97.8391L100.462 22.6667V32.5934L94.102 38.0015H92.9341V21.5527Z|M91.5507 18.7051H96.8779L102.816 20.367V33.6356L95.5124 40.0409V41.9274|M102.816 57.9805H110.452L115.411 60.5857V71.4198H91.362|M102.816 55.7437H107.847L108.745 57.9805|M102.816 53.3721H106.391L107.182 54.522V55.7437|M99.4651 19.4238V14.9141H100.462V19.7112|M94.3895 74.1152H117.199C117.199 74.1152 129.551 78.059 129.551 83.2514V89.6567C129.412 90.7489 128.865 91.7482 128.021 92.4546C127.176 93.1609 126.096 93.522 124.996 93.4657H116.219L83.8788 87.5725|M48.1964 22.7117L49.0498 20.2323L38.8266 14.6895L37.9373 17.2677L48.1964 22.7117Z|M24.3812 17.3125L54.1345 32.6293L68.4901 43.149|M70.9426 44.3706L79.7823 54.0458|M64.0972 30.9941L79.6655 61.4122|M77.3119 59.6606L62.6778 32.0903|M83.4656 19.2979H81.3455V20.7622H83.4656V19.2979Z|M89.754 19.2979H87.6339V20.7622H89.754V19.2979Z|M78.1653 74.1152L78.9199 75.9658H93.2486L93.8684 74.1152|M93.2486 75.9658H104.343L107.694 79.137V81.0595H83.8788|M93.6438 74.7979L109.545 75.0404C109.545 75.0404 118.896 80.2688 118.896 82.5776C118.896 82.5776 119.355 88.2371 118.896 88.9648C118.896 88.9648 117.747 91.9563 113.506 91.4982L83.8788 86.3506|M76.3596 75.2827C76.3596 75.2827 83.9237 79.5858 83.9237 82.3617V93.088C83.9237 93.088 83.4207 95.4417 81.6599 95.4417H70.9696L52.8589 88.6052C52.8589 88.6052 52.1581 88.0482 52.1581 86.2426V78.5168C52.1581 78.5168 53.1373 75.6241 55.0508 75.6241L76.3596 75.2827Z|M61.9232 65.6885V72.2374L62.6239 72.7675H69.4334L70.6641 71.4199V67.4133L69.5142 65.6885H61.9232Z|M61.9232 70.4048H70.6641|M65.4806 75.4536L72.0655 81.0593C72.693 81.8178 73.0389 82.7699 73.0447 83.7544V92.657C73.0447 92.657 73.1166 95.2891 71.248 95.4059|M63.3336 32.3778C63.8297 32.3778 64.2319 31.9755 64.2319 31.4794C64.2319 30.9833 63.8297 30.5811 63.3336 30.5811C62.8374 30.5811 62.4352 30.9833 62.4352 31.4794C62.4352 31.9755 62.8374 32.3778 63.3336 32.3778Z|M58.3477 38.5762L61.9231 46.6523H62.6778L63.3336 45.6552L60.2343 40.0944|M73.9341 65.6886L62.6778 46.6616|M61.9231 46.6616C61.9231 46.6616 61.3572 48.3326 61.3572 48.5122C61.3572 48.6919 72.4248 68.4556 72.4248 68.4556H73.6645L73.9341 65.6886L74.9851 64.952L75.7128 59.2295H71.7421|M63.3336 45.6553L65.0314 46.2482L74.8594 64.7003|M68.0229 60.5859C67.516 61.3341 66.9352 62.0293 66.2891 62.6611V65.6886|M66.2891 62.6611H69.1818|M69.7119 72.4619H76.7639|M75.7128 59.2295H76.7639|M73.6735 68.4556V72.4622|M90.9398 75.9658V81.0595|M102.816 61.7446H115.411|M9.19009 52.9499C9.19009 52.9499 11.0946 10.6107 11.0946 10.3592L19.027 0.576172L11.939 0.701941L5.19244 10.7275V12.6859C5.19244 12.6859 7.46527 12.3625 8.22886 13.2339L9.42366 16.0457L7.46527 42.556C7.46527 42.556 9.26196 47.5149 9.19009 47.9461|M9.19013 52.9499V67.9433H4.92297L5.19248 47.5957|M79.7823 61.5112L76.5663 59.1037C66.2622 42.5112 53.9997 35.5669 53.9997 35.5669L24.3542 17.3125L18.4521 30.7877C18.4521 30.7877 11.5438 67.2158 11.8852 67.9434H9.19012|M6.39626 68.0244L4.92297 76.5587L9.19013 76.7294H13.628|M9.3608 77.1426C9.42368 78.517 9.3608 77.6636 9.3608 92.3157L8.79484 94.1124L8.08514 92.4324V76.9629|M5.03972 76.729C4.97683 76.8727 0.547974 85.6227 0.547974 85.6227L6.42317 94.8128|M5.88418 76.729L2.42554 85.7664L6.0908 94.3636|M12.523 76.729L14.8946 85.8472L11.1485 94.8128|M12.8105 76.855L16.7901 85.7756L11.2383 94.6153|M11.409 68.0244L13.4482 76.7294|M79.7823 44.4697V71.4202H76.3596L77.258 74.1152H94.4344C94.4344 74.1152 95.3327 71.4202 95.5573 71.4202|M91.362 44.4697V70.962|M79.7823 64.233H91.362L102.816 61.7446V33.6353' }
+  ];
+  var tlRow = $('tlRow'), tlItems = TYPES.map(function (t, i) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'tl-it'; b.setAttribute('role', 'radio');
+    b.setAttribute('aria-label', t.n.replace(/\s+/g, ' ') + (t.lock ? ' (잠김)' : ''));
+    if (t.lock) b.setAttribute('aria-disabled', 'true');
+    b.innerHTML = SH_DEF + shSel(i) + '<div class="gl gl1"></div><div class="gl gl2"></div>' +
+      '<div class="ico">' + (t.line
+        ? '<svg viewBox="' + t.v + '" fill="none" stroke="' + (t.lock ? '#4F4F4F' : '#fff') + '" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">' + t.d.split('|').map(function (d) { return '<path d="' + d + '"/>'; }).join('') + '</svg>'
+        : '<svg viewBox="' + t.v + '" fill="' + (t.lock ? '#4F4F4F' : '#fff') + '">' + t.d + '</svg>') + '</div>' +
+      '<div class="lb">' + t.n + '</div>' + (t.lock ? LOCK : '');
+    b.addEventListener('click', function () { if (!t.lock) tlSelect(i); });
+    tlRow.appendChild(b); return b;
+  });
+  function tlSelect(k) { tlItems.forEach(function (b, i) { var on = i === k; b.classList.toggle('is-sel', on); b.setAttribute('aria-checked', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1; }); }
+  tlSelect(2);
+  tlRow.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    e.preventDefault(); e.stopPropagation();
+    var cur = tlItems.indexOf(document.activeElement), d = e.key === 'ArrowRight' ? 1 : -1;
+    for (var k = cur + d; k >= 0 && k < tlItems.length; k += d) if (!TYPES[k].lock) { tlSelect(k); tlItems[k].focus(); break; }
+  });
+
+  // 스크롤: 휠은 패널 안에서만 쓰고 페이지·카드로 새지 않음. 막대는 피그마 디자인 그대로, 내용이 넘칠 때 실제 위치·길이를 따른다
+  function bindScroll(sc, th, axis, t0, tLen) {
+    var X = axis === 'x', drag = null;
+    function over() { return X ? sc.scrollWidth - sc.clientWidth : sc.scrollHeight - sc.clientHeight; }
+    function sync() {
+      var m = over(); th.classList.toggle('is-live', m > 1);
+      if (m <= 1) return; // 넘치지 않으면 피그마 위치·길이 그대로 둔다
+      var cl = X ? sc.clientWidth : sc.clientHeight, all = cl + m, len = Math.max(40, tLen * cl / all);
+      var p = t0 + (tLen - len) * ((X ? sc.scrollLeft : sc.scrollTop) / m);
+      if (X) { th.style.width = len + 'px'; th.style.left = p + 'px'; } else { th.style.height = len + 'px'; th.style.top = p + 'px'; }
+    }
+    sc.addEventListener('scroll', sync); window.addEventListener('resize', sync); sync();
+    sc.addEventListener('wheel', function (e) {
+      // 이 스크롤 대상의 축 방향 휠만 가로챈다. 넘치는 내용이 없거나 다른 축이면 그대로 흘려 보낸다
+      // 가로 목록(X)은 세로 휠도 가로로 바꿔 쓴다. 세로 휠은 목록 끝에 닿으면 페이지로 넘겨 준다
+      var horiz = Math.abs(e.deltaX) > Math.abs(e.deltaY), m = over();
+      if (m <= 1 || (!X && horiz)) return;
+      var raw = X ? (horiz ? e.deltaX : e.deltaY) : e.deltaY;
+      var d = raw * (e.deltaMode === 1 ? 16 : 1) / scaleOf(sc), cur = X ? sc.scrollLeft : sc.scrollTop;
+      if (X && !horiz && ((d > 0 && cur >= m - 1) || (d < 0 && cur <= 0))) return;
+      e.preventDefault(); e.stopPropagation();
+      if (X) sc.scrollLeft += d; else sc.scrollTop += d;
+    }, { passive: false });
+    th.addEventListener('pointerdown', function (e) {
+      if (over() <= 1) return;
+      e.preventDefault(); e.stopPropagation(); th.setPointerCapture(e.pointerId);
+      drag = { p: X ? e.clientX : e.clientY, s: X ? sc.scrollLeft : sc.scrollTop };
+    });
+    th.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var s = scaleOf(sc), m = over(), len = parseFloat(X ? th.style.width : th.style.height);
+      var dd = ((X ? e.clientX : e.clientY) - drag.p) / s * (m / Math.max(1, tLen - len));
+      if (X) sc.scrollLeft = drag.s + dd; else sc.scrollTop = drag.s + dd;
+    });
+    th.addEventListener('pointerup', function () { drag = null; });
+    th.addEventListener('pointercancel', function () { drag = null; });
+    return sync;
+  }
+  // 사양 표: 피그마 막대(길이 167 / 트랙 452)가 보여 주는 만큼 행이 이어지도록, 피그마 6행을 차례로 이어 16행으로 채운다
+  [].forEach.call(document.querySelectorAll('#dmScroll tbody'), function (tb) {
+    var src = [].slice.call(tb.rows);
+    for (var k = src.length; k < 16; k++) { var r = src[k % src.length].cloneNode(true); r.classList.remove('h68'); tb.appendChild(r); }
+  });
+  bindScroll(tlRow, $('tlThumb'), 'x', 76, 1312);
+  (function () {
+    var dr = null, dragged = false;
+    tlRow.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch' || e.button !== 0) return;
+      dr = { x: e.clientX, l: tlRow.scrollLeft, id: e.pointerId }; dragged = false;
+    });
+    tlRow.addEventListener('pointermove', function (e) {
+      if (!dr || e.pointerId !== dr.id) return;
+      var dx = e.clientX - dr.x;
+      if (!dragged && Math.abs(dx) > 5) { dragged = true; tlRow.setPointerCapture(e.pointerId); tlRow.classList.add('is-drag'); }
+      if (dragged) tlRow.scrollLeft = dr.l - dx / scaleOf(tlRow);
+    });
+    function end() { dr = null; tlRow.classList.remove('is-drag'); }
+    tlRow.addEventListener('pointerup', end); tlRow.addEventListener('pointercancel', end);
+    tlRow.addEventListener('click', function (e) { if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; } }, true);
+  })();
+  bindScroll($('dmScroll'), $('dmThumb'), 'y', 198, 452);
+
+  // 닫기: 패널이 닫혔다가 잠시 뒤 다시 열린다(시연용)
+  function replay(pn, cls) { pn.classList.remove(cls); void pn.offsetWidth; pn.classList.add(cls); }
+  [].forEach.call(document.querySelectorAll('[data-close]'), function (b) {
+    b.addEventListener('click', function () {
+      var pn = $(b.dataset.close); if (pn.dataset.busy) return; pn.dataset.busy = 1;
+      pn.classList.remove('is-opening'); pn.classList.add('is-closing');
+      setTimeout(function () { pn.style.visibility = 'hidden'; pn.classList.remove('is-closing'); }, reduce ? 0 : 260);
+      setTimeout(function () { pn.style.visibility = ''; replay(pn, 'is-opening'); delete pn.dataset.busy; }, reduce ? 300 : 1000);
+    });
+  });
+
+  // 가운데 카드가 바뀔 때: 옆 카드는 inert, 가운데 카드만 동작·등장 모션
+  function onCenter(k) {
+    cards.forEach(function (c, i) { var v = c.querySelector('.vp-in'); if (v) v.inert = i !== k; });
+    gsRun(k === 0);
+    var pw = $('pnWarn'); pw.classList.remove('play');
+    if (k === 3) { replay(pw, 'play'); }
+  }
 
   // 배경은 카드 위치를 따라 돈다(가운데 카드 = 굴삭기 정면)
   var BASE = 180, lon = BASE, idle = 0;

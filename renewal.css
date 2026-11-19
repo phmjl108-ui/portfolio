@@ -828,3 +828,108 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 /* 카드 슬라이드: 가운데 카드만 부품을 누를 수 있음, 옆 카드는 눌러서 가운데로만 */
 .view .cf-card:not(.is-center) .kp * { pointer-events: none; }
 .view .cf-card.is-center .kp { cursor: auto; }
+
+/* 정비 VR 360 공간 UI */
+/* 정비 VR 상세의 360 정비장 배경 + 카드 슬라이드(실제 UI 5장). 모든 규칙을 .view .vr360-block 안으로 묶어 철도연 .cf-* 와 충돌하지 않게 한다 */
+.view .vr360-block .vrc-box { margin-top: 28px; }
+.view .vr360-block .vrc-box { position: relative; height: 640px; border-radius: 20px; overflow: hidden; background: #1b1f24; user-select: none; -webkit-user-select: none; outline: none; }
+.view .vr360-block .vrc-box canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.view .vr360-block .vrc-box .msg { position: absolute; inset: 0; display: grid; place-items: center; color: #ddd; font-size: 15px; }
+/* 커버 플로 카드 */
+.view .vr360-block .vrc-stage { position: absolute; inset: 0; perspective: 1400px; perspective-origin: 50% 45%; cursor: grab; touch-action: pan-y; z-index: 2; }
+.view .vr360-block .vrc-stage.is-drag { cursor: grabbing; }
+.view .vr360-block .vrc-card { position: absolute; left: 50%; top: 46%; margin: 0; transform-style: preserve-3d; will-change: transform, filter, opacity; cursor: pointer; }
+/* ── 정비 VR 패널: 피그마 원본 px 로 만들고 카드 폭에 맞춰 축소 ── */
+.view .vr360-block .vp { position: relative; filter: drop-shadow(0 18px 36px rgba(0,0,0,.45)); }
+.view .vr360-block .vp-in { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.view .vr360-block .vrc-card:not(.is-center) .vp-in { pointer-events: none; }
+.view .vr360-block .vrc-card.is-center { cursor: default; }
+.view .vr360-block .pn { position: relative; font-family: 'Exo', 'Noto Sans KR', sans-serif; color: #fff; line-height: 1.33; transform-origin: 50% 50%; -webkit-font-smoothing: antialiased; }
+.view .vr360-block .pn .abs { position: absolute; }
+.view .vr360-block .pn svg { display: block; overflow: visible; }
+.view .vr360-block .pn button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.view .vr360-block .pn button:focus-visible { outline: 3px solid #03dac6; outline-offset: 4px; }
+.view .vr360-block .pn .ctr { left: 0; right: 0; text-align: center; white-space: pre-line; }
+.view .vr360-block .pn { word-break: keep-all; }
+.view .vr360-block .pn .ctr, .view .vr360-block .pn .tut-body { pointer-events: none; }
+.view .vr360-block .pn.is-closing { animation: vrcPnOut .26s ease-in forwards; }
+.view .vr360-block .pn.is-opening { animation: vrcPnIn .42s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes vrcPnOut { to { opacity: 0; transform: scale(.94); } }
+@keyframes vrcPnIn { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+/* 1. 인 게임 메뉴 열기 — 제스처 진행 */
+.view .vr360-block .gs-hand { transition: transform .32s cubic-bezier(.3,.7,.3,1); }
+.view .vr360-block .gs-box rect { transform-box: fill-box; transform-origin: 50% 50%; transform: scale(0); opacity: 0; transition: transform .26s cubic-bezier(.3,1.5,.5,1), opacity .2s; }
+.view .vr360-block .gs-box.on rect { transform: scale(1); opacity: 1; }
+.view .vr360-block .gs-done .gs-box path { fill: #03dac6; transition: fill .2s; }
+.view .vr360-block .gs-done .gs-box rect { fill: #03dac6; }
+/* 2·4. 팝업 공통 버튼 (Btn - Reset: Normal / hover / 눌림) */
+.view .vr360-block .btn-sq .sh { fill: #000; fill-opacity: .8; stroke: #c6cacc; transition: fill .15s, fill-opacity .15s, stroke .15s; }
+.view .vr360-block .btn-sq .ic { fill: #fff; transition: fill .15s; }
+.view .vr360-block .btn-sq:hover .sh { fill-opacity: 1; }
+.view .vr360-block .btn-sq:active .sh { fill: #002c1f; fill-opacity: .8; stroke: #03dac6; }
+.view .vr360-block .btn-sq:active .ic { fill: #03dac6; }
+.view .vr360-block .btn-txt { transition: color .15s, transform .1s; text-shadow: 0 0 4px rgba(0,0,0,.25); }
+.view .vr360-block .btn-txt:hover { color: #03dac6; }
+.view .vr360-block .btn-txt:active { transform: scale(.94); }
+.view .vr360-block .tut-body { transition: opacity .22s ease, transform .22s ease; }
+.view .vr360-block .tut-body.is-out { opacity: 0; transform: translateY(10px); }
+/* 3. Type list */
+.view .vr360-block .tl-row { display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; overscroll-behavior-x: contain; touch-action: pan-x pan-y; }
+.view .vr360-block .tl-row::-webkit-scrollbar { display: none; }
+.view .vr360-block .tl-row.is-drag { cursor: grabbing; }
+.view .vr360-block .tl-row.is-drag .tl-it { pointer-events: none; }
+.view .vr360-block .tl-it { position: relative; flex: none; width: 256px; height: 276px; transition: transform .12s; }
+.view .vr360-block .tl-it .sh-def, .view .vr360-block .tl-it .sh-sel, .view .vr360-block .tl-it .gl { position: absolute; left: 0; top: 0; transition: opacity .25s; }
+.view .vr360-block .tl-it .sh-def path { transition: stroke .15s, fill-opacity .15s; }
+.view .vr360-block .tl-it .sh-sel, .view .vr360-block .tl-it .gl { opacity: 0; }
+.view .vr360-block .tl-it .gl1 { left: 37px; top: 62px; width: 181px; height: 119px; background: #ff5f00; filter: blur(30px); }
+.view .vr360-block .tl-it .gl2 { left: 20px; top: 212px; width: 216px; height: 32px; background: #ff5f00; filter: blur(11.5px); }
+.view .vr360-block .tl-it .ico { position: absolute; left: 68px; top: 54px; width: 120px; height: 120px; transition: transform .32s cubic-bezier(.3,1.3,.5,1); }
+.view .vr360-block .tl-it .ico svg { width: 100%; height: 100%; }
+.view .vr360-block .tl-it .lb { position: absolute; left: 0; right: 0; top: 196px; height: 64px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 500; font-size: 24px; white-space: pre-line; }
+.view .vr360-block .tl-it .lock { position: absolute; left: 98px; top: 108px; width: 60px; height: 60px; }
+.view .vr360-block .tl-it:not([aria-disabled="true"]):hover .sh-def path { stroke: #ff5f00; fill-opacity: .75; }
+.view .vr360-block .tl-it:not([aria-disabled="true"]):active { transform: scale(.97); }
+.view .vr360-block .tl-it.is-sel .sh-sel, .view .vr360-block .tl-it.is-sel .gl { opacity: 1; }
+.view .vr360-block .tl-it.is-sel .sh-def { opacity: 0; }
+.view .vr360-block .tl-it.is-sel .ico { transform: scale(1.5); }
+.view .vr360-block .tl-it[aria-disabled="true"] { cursor: not-allowed; }
+.view .vr360-block .tl-it[aria-disabled="true"] .lb { color: #4f4f4f; }
+.view .vr360-block .btn-x path { fill: #c6cacc; transition: fill .15s; }
+.view .vr360-block .btn-x:hover path { fill: #ff5f00; }
+.view .vr360-block .btn-x:active { transform: scale(.92); }
+.view .vr360-block .sb-thumb { background: #fff; opacity: .5; border-radius: 4px; touch-action: none; }
+.view .vr360-block .sb-thumb.is-live { cursor: grab; }
+/* 4. 경고 — 등장 모션만 */
+.view .vr360-block .pn.play .wn-ic { animation: vrcWnIc .5s cubic-bezier(.3,1.5,.5,1) both .08s; }
+.view .vr360-block .pn.play .wn-tt { animation: vrcWnUp .4s ease both .14s; }
+.view .vr360-block .pn.play .wn-st { animation: vrcWnUp .4s ease both .24s; }
+.view .vr360-block .pn.play .wn-bd { animation: vrcWnUp .4s ease both .32s; }
+@keyframes vrcWnIc { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+@keyframes vrcWnUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+/* 5. 사양 비교 */
+.view .vr360-block .dm-scroll { overflow-y: auto; overflow-x: hidden; scrollbar-width: none; overscroll-behavior: contain; }
+.view .vr360-block .dm-scroll::-webkit-scrollbar { display: none; }
+.view .vr360-block .dm-tb { position: absolute; top: 0; width: 480px; table-layout: fixed; border-collapse: separate; border-spacing: 0 4px; margin: 0; font-size: 16px; font-weight: 500; line-height: 21px; }
+/* 머리줄은 스크롤 밖에 고정해 그리고(dm-head), 표 안 thead 는 화면에서만 숨겨 읽기 프로그램용으로 둔다 */
+.view .vr360-block .dm-tb th { height: 0; padding: 0; border: 0; font-size: 0; line-height: 0; overflow: hidden; }
+.view .vr360-block .dm-head { display: flex; align-items: center; width: 480px; height: 40px; padding-left: 40px; box-sizing: border-box; background: rgba(0,0,0,.3); font-size: 16px; font-weight: 500; line-height: 21px; color: #90989c; }
+.view .vr360-block .dm-head span { flex: none; }
+.view .vr360-block .dm-tb td { height: 70px; padding: 0; color: #e1e3e4; background: rgba(0,0,0,.5); border-top: 1px solid var(--rs); border-bottom: 1px solid var(--rs); vertical-align: middle; }
+.view .vr360-block .dm-tb td:first-child { padding-left: 40px; border-left: 1px solid var(--rs); }
+.view .vr360-block .dm-tb td:last-child { border-right: 1px solid var(--rs); }
+.view .vr360-block .dm-tb tr.h68 td { height: 66px; }
+.view .vr360-block .dm-vs { background: linear-gradient(#eef0f0, #90989c); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 4px 2px rgba(0,0,0,.25)); }
+@media (prefers-reduced-motion: reduce) { .view .vr360-block .pn, .view .vr360-block .pn * { animation: none !important; transition: none !important; } }
+.view .vr360-block .vrc-card figcaption { position: absolute; left: 0; right: 0; top: 100%; margin-top: 12px; text-align: center; font-size: 13px; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.6); opacity: 0; transition: opacity .25s ease; }
+.view .vr360-block .vrc-card.is-center figcaption { opacity: 1; }
+.view .vr360-block .vrc-nav { position: absolute; top: 46%; width: 44px; height: 44px; margin-top: -22px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); cursor: pointer; z-index: 5; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+.view .vr360-block .vrc-nav::before { content: ''; position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; border-left: 2px solid #26282c; border-bottom: 2px solid #26282c; transform: translate(-30%, -50%) rotate(45deg); }
+.view .vr360-block .vrc-prev { left: 16px; }
+.view .vr360-block .vrc-next { right: 16px; }
+.view .vr360-block .vrc-next::before { transform: translate(-70%, -50%) rotate(-135deg); }
+.view .vr360-block .vrc-nav:disabled { opacity: .35; cursor: default; }
+.view .vr360-block .vrc-dots { position: absolute; left: 0; right: 0; bottom: 20px; display: flex; justify-content: center; gap: 8px; z-index: 5; }
+.view .vr360-block .vrc-dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,.5); cursor: pointer; transition: width .25s ease, background .25s ease; }
+.view .vr360-block .vrc-dots button.is-on { width: 22px; border-radius: 4px; background: #fff; }
+@media (max-width: 640px) { .view .vr360-block .vrc-box { height: 480px; } }
