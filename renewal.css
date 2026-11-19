@@ -933,3 +933,99 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .view .vr360-block .vrc-dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,.5); cursor: pointer; transition: width .25s ease, background .25s ease; }
 .view .vr360-block .vrc-dots button.is-on { width: 22px; border-radius: 4px; background: #fff; }
 @media (max-width: 640px) { .view .vr360-block .vrc-box { height: 480px; } }
+
+/* 마약 예방 VR 360 공간 UI (MCU) */
+/* 10대의 방 360 배경 + 카드 슬라이드(실제 UI 5장). 카드 슬라이드 기본 규칙은 정비 VR 과 같고, 모든 규칙을 .view .mcu360-block 안으로 묶는다 */
+@font-face { font-family: 'GmarketSansVRC'; font-weight: 500; font-display: swap; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); }
+@font-face { font-family: 'GmarketSansVRC'; font-weight: 700; font-display: swap; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff'); }
+.view .mcu360-block .vrc-box { margin-top: 28px; }
+.view .mcu360-block .vrc-box { position: relative; height: 640px; border-radius: 20px; overflow: hidden; background: #1b1f24; user-select: none; -webkit-user-select: none; outline: none; }
+.view .mcu360-block .vrc-box canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.view .mcu360-block .vrc-box .msg { position: absolute; inset: 0; display: grid; place-items: center; color: #ddd; font-size: 15px; }
+.view .mcu360-block .vrc-stage { position: absolute; inset: 0; perspective: 1400px; perspective-origin: 50% 45%; cursor: grab; touch-action: pan-y; z-index: 2; }
+.view .mcu360-block .vrc-stage.is-drag { cursor: grabbing; }
+.view .mcu360-block .vrc-card { position: absolute; left: 50%; top: 46%; margin: 0; transform-style: preserve-3d; will-change: transform, filter, opacity; cursor: pointer; }
+.view .mcu360-block .vp { position: relative; filter: drop-shadow(0 18px 36px rgba(0,0,0,.45)); }
+.view .mcu360-block .vp-in { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.view .mcu360-block .vrc-card:not(.is-center) .vp-in { pointer-events: none; }
+.view .mcu360-block .vrc-card.is-center { cursor: default; }
+.view .mcu360-block .pn { position: relative; font-family: 'Pretendard', 'Pretendard Variable', sans-serif; color: #484c6f; line-height: 1.2; transform-origin: 50% 50%; -webkit-font-smoothing: antialiased; }
+.view .mcu360-block .pn .abs { position: absolute; }
+.view .mcu360-block .pn svg { display: block; overflow: visible; }
+.view .mcu360-block .pn button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.view .mcu360-block .pn button:focus-visible { outline: 3px solid #0f95ff; outline-offset: 4px; }
+.view .mcu360-block .pn .ctr { left: 0; right: 0; text-align: center; white-space: pre-line; }
+.view .mcu360-block .pn { word-break: keep-all; }
+.view .mcu360-block .pn.is-closing { animation: vrcPnOut .26s ease-in forwards; }
+.view .mcu360-block .pn.is-opening { animation: vrcPnIn .42s cubic-bezier(.2,.8,.2,1) both; }
+.view .mcu360-block .sb-thumb { background: #fff; opacity: .5; border-radius: 4px; touch-action: none; }
+.view .mcu360-block .sb-thumb.is-live { cursor: grab; }
+.view .mcu360-block .vrc-card figcaption { position: absolute; left: 0; right: 0; top: 100%; margin-top: 12px; text-align: center; font-size: 13px; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.6); opacity: 0; transition: opacity .25s ease; }
+.view .mcu360-block .vrc-card.is-center figcaption { opacity: 1; }
+.view .mcu360-block .vrc-nav { position: absolute; top: 46%; width: 44px; height: 44px; margin-top: -22px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); cursor: pointer; z-index: 5; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+.view .mcu360-block .vrc-nav::before { content: ''; position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; border-left: 2px solid #26282c; border-bottom: 2px solid #26282c; transform: translate(-30%, -50%) rotate(45deg); }
+.view .mcu360-block .vrc-prev { left: 16px; }
+.view .mcu360-block .vrc-next { right: 16px; }
+.view .mcu360-block .vrc-next::before { transform: translate(-70%, -50%) rotate(-135deg); }
+.view .mcu360-block .vrc-nav:disabled { opacity: .35; cursor: default; }
+.view .mcu360-block .vrc-dots { position: absolute; left: 0; right: 0; bottom: 20px; display: flex; justify-content: center; gap: 8px; z-index: 5; }
+.view .mcu360-block .vrc-dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,.5); cursor: pointer; transition: width .25s ease, background .25s ease; }
+.view .mcu360-block .vrc-dots button.is-on { width: 22px; border-radius: 4px; background: #fff; }
+.view .mcu360-block .pn .ctr { pointer-events: none; }
+/* 팝업 바탕(피그마 #f1f1f4, 라운드 74, 그림자) */
+.view .mcu360-block .mc-pop { background: #f1f1f4; border-radius: 74px; box-shadow: 0 36px 25px rgba(0,0,0,.1), inset -6px -10px 10px rgba(0,0,0,.05); }
+.view .mcu360-block .mc-row { display: flex; align-items: center; }
+.view .mcu360-block .mc-h1 { font-family: 'GmarketSansVRC', 'Pretendard', sans-serif; font-weight: 700; font-size: 64px; line-height: 64px; color: #484c6f; }
+.view .mcu360-block .mc-box { background: #dbe4ee; border-radius: 74px; }
+.view .mcu360-block .mc-warn { position: absolute; left: 0; right: 0; top: 44px; margin: 0; text-align: center; font-weight: 700; font-size: 48px; line-height: 57px; color: #ff3b30; }
+.view .mcu360-block .mc-body { margin: 0; font-weight: 500; font-size: 36px; line-height: 1.4; color: #484c6f; white-space: pre-line; }
+.view .mcu360-block .mc-scroll { overflow-y: auto; overflow-x: hidden; scrollbar-width: none; overscroll-behavior: contain; }
+.view .mcu360-block .mc-scroll::-webkit-scrollbar { display: none; }
+.view .mcu360-block .mc-sb:not(.is-live) { display: none; }
+.view .mcu360-block .mc-sb { opacity: 1; background: #fff; border-radius: 100px; box-shadow: 0 0 0 0 transparent; }
+/* 체크박스(Btn - Check box: 비활성 #cecece · Hover #b1b1b1 · 눌림 90% · 선택 #0f95ff) */
+.view .mcu360-block .mc-agree { cursor: pointer; font-weight: 700; font-size: 36px; color: #0f95ff; white-space: nowrap; }
+.view .mcu360-block .mc-chk { width: 48px; height: 48px; border-radius: 24px; display: grid; place-items: center; flex: none; transition: background .15s, transform .1s; background: #cecece !important; }
+.view .mcu360-block .mc-agree:hover .mc-chk { background: #b1b1b1 !important; }
+.view .mcu360-block .mc-chk:active { transform: scale(.9); }
+.view .mcu360-block .mc-chk.is-on, .view .mcu360-block .mc-agree:hover .mc-chk.is-on { background: #0f95ff !important; }
+.view .mcu360-block .mc-chk .ck { stroke: #fff; stroke-width: 0; transform-origin: 24px 24px; }
+.view .mcu360-block .mc-chk.is-on .ck { animation: mcCheck .32s cubic-bezier(.3,1.6,.5,1); }
+@keyframes mcCheck { from { transform: scale(.3); opacity: 0; } to { transform: none; opacity: 1; } }
+/* 캡슐 버튼(Btn - Main · Blue · Green · Sub): 피그마 Normal / Hover / Pressed 90% / Disabled */
+.view .mcu360-block .mc-btn { border-radius: 62px; font-family: 'GmarketSansVRC', 'Pretendard', sans-serif !important; font-weight: 700 !important; font-size: 48px !important; line-height: 48px; box-shadow: 0 15px 10px rgba(0,67,163,.13), inset -6px -10px 10px rgba(0,0,0,.05); transition: background .15s, color .15s, transform .12s; }
+.view .mcu360-block .mc-btn:active:not(:disabled) { transform: scale(.9); }
+.view .mcu360-block .mc-main { background: #fff !important; color: #0f95ff !important; }
+.view .mcu360-block .mc-main:hover:not(:disabled), .view .mcu360-block .mc-main:active:not(:disabled) { background: #f2f2f2 !important; }
+.view .mcu360-block .mc-btn:disabled { background: #f2f2f2 !important; color: #adaebe !important; cursor: default; }
+.view .mcu360-block .mc-blue { background: #0f95ff !important; color: #fff !important; }
+.view .mcu360-block .mc-blue:hover, .view .mcu360-block .mc-blue:active { background: #0c77cc !important; }
+.view .mcu360-block .mc-green { background: #00c28c !important; color: #fff !important; }
+.view .mcu360-block .mc-green:hover, .view .mcu360-block .mc-green:active { background: #009b70 !important; }
+.view .mcu360-block .mc-sub { background: #fff !important; color: #484c6f !important; }
+.view .mcu360-block .mc-sub:hover, .view .mcu360-block .mc-sub:active { background: #f2f2f2 !important; }
+/* OX 퀴즈 */
+.view .mcu360-block .mc-pill { width: 108px; height: 56px; border-radius: 28px; background: rgba(0,0,0,.2); color: #fff; display: grid; place-items: center; font-family: 'GmarketSansVRC', 'Pretendard', sans-serif; font-weight: 500; font-size: 36px; line-height: 36px; }
+.view .mcu360-block .mc-q { margin: 0; font-weight: 700; font-size: 48px; line-height: 1.4; color: #484c6f; }
+.view .mcu360-block .mc-ox { width: 500px; height: 500px; border-radius: 74px; background: #fff !important; display: grid; place-items: center; box-shadow: 0 15px 10px rgba(0,67,163,.13), inset -6px -10px 10px rgba(0,0,0,.05); transition: background .15s, transform .12s, box-shadow .2s; }
+.view .mcu360-block .mc-ox:hover, .view .mcu360-block .mc-ox:active { background: #f2f2f2 !important; }
+.view .mcu360-block .mc-ox:active { transform: scale(.9); }
+.view .mcu360-block .mc-ox.is-picked { box-shadow: 0 15px 10px rgba(0,67,163,.13), inset -6px -10px 10px rgba(0,0,0,.05), 0 0 0 10px #0f95ff; }
+.view .mcu360-block .mc-ox[data-ans="x"].is-picked { box-shadow: 0 15px 10px rgba(0,67,163,.13), inset -6px -10px 10px rgba(0,0,0,.05), 0 0 0 10px #ff3b30; }
+.view .mcu360-block .mc-o { display: block; width: 340px; height: 340px; border-radius: 50%; border: 68px solid #0f95ff; box-sizing: border-box; }
+/* 퀴즈 해설: 정답(파랑) · 오답(빨강) */
+.view .mcu360-block .mc-result .mc-ic { flex: none; }
+.view .mcu360-block .mc-result .ng, .view .mcu360-block .mc-result.is-ng .ok { display: none; }
+.view .mcu360-block .mc-result.is-ng .ng { display: block; }
+.view .mcu360-block .mc-res-t { font-weight: 700; font-size: 48px; line-height: 57px; color: #0f95ff; }
+.view .mcu360-block .mc-result.is-ng .mc-res-t { color: #ff3b30; }
+.view .mcu360-block .mc-result.pop .mc-ic { animation: mcCheck .4s cubic-bezier(.3,1.6,.5,1); }
+.view .mcu360-block .mc-result.pop .mc-res-t { animation: mcFade .35s ease .08s both; }
+@keyframes mcFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+/* 가이드 스크립트: 검정 70% + 배경 흐림, 글자가 쳐지는 모션 */
+.view .mcu360-block .mc-script { background: rgba(0,0,0,.7); border-radius: 82px; -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; padding: 48px 130px; box-sizing: border-box; cursor: pointer; }
+.view .mcu360-block .mc-typed { margin: 0; font-family: 'GmarketSansVRC', 'Pretendard', sans-serif; font-weight: 500; font-size: 48px; line-height: 1.4; color: #fff; text-align: center; white-space: pre-line; min-height: 134px; }
+.view .mcu360-block .mc-caret { display: inline-block; width: 4px; height: 52px; margin-left: 6px; vertical-align: -8px; background: #fff; animation: mcBlink 1s steps(1) infinite; }
+.view .mcu360-block .mc-typed.done .mc-caret { opacity: 0; animation: none; }
+@keyframes mcBlink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .view .mcu360-block .pn *, .view .mcu360-block .pn { animation: none !important; transition: none !important; } }

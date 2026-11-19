@@ -481,7 +481,7 @@ strong { font-weight: 600; }
 }
 
 </style>
-<link rel="stylesheet" href="renewal.css?v=1119ds12">
+<link rel="stylesheet" href="renewal.css?v=1119ds13mcu">
 <link rel="stylesheet" href="home.css?v=14">
 </head>
 <body>
@@ -2405,6 +2405,81 @@ strong { font-weight: 600; }
       </div>
     </div>
   </section>
+  <section class="section-block mcu360-block">
+    <div class="container">
+      <p class="fig-sec-label">VR SPACE UI</p>
+      <h2 class="fig-sec-title">체험 공간 속 UI</h2>
+      <p class="fig-sec-desc">VR 헤드셋 안 10대의 방에 떠 있는 안내·퀴즈 팝업을 카드로 넘겨 봅니다. 드래그하거나 화살표·점을 누르면 카드가 돌아가고, 뒤의 공간도 그 방향으로 함께 돕니다. 가운데 카드의 버튼은 실제로 눌러 볼 수 있습니다.</p>
+      <div class="vrc-box" id="mcuBox" tabindex="0" role="region" aria-roledescription="carousel" aria-label="마약 예방 VR 팝업" data-pano="assets/pano/mcu-360.webp?v=1" data-base="180" data-step="14">
+        <div class="msg">360 이미지를 불러오는 중…</div>
+        <div class="vrc-stage">
+          <!-- 1. 콘텐츠 안내 및 주의사항 (피그마 Popup 1238×1273) -->
+          <figure class="vrc-card" data-w="400" data-fw="1238" data-fh="1273"><div class="vp"><div class="vp-in" role="dialog" aria-label="콘텐츠 안내 및 주의사항">
+            <div class="pn mc-pop" id="mcuAlert" style="width:1238px;height:1273px">
+              <div class="abs mc-row" style="left:0;right:0;top:52px;height:72px;justify-content:center;gap:16px"><svg width="72" height="72" viewBox="0 0 72 72" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" fill="#FFD60A" d="M30.612 12.9237C33.0396 8.68963 39.1144 8.59827 41.6677 12.7576L66.3103 52.9012C68.9397 57.1845 65.8577 62.693 60.8318 62.6932H13.1736C8.23349 62.6932 5.13935 57.3529 7.59642 53.0672L30.612 12.9237ZM33.5515 49.9774C32.8541 49.9774 32.5047 50.326 32.5046 51.0233V56.0272C32.5047 56.6942 32.8541 57.0281 33.5515 57.0281H38.0993C38.4026 57.0281 38.6459 56.9522 38.8279 56.8006C39.04 56.649 39.1462 56.3909 39.1462 56.0272V51.0233C39.1461 50.326 38.7967 49.9774 38.0993 49.9774H33.5515ZM32.0046 23.2313L32.9597 47.6121H38.782L39.8738 23.2313H32.0046Z"/></svg><span class="mc-h1">콘텐츠 안내 및 주의사항</span></div>
+              <div class="abs mc-box" style="left:82px;top:176px;width:1074px;height:699px">
+                <p class="mc-warn">플레이하기 전에 반드시 읽어 주십시오.</p>
+                <div class="abs mc-scroll" id="mcuAlertScroll" tabindex="0" aria-label="주의사항 본문" style="left:44px;top:155px;width:986px;height:500px"><p class="mc-body">본 체험 프로그램은 마약 복용에 따른 위험성을 알릴 목적으로 제작된 예방 교육 가상현실 콘텐츠입니다.
+
+본 프로그램은 마약 복용을 미화하거나 권장하지 않으며 현실에서 마약 사용은 불법이고, 마약이 미치는 심각한 정신 및 육체적 피폐를 알리고자 함을 목표로 합니다.
+
+플레이 시 어지럼증, 멀미, 두통 등이 유발되면 즉시 사용을 중단하고 휴식을 취하십시오. 몸에 이상이 발생하는 경우 즉각 프로그램을 종료하고 주위에 도움을 요청하십시오.</p></div>
+                <div class="abs sb-thumb mc-sb" id="mcuAlertThumb" style="left:1032px;top:155px;width:16px;height:200px"></div>
+              </div>
+              <label class="abs mc-row mc-agree" style="left:82px;top:949px;height:48px;gap:24px"><button type="button" class="mc-chk" id="mcuAgree" role="checkbox" aria-checked="false"><svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path class="ck" d="M20 32.8L12 24.8L14.8 22L20 27.2L33.2 14L36 16.8L20 32.8Z" fill="#fff"/></svg></button><span>안내 내용을 확인하고 플레이를 진행하는데 동의합니다.</span></label>
+              <button type="button" class="abs mc-btn mc-main" id="mcuStart" style="left:369px;top:1071px;width:500px;height:124px" disabled>체험 시작</button>
+            </div>
+          </div></div><figcaption>콘텐츠 안내 및 주의사항</figcaption></figure>
+
+          <!-- 2. 가이드 스크립트 (피그마 script _ guide_control 1550×230) -->
+          <figure class="vrc-card" data-w="480" data-fw="1550" data-fh="230"><div class="vp"><div class="vp-in" role="group" aria-label="가이드 스크립트">
+            <div class="pn mc-script" id="mcuScript" style="width:1550px;height:230px">
+              <p class="mc-typed" aria-live="polite"><span id="mcuTyped"></span><i class="mc-caret" aria-hidden="true"></i></p>
+            </div>
+          </div></div><figcaption>가이드 스크립트</figcaption></figure>
+
+          <!-- 3. OX 퀴즈 (피그마 Popup - OX퀴즈 1238×1090) -->
+          <figure class="vrc-card" data-w="400" data-fw="1238" data-fh="1090"><div class="vp"><div class="vp-in" role="dialog" aria-label="LSD 학습 점검 퀴즈">
+            <div class="pn mc-pop" id="mcuOx" style="width:1238px;height:1090px">
+              <div class="abs mc-pill" style="left:565px;top:78px">1/3</div>
+              <div class="abs ctr mc-h1" style="top:184px">LSD 학습 점검 퀴즈</div>
+              <p class="abs ctr mc-q" style="top:298px">LSD는 한 번만 사용해도 현실 감각이 왜곡되고,
+시공간이 비정상적으로 느껴지는 매우 강력한 환각제이다.</p>
+              <button type="button" class="abs mc-ox" data-ans="o" aria-label="O, 맞다" style="left:82px;top:512px"><i class="mc-o"></i></button>
+              <button type="button" class="abs mc-ox" data-ans="x" aria-label="X, 아니다" style="left:656px;top:512px"><svg width="340" height="340" viewBox="0 0 340 340" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" fill="#FF3B30" d="M288.601 2.92893C292.506 -0.976311 298.838 -0.97631 302.743 2.92893L336.684 36.8703C340.589 40.7756 340.589 47.1067 336.684 51.0119L217.889 169.806L336.684 288.601C340.589 292.506 340.589 298.838 336.684 302.743L302.742 336.684C298.837 340.589 292.505 340.589 288.6 336.684L169.806 217.89L51.0129 336.683C47.1077 340.588 40.7756 340.588 36.8703 336.683L2.92991 302.742C-0.975334 298.837 -0.975334 292.505 2.92991 288.6L121.723 169.807L2.92893 51.0129C-0.976311 47.1077 -0.976311 40.7756 2.92893 36.8703L36.8703 2.92991C40.7756 -0.975319 47.1067 -0.975329 51.0119 2.92991L169.806 121.723L288.601 2.92893Z"/></svg></button>
+            </div>
+          </div></div><figcaption>OX 퀴즈</figcaption></figure>
+
+          <!-- 4. 퀴즈 해설 (피그마 Popup - 퀴즈 해설 정답·오답 1238×893) -->
+          <figure class="vrc-card" data-w="400" data-fw="1238" data-fh="893"><div class="vp"><div class="vp-in" role="dialog" aria-label="퀴즈 해설">
+            <div class="pn mc-pop" id="mcuExplain" style="width:1238px;height:893px">
+              <div class="abs ctr mc-h1" style="top:52px">퀴즈 해설</div>
+              <div class="abs mc-box" style="left:82px;top:168px;width:1074px;height:449px">
+                <div class="abs mc-row mc-result" id="mcuResult" style="left:0;right:0;top:44px;height:57px;justify-content:center;gap:16px" aria-live="polite"><svg class="mc-ic ok" width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><path fill="#0F95FF" d="M27.9912 4.66602C40.8777 4.66602 51.325 15.1125 51.3252 27.999C51.3252 40.8857 40.8779 51.333 27.9912 51.333C15.1047 51.3328 4.6582 40.8856 4.6582 27.999C4.65838 15.1126 15.1048 4.66619 27.9912 4.66602ZM23.3252 31.7324L17.2578 25.666L13.9912 28.9326L23.3252 38.2656L41.9912 19.5996L38.7246 16.333L23.3252 31.7324Z"/></svg><svg class="mc-ic ng" width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><path fill="#FF3B30" d="M27.999 4.66602C40.8856 4.66602 51.3328 15.1125 51.333 27.999C51.333 40.8857 40.8857 51.333 27.999 51.333C15.1125 51.3328 4.66602 40.8856 4.66602 27.999C4.66619 15.1126 15.1126 4.66619 27.999 4.66602ZM28.001 24.7344L18.2344 14.9678L14.9678 18.2344L24.7344 28.001L14.9678 37.7676L18.2344 41.0352L28.001 31.2676L37.7676 41.0352L41.0342 37.7676L31.2676 28.001L41.0342 18.2344L37.7676 14.9678L28.001 24.7344Z"/></svg><span class="mc-res-t">정답입니다!</span></div>
+                <p class="abs mc-body" style="left:44px;top:155px;width:986px">LSD는 감각을 강하게 왜곡시키는 환각제로, 시청각 자극과 시공간 감각이 비현실적으로 느껴질 수 있습니다.
+
+이런 급격한 인지 및 정서 변화는 불안, 공포, 공황 발작으로 이어질 수 있어 "한 번쯤 괜찮다"는 생각은 매우 위험합니다.</p>
+              </div>
+              <button type="button" class="abs mc-btn mc-main" id="mcuNext" style="left:369px;top:691px;width:500px;height:124px">다음</button>
+            </div>
+          </div></div><figcaption>퀴즈 해설</figcaption></figure>
+
+          <!-- 5. 메뉴 (피그마 Popoup - Menu 1212×716) -->
+          <figure class="vrc-card" data-w="392" data-fw="1212" data-fh="716"><div class="vp"><div class="vp-in" role="dialog" aria-label="메뉴">
+            <div class="pn mc-pop" id="mcuMenu" style="width:1212px;height:716px">
+              <div class="abs ctr mc-h1" style="top:58px">메뉴</div>
+              <button type="button" class="abs mc-btn mc-blue" data-menu="resume" style="left:82px;top:170px;width:1048px;height:124px">이어하기</button>
+              <button type="button" class="abs mc-btn mc-green" data-menu="guide" style="left:82px;top:342px;width:1048px;height:124px">조작법</button>
+              <button type="button" class="abs mc-btn mc-sub" data-menu="main" style="left:82px;top:514px;width:1048px;height:124px">메인 화면으로 이동</button>
+            </div>
+          </div></div><figcaption>메뉴</figcaption></figure>
+        </div>
+        <button type="button" class="vrc-nav vrc-prev" aria-label="이전 패널"></button>
+        <button type="button" class="vrc-nav vrc-next" aria-label="다음 패널"></button>
+        <div class="vrc-dots"></div>
+      </div>
+    </div>
+  </section>
   <section class="section-block">
     <div class="container">
       <div class="section-tag"><span class="num">/01</span><span class="dash">—</span><span>Overview</span></div>
@@ -3383,6 +3458,6 @@ window.addEventListener('DOMContentLoaded', () => {
 <script src="slider.js?v=2"></script>
 <script src="home.js?v=8"></script>
 <script src="ds.js?v=8"></script>
-<script src="vr360.js?v=1" defer></script>
+<script src="vr360.js?v=2" defer></script>
 </body>
 </html>
