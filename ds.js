@@ -97,30 +97,36 @@
     set(+s.dataset.value || 0);
   });
 
-  // 페이지 이동: 번호 누르기, 처음·이전·다음·끝
+  // 페이지 이동: 전체 n쪽을 5개씩 보여 줌. 번호 누르기, ‹ › 한 쪽씩, « » 5쪽 묶음씩
   each('.dsx-pager', function (p) {
-    var n = +p.dataset.pages || 5, cur = 1;
-    function go(k) { cur = Math.max(1, Math.min(n, k)); p.querySelectorAll('.dsx-pg').forEach(function (b) { var on = +b.dataset.p === cur; b.classList.toggle('is-on', on); b.setAttribute('aria-current', on ? 'page' : 'false'); }); }
+    var n = +p.dataset.pages || 10, per = +p.dataset.per || 5, cur = 1, bs = p.querySelectorAll('.dsx-pg');
+    function go(k) {
+      cur = Math.max(1, Math.min(n, k));
+      var start = Math.floor((cur - 1) / per) * per + 1;
+      bs.forEach(function (b, i) { var num = start + i; b.hidden = num > n; b.textContent = num; b.dataset.p = num; var on = num === cur; b.classList.toggle('is-on', on); b.setAttribute('aria-current', on ? 'page' : 'false'); });
+    }
     p.addEventListener('click', function (e) {
       var b = e.target.closest('[data-p],[data-go]'); if (!b) return;
+      var start = Math.floor((cur - 1) / per) * per + 1;
       if (b.dataset.p) go(+b.dataset.p);
-      else go({ first: 1, prev: cur - 1, next: cur + 1, last: n }[b.dataset.go]);
+      else go({ first: start - per, prev: cur - 1, next: cur + 1, last: start + per }[b.dataset.go]);
     });
     go(1);
   });
 
-  // 트리: 1단계를 누르면 하위가 펼쳐지고, 하위 항목은 Hover·선택
+  // 트리: 항목을 누르면 선택, 하위가 있으면 펼침·접힘(1단계 → 2단계 → 3단계)
   each('.dsx-tree', function (t) {
-    var top = t.querySelector('.dsx-t1'), ch = t.querySelector('.dsx-tch'), open = false;
-    function im(el, k) { return el.dataset[k]; }
-    top.addEventListener('mouseenter', function () { top.src = im(top, 'hover'); });
-    top.addEventListener('mouseleave', function () { top.src = open ? im(top, 'open') : im(top, 'base'); });
-    top.addEventListener('click', function () { open = !open; ch.hidden = !open; top.src = im(top, 'hover'); });
-    var kids = t.querySelectorAll('.dsx-tn');
-    kids.forEach(function (k) {
-      k.addEventListener('mouseenter', function () { if (!k.classList.contains('is-sel')) k.src = im(k, 'hover'); });
-      k.addEventListener('mouseleave', function () { if (!k.classList.contains('is-sel')) k.src = im(k, 'base'); });
-      k.addEventListener('click', function () { kids.forEach(function (o) { o.classList.remove('is-sel'); o.src = im(o, 'base'); }); k.classList.add('is-sel'); k.src = im(k, 'sel'); });
+    var items = t.querySelectorAll('.dsx-tn');
+    function paint(k) { k.src = k.classList.contains('is-sel') ? (k.dataset.sel || k.dataset.base) : (k.classList.contains('is-open') && k.dataset.open ? k.dataset.open : k.dataset.base); }
+    items.forEach(function (k) {
+      var kids = k.dataset.kids ? t.querySelector('#' + k.dataset.kids) : null;
+      k.addEventListener('mouseenter', function () { if (!k.classList.contains('is-sel')) k.src = k.dataset.hover; });
+      k.addEventListener('mouseleave', function () { paint(k); });
+      k.addEventListener('click', function () {
+        if (kids) { var open = !k.classList.contains('is-open'); k.classList.toggle('is-open', open); kids.hidden = !open; }
+        items.forEach(function (o) { if (o !== k) { o.classList.remove('is-sel'); paint(o); } });
+        k.classList.add('is-sel'); paint(k);
+      });
     });
   });
 

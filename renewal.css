@@ -526,7 +526,7 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .view .dsx-pager img { cursor: pointer; }
 .view .dsx-pg { width: 40px; height: 40px; border: 0; border-radius: 6px; background: transparent; color: #0F172A; font-family: inherit; font-weight: 600; font-size: 13px; line-height: 40px; cursor: pointer; padding: 0; }
 .view .dsx-pg:hover { background: #F1F5F9; }
-.view .dsx-pg.is-on { background: url(assets/ds/krri-dt/page-active-plate.webp?v=1) center / 40px 40px no-repeat; color: #fff; }
+.view .dsx-pg.is-on { background: url(assets/ds/krri-dt/page-active-plate.webp?v=5) center / 40px 40px no-repeat; color: #fff; }
 .view .dsx-tree { position: relative; display: flex; flex-direction: column; width: 338px; }
 .view .dsx-tree img { cursor: pointer; }
 .view .dsx-tch[hidden] { display: none; }
