@@ -23,7 +23,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function () {
-  var SRC = 'assets/pano/vr-maint-360.webp';
+  var SRC = "assets/pano/vr-maint-360.webp?v=5";
   var wrap = document.getElementById('wrap'), msg = document.getElementById('msg'), hint = document.getElementById('hint');
   var renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
@@ -50,7 +50,9 @@
   wrap.addEventListener('wheel', function (e) { e.preventDefault(); HFOV = Math.max(50, Math.min(90, HFOV + e.deltaY * 0.03)); applyFov(); }, { passive: false });
   (function loop() {
     if (!down) { lon += vLon; lat += vLat; vLon *= 0.93; vLat *= 0.93; if (auto) lon += 0.04; }
-    lat = Math.max(-15, Math.min(15, lat));
+    // 화면 위·아래 끝이 ±40°를 넘지 않게(천장 꼭대기·바닥 바로 아래는 보이지 않음)
+    var lim = Math.max(0, 40 - camera.fov / 2);
+    lat = Math.max(-lim, Math.min(lim, lat));
     var phi = THREE.MathUtils.degToRad(90 - lat), th = THREE.MathUtils.degToRad(lon);
     camera.lookAt(500 * Math.sin(phi) * Math.cos(th), 500 * Math.cos(phi), 500 * Math.sin(phi) * Math.sin(th));
     renderer.render(scene, camera); requestAnimationFrame(loop);
