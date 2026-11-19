@@ -510,3 +510,33 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .view .dsx-states > .dsb-row { flex-basis: 100%; }
 .view .dsx-hold { position: relative; display: inline-block; flex: none; }
 .view .dsb .dsx-hold > img { position: absolute; left: 0; top: 0; z-index: 3; max-width: none; }
+
+/* 철도연 동작 부품 */
+.view .dsx-live .dsb-row { align-items: center; }
+.view .dsx-g.wide { grid-template-columns: 140px minmax(0, 1fr); }
+.view .dsx-g.wide .dsx-side { grid-column: 2; }
+.view .dsx-slider { position: relative; display: flex; align-items: center; gap: 14px; width: 360px; height: 22px; cursor: pointer; touch-action: none; }
+.view .dsx-sl-track { position: relative; flex: 0 0 320px; height: 8px; border-radius: 4px; background: #E5E7EB; }
+.view .dsx-sl-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; background: #0075FF; }
+.view .dsx-sl-thumb { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: #0075FF; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.view .dsx-sl-thumb:focus-visible { outline: 2px solid #9CC3FF; outline-offset: 2px; }
+.view .dsx-sl-track .dsx-sl-thumb { }
+.view .dsx-sl-val { font-size: 12px; color: #4A4B50; min-width: 34px; }
+.view .dsx-pager { display: flex; align-items: center; gap: 4px; }
+.view .dsx-pager img { cursor: pointer; }
+.view .dsx-pg { width: 40px; height: 40px; border: 0; border-radius: 6px; background: transparent; color: #0F172A; font-family: inherit; font-weight: 600; font-size: 13px; line-height: 40px; cursor: pointer; padding: 0; }
+.view .dsx-pg:hover { background: #F1F5F9; }
+.view .dsx-pg.is-on { background: url(assets/ds/krri-dt/page-active-plate.webp?v=1) center / 40px 40px no-repeat; color: #fff; }
+.view .dsx-tree { position: relative; display: flex; flex-direction: column; width: 338px; }
+.view .dsx-tree img { cursor: pointer; }
+.view .dsx-tch[hidden] { display: none; }
+.view .dsx-tch { display: flex; flex-direction: column; }
+.view .dsx-tip { position: relative; }
+.view .dsx-tip-hit { position: absolute; cursor: help; border-radius: 50%; }
+.view .dsb .dsx-tip-pop { position: absolute; max-width: none; z-index: 5; opacity: 0; transform: translateY(4px); pointer-events: none; transition: opacity .15s ease, transform .15s ease; }
+.view .dsx-tip.is-on .dsx-tip-pop { opacity: 1; transform: none; }
+.view .dsx-table { position: relative; width: 100%; }
+.view .dsx-table > img { width: 100%; height: auto; display: block; }
+.view .dsx-r { position: absolute; left: 0; right: 0; cursor: pointer; mix-blend-mode: multiply; }
+.view .dsx-r:hover { background: rgb(242,247,255); }
+.view .dsx-r.is-sel { background: rgb(219,232,255); }
