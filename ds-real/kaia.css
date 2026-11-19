@@ -1,0 +1,289 @@
+/* KAIA(RAIL-LUX) 실제 UI — 피그마 qAXpPBVY5ruCYBtJ5FUqq1 디자인 시스템 값을 HTML/CSS 로 재현
+   범위: .view#view-kaia 안에서만. 접두사 ka- */
+
+/* 공통 */
+.view#view-kaia .ka { font-family: 'Noto Sans KR', 'Pretendard', sans-serif; letter-spacing: -0.01em; color: #EAF2F8; -webkit-font-smoothing: antialiased; }
+.view#view-kaia .ka button, .view#view-kaia .ka-pn button { font-family: inherit; letter-spacing: inherit; -webkit-tap-highlight-color: transparent; }
+.view#view-kaia .ka-i { display: block; flex: none; }
+.view#view-kaia .ka-st { box-sizing: border-box; max-width: 100%; padding: 20px; border-radius: 12px; background: #050D18; box-shadow: inset 0 0 0 1px #0F2236; }
+.view#view-kaia .ka-st-pad { padding: 28px; }
+.view#view-kaia .ka-col { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.view#view-kaia .ka-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.view#view-kaia .ka-note { font-size: 12px; line-height: 16px; color: #7A8FA3; }
+.view#view-kaia .ka :focus-visible, .view#view-kaia .ka-pn :focus-visible { outline: 2px solid #5ED9EE; outline-offset: 2px; }
+
+/* 1. 입력 필드 (Input Field 111:311) — Field 320×48, 바탕 #040F1E, 선 #2A5F88, 반경 2 */
+.view#view-kaia .ka-in { position: relative; display: flex; align-items: center; gap: 12px; width: 320px; max-width: 100%; height: 48px; padding: 0 12px 0 16px; box-sizing: border-box; border-radius: 2px; background: #040F1E; box-shadow: inset 0 0 0 1px #2A5F88; color: #7A8FA3; transition: box-shadow .15s ease, background .15s ease; cursor: text; }
+.view#view-kaia .ka-in input { flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; outline: 0; background: transparent; font: 400 14px/20px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #EAF2F8; caret-color: #3CCFE6; }
+.view#view-kaia .ka-in input::placeholder { color: #7A8FA3; opacity: 1; }
+.view#view-kaia .ka-in input[type="password"]:not(:placeholder-shown) { letter-spacing: .12em; }
+.view#view-kaia .ka-lead { display: flex; color: inherit; transition: color .15s ease; }
+.view#view-kaia .ka-in:focus-within { box-shadow: inset 0 0 0 1.5px #3CCFE6, 0 0 8px rgba(60,207,229,.25); color: #5ED9EE; }
+.view#view-kaia .ka-fld.is-err .ka-in { box-shadow: inset 0 0 0 1.5px #E5484D; }
+.view#view-kaia .ka-fld.is-err .ka-in:focus-within { box-shadow: inset 0 0 0 1.5px #E5484D, 0 0 8px rgba(229,72,77,.25); color: #7A8FA3; }
+.view#view-kaia .ka-in.is-dis { background: #16222F; box-shadow: inset 0 0 0 1px #1B3A55; color: #4E5F70; cursor: not-allowed; }
+.view#view-kaia .ka-in.is-dis input, .view#view-kaia .ka-in.is-dis input::placeholder { color: #4E5F70; cursor: not-allowed; }
+.view#view-kaia .ka-help { display: none; align-items: center; gap: 6px; margin: 6px 0 0; font: 400 12px/16px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #E5484D; }
+.view#view-kaia .ka-fld.is-err .ka-help { display: flex; animation: ka-in .2s ease; }
+.view#view-kaia .ka-eye { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin-right: -4px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: #A3B6C8; cursor: pointer; }
+.view#view-kaia .ka-eye:hover { color: #5ED9EE; background: rgba(17,48,79,.6); }
+.view#view-kaia .ka-eye .ka-eye-on, .view#view-kaia .ka-eye[aria-pressed="true"] .ka-eye-off { display: none; }
+.view#view-kaia .ka-eye[aria-pressed="true"] .ka-eye-on { display: block; }
+@keyframes ka-in { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+
+/* 2. 버튼 (Button 111:123) — M 120×40 14/20 Bold, L 48 높이 16/24, 반경 4 */
+.view#view-kaia .ka-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 120px; height: 40px; padding: 0 20px; box-sizing: border-box; border: 0; border-radius: 4px; font: 700 14px/20px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; cursor: pointer; transition: background-color .12s ease, box-shadow .12s ease, color .12s ease, transform .08s ease; }
+.view#view-kaia .ka-btn.ka-l { height: 48px; padding: 0 24px; font-size: 16px; line-height: 24px; }
+.view#view-kaia .ka-btn.ka-xl { height: 56px; padding: 0 24px; font-size: 20px; line-height: 24px; }
+.view#view-kaia .ka-btn:active:not(:disabled) { transform: translateY(1px); }
+.view#view-kaia .ka-btn:focus-visible { outline: 0; }
+.view#view-kaia .ka-p { background: #1C58B0; color: #fff; box-shadow: inset 0 0 0 1px #3B7FD6; }
+.view#view-kaia .ka-p:hover { background: #2468CC; }
+.view#view-kaia .ka-p:active { background: #154387; }
+.view#view-kaia .ka-p:focus-visible { box-shadow: inset 0 0 0 2px #5ED9EE; }
+.view#view-kaia .ka-s { background: #0A1F37; color: #EAF2F8; box-shadow: inset 0 0 0 1px #2A5F88; }
+.view#view-kaia .ka-s:hover { background: #11304F; box-shadow: inset 0 0 0 1px #3F86B8; }
+.view#view-kaia .ka-s:active { background: #07172A; box-shadow: inset 0 0 0 1px #2A5F88; }
+.view#view-kaia .ka-s:focus-visible { box-shadow: inset 0 0 0 2px #5ED9EE; }
+.view#view-kaia .ka-a { background: #23788A; color: #fff; box-shadow: inset 0 0 0 1px #3CCFE6; }
+.view#view-kaia .ka-a:hover { background: #2A8DA2; }
+.view#view-kaia .ka-a:active { background: #0B3A4A; box-shadow: inset 0 0 0 1px #1FA9C2; }
+.view#view-kaia .ka-a:focus-visible { box-shadow: inset 0 0 0 2px #5ED9EE; }
+.view#view-kaia .ka-o { background: #0A1F37; color: #5ED9EE; box-shadow: inset 0 0 0 1px #3CCFE6; }
+.view#view-kaia .ka-o:hover { background: #0B3A4A; box-shadow: inset 0 0 0 1px #3CCFE6, 0 0 10px rgba(60,207,229,.3); }
+.view#view-kaia .ka-o:active { background: #07172A; box-shadow: inset 0 0 0 1px #1FA9C2; }
+.view#view-kaia .ka-o:focus-visible { box-shadow: inset 0 0 0 2px #5ED9EE; }
+.view#view-kaia .ka-btn:disabled { background: #16222F; color: #4E5F70; box-shadow: inset 0 0 0 1px #1B3A55; cursor: not-allowed; transform: none; }
+
+/* 3. 아이콘 버튼 (IconButton 111:189) */
+.view#view-kaia .ka-ib { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: #EAF2F8; cursor: pointer; transition: background-color .12s ease, box-shadow .12s ease, color .12s ease; }
+.view#view-kaia .ka-ib:focus-visible { outline: 0; box-shadow: inset 0 0 0 2px #5ED9EE; }
+.view#view-kaia .ka-ib-g:hover { background: #11304F; }
+.view#view-kaia .ka-ib-g:active { background: #07172A; }
+.view#view-kaia .ka-ib-o { background: #06172B; color: #5ED9EE; box-shadow: inset 0 0 0 1px #3CCFE6; }
+.view#view-kaia .ka-ib-o:hover { background: #0B3A4A; }
+.view#view-kaia .ka-ib-o:active { background: #07172A; box-shadow: inset 0 0 0 1px #1FA9C2; }
+.view#view-kaia .ka-ib-n { width: 48px; height: 48px; background: #0A1F37; color: #5ED9EE; box-shadow: inset 0 0 0 1px #3CCFE6; }
+.view#view-kaia .ka-ib-n:hover { background: #0B3A4A; }
+.view#view-kaia .ka-ib-n:active { background: #07172A; box-shadow: inset 0 0 0 1px #1FA9C2; }
+.view#view-kaia .ka-ib:disabled { background: #16222F; color: #4E5F70; box-shadow: inset 0 0 0 1px #1B3A55; cursor: not-allowed; }
+.view#view-kaia .ka-ib-g:disabled { background: transparent; box-shadow: none; }
+
+/* 4. 상단 바 버튼 (TopBar Button 162:*) + 툴팁 (Tooltip 117:11) */
+.view#view-kaia .ka-top { display: flex; align-items: center; gap: 4px; padding: 8px 16px 44px; background: linear-gradient(#03080F 0 56px, #050D18 56px); box-shadow: inset 0 -1px 0 0 #0F2236, inset 0 0 0 1px #0F2236; }
+.view#view-kaia .ka-div { width: 1px; height: 24px; margin: 0 12px; background: #3F86B8; }
+.view#view-kaia .ka-tb { position: relative; display: inline-flex; }
+.view#view-kaia .ka-tbtn { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: #EAF2F8; cursor: pointer; transition: background-color .12s ease, color .12s ease, box-shadow .12s ease; }
+.view#view-kaia .ka-tbtn:hover { background: #11304F; color: #5ED9EE; }
+.view#view-kaia .ka-tbtn:active { background: #07172A; color: #5ED9EE; }
+.view#view-kaia .ka-tbtn:focus-visible { outline: 0; box-shadow: inset 0 0 0 2px #5ED9EE; }
+.view#view-kaia .ka-tbtn[aria-pressed="true"] { background: #11304F; color: #5ED9EE; box-shadow: inset 0 0 0 1px #5ED9EE; }
+.view#view-kaia .ka-tip { position: absolute; left: 50%; top: calc(100% + 10px); z-index: 4; padding: 6px 10px; border-radius: 4px; background: rgba(3,8,15,.95); box-shadow: inset 0 0 0 1px #2A5F88; font: 500 12px/16px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #EAF2F8; white-space: nowrap; pointer-events: none; opacity: 0; transform: translate(-50%, -4px); transition: opacity .15s ease, transform .15s ease; }
+.view#view-kaia .ka-tip::before { content: ""; position: absolute; left: 50%; top: -8px; margin-left: -7px; border: 7px solid transparent; border-top: 0; border-bottom: 8px solid #2A5F88; }
+.view#view-kaia .ka-tip-up { top: auto; bottom: calc(100% + 10px); transform: translate(-50%, 4px); }
+.view#view-kaia .ka-top .ka-tip-up { top: calc(100% + 10px); bottom: auto; transform: translate(-50%, -4px); }
+.view#view-kaia .ka-tb:hover .ka-tip, .view#view-kaia .ka-tb:focus-within .ka-tip { opacity: 1; transform: translate(-50%, 0); transition-delay: .2s; }
+
+/* 5. 다음 버튼 (Next Button 469:114) — 130×64, 24 Bold, 반경 6, 빛 번짐 24 */
+.view#view-kaia .ka-next { display: inline-flex; align-items: center; gap: 8px; height: 64px; padding: 0 24px 0 28px; box-sizing: border-box; border: 0; border-radius: 6px; background: #3CCFE6; color: #06172B; font: 700 24px/1.2 'Noto Sans KR', sans-serif; letter-spacing: 0; box-shadow: 0 0 24px rgba(60,207,230,.6); cursor: pointer; transition: background-color .12s ease, transform .08s ease; }
+.view#view-kaia .ka-next .ka-i { color: #061729; }
+.view#view-kaia .ka-next:hover { background: #5ED9EE; }
+.view#view-kaia .ka-next:active { background: #1FA9C2; transform: translateY(1px); }
+.view#view-kaia .ka-next:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.view#view-kaia .ka-next:disabled { background: #16222F; color: #4E5F70; box-shadow: inset 0 0 0 1px #1B3A55; cursor: not-allowed; transform: none; }
+.view#view-kaia .ka-next:disabled .ka-i { color: #4E5F70; }
+
+/* 6. 안내 칩 (Guide Chip 117:23) */
+.view#view-kaia .ka-chip { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 6px 14px 6px 10px; box-sizing: border-box; border-radius: 6px; background: rgba(22,34,46,.88); box-shadow: inset 0 0 0 1px rgba(63,134,184,.6); font: 700 14px/20px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #5ED9EE; white-space: nowrap; }
+.view#view-kaia .ka-chip .ka-i { color: #5ED9EE; }
+.view#view-kaia .ka-chip-t::after { content: ""; display: inline-block; width: 1px; height: 14px; margin-left: 1px; vertical-align: -2px; background: currentColor; opacity: 0; }
+.view#view-kaia .ka-chip.is-typing .ka-chip-t::after { opacity: 1; animation: ka-blink .8s steps(1) infinite; }
+@keyframes ka-blink { 50% { opacity: 0; } }
+
+/* 7. 훈련 진행 막대 (Training Progress 113:28) — 트랙 200×8 #0C2540, 채움 #3CCFE6 */
+.view#view-kaia .ka-prog { display: inline-flex; align-items: center; gap: 8px; }
+.view#view-kaia .ka-prog-t { position: relative; width: 200px; height: 8px; border-radius: 4px; background: #0C2540; overflow: hidden; }
+.view#view-kaia .ka-prog-f { position: absolute; left: 0; top: 0; bottom: 0; width: 7%; border-radius: 4px; background: #3CCFE6; transition: width .45s cubic-bezier(.4,0,.2,1); }
+.view#view-kaia .ka-prog-c { min-width: 36px; font: 400 11px/14px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #A3B6C8; font-variant-numeric: tabular-nums; }
+.view#view-kaia .ka-sm { width: 32px; height: 32px; }
+
+/* 8. 단계 표시기 (Step Indicator 113:120) — 노드 40, 선 160×2 */
+.view#view-kaia .ka-steps { gap: 16px; }
+.view#view-kaia .ka-si { display: flex; align-items: center; gap: 12px; padding: 14px; }
+.view#view-kaia .ka-node { position: relative; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; box-sizing: border-box; border-radius: 20px; background: #0C2540; box-shadow: inset 0 0 0 1px #1B3A55; color: #7A8FA3; transition: background-color .3s ease, box-shadow .3s ease, color .3s ease; }
+.view#view-kaia .ka-node b { display: none; font: 700 16px/24px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; }
+.view#view-kaia .ka-node.is-cur { background: #1C58B0; box-shadow: inset 0 0 0 2px #3CCFE6, 0 0 12px 2px rgba(60,207,229,.55); color: #fff; }
+.view#view-kaia .ka-node.is-done { background: #0B3A4A; box-shadow: inset 0 0 0 1.5px #1FA9C2; color: #5ED9EE; }
+.view#view-kaia .ka-node.is-cur b, .view#view-kaia .ka-node.is-done b { display: block; }
+.view#view-kaia .ka-node.is-cur .ka-i, .view#view-kaia .ka-node.is-done .ka-i { display: none; }
+.view#view-kaia .ka-line { position: relative; width: 160px; height: 2px; background: #1B3A55; overflow: hidden; }
+.view#view-kaia .ka-line::after { content: ""; position: absolute; inset: 0; background: #3CCFE6; transform: scaleX(0); transform-origin: 0 50%; transition: transform .45s cubic-bezier(.4,0,.2,1); }
+.view#view-kaia .ka-line.is-on::after { transform: scaleX(1); }
+.view#view-kaia .ka-steps .ka-btn { min-width: 0; }
+
+/* 9. 사이드바 그룹·단계 항목 (Sidebar/Group 114:113, Sidebar/Step Item 114:31) */
+.view#view-kaia .ka-side { align-items: flex-start; gap: 16px; }
+.view#view-kaia .ka-sg { width: 264px; box-sizing: border-box; border-radius: 4px; background: rgba(6,23,43,.9); box-shadow: inset 0 0 0 1px #2A5F88; overflow: hidden; }
+.view#view-kaia .ka-sg.is-act { box-shadow: inset 0 0 0 1px rgba(60,207,230,.8); }
+.view#view-kaia .ka-sg-h { display: flex; align-items: center; gap: 12px; width: 100%; height: 46px; padding: 0 8px; border: 0; background: transparent; color: #EAF2F8; text-align: left; cursor: pointer; }
+.view#view-kaia .ka-sg-h:focus-visible { outline: 0; box-shadow: inset 0 0 0 2px #5ED9EE; }
+.view#view-kaia .ka-sg-h .ka-badge { width: 28px; height: 28px; font-size: 16px; line-height: 24px; box-shadow: inset 0 0 0 1px #3CCFE6; }
+.view#view-kaia .ka-sg-t { flex: 1; font: 700 14px/20px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; }
+.view#view-kaia .ka-sg.is-act .ka-sg-t { color: #5ED9EE; }
+.view#view-kaia .ka-chev { color: #5ED9EE; margin-right: 0; transition: transform .3s ease; }
+.view#view-kaia .ka-sg-h[aria-expanded="false"] .ka-chev { transform: rotate(180deg); }
+.view#view-kaia .ka-sg.is-up .ka-sg-t, .view#view-kaia .ka-sg.is-up .ka-chev { color: #7A8FA3; }
+.view#view-kaia .ka-sg.is-up .ka-sg-h .ka-badge { box-shadow: inset 0 0 0 1px #2A5F88; color: #7A8FA3; }
+.view#view-kaia .ka-sg-b { overflow: hidden; transition: height .3s ease; }
+.view#view-kaia .ka-sg-b.is-shut { visibility: hidden; }
+.view#view-kaia .ka-sg-l { display: flex; flex-direction: column; gap: 4px; margin: 0; padding: 3px 8px 8px; list-style: none; }
+.view#view-kaia .ka-badge { display: flex; align-items: center; justify-content: center; flex: none; width: 24px; height: 24px; box-sizing: border-box; border-radius: 2px; box-shadow: inset 0 0 0 2px #3CCFE6; font: 700 14px/20px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #5ED9EE; }
+.view#view-kaia .ka-si-i { display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 12px 0 8px; box-sizing: border-box; border-radius: 2px; color: #EAF2F8; cursor: pointer; outline: 0; transition: background-color .12s ease, box-shadow .12s ease, color .12s ease; }
+.view#view-kaia .ka-si-i .ka-i { display: none; color: #5ED9EE; }
+.view#view-kaia .ka-si-t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 400 12px/16px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; }
+.view#view-kaia .ka-si-i:hover { background: #11304F; }
+.view#view-kaia .ka-si-i:focus-visible { box-shadow: inset 0 0 0 1.5px #5ED9EE; }
+.view#view-kaia .ka-si-i.is-done { color: #A3B6C8; }
+.view#view-kaia .ka-si-i.is-done .ka-badge, .view#view-kaia .ka-si-i[aria-selected="true"] .ka-badge { display: none; }
+.view#view-kaia .ka-si-i.is-done .ka-i, .view#view-kaia .ka-si-i[aria-selected="true"] .ka-i { display: block; }
+.view#view-kaia .ka-si-i[aria-selected="true"] { background: #0B3A4A; box-shadow: inset 0 0 0 1px #3CCFE6; color: #5ED9EE; }
+.view#view-kaia .ka-si-i[aria-selected="true"] .ka-si-t { font-weight: 500; }
+.view#view-kaia .ka-si-i.is-up { color: #7A8FA3; cursor: default; }
+.view#view-kaia .ka-si-i.is-up:hover { background: transparent; }
+.view#view-kaia .ka-si-i.is-up .ka-badge { box-shadow: inset 0 0 0 2px #2A5F88; color: #7A8FA3; }
+
+/* 10. 무전기 (Radio UI 278:27) — 몸체 80×80, 선 2 #2A5F88 → 통화 중 #3CCFE5 + 빛 번짐 20 */
+.view#view-kaia .ka-radio { padding: 0; border: 0; background: transparent; cursor: pointer; touch-action: none; -webkit-user-select: none; user-select: none; }
+.view#view-kaia .ka-radio-b { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; width: 80px; height: 80px; box-sizing: border-box; padding-top: 8px; border-radius: 8px; background: rgba(6,23,41,.96); box-shadow: inset 0 0 0 2px #2A5F88; transition: box-shadow .2s ease, transform .1s ease; }
+.view#view-kaia .ka-radio:hover .ka-radio-b { box-shadow: inset 0 0 0 2px #3F86B8; }
+.view#view-kaia .ka-sig { color: #5E7385; transition: color .2s ease; }
+.view#view-kaia .ka-ph { color: #EAF2F8; margin-top: 0; }
+.view#view-kaia .ka-radio[aria-pressed="true"] .ka-radio-b { box-shadow: inset 0 0 0 2px #3CCFE5, 0 0 20px rgba(60,207,230,.55); transform: scale(.97); }
+.view#view-kaia .ka-radio[aria-pressed="true"] .ka-sig { color: #3CCFE5; }
+.view#view-kaia .ka-radio[aria-pressed="true"] .ka-w1 { animation: ka-wave 1s ease-in-out infinite; }
+.view#view-kaia .ka-radio[aria-pressed="true"] .ka-w2 { animation: ka-wave 1s ease-in-out .15s infinite; }
+.view#view-kaia .ka-radio[aria-pressed="true"] .ka-w3 { animation: ka-wave 1s ease-in-out .3s infinite; }
+.view#view-kaia .ka-radio:focus-visible { outline: 0; }
+.view#view-kaia .ka-radio:focus-visible .ka-radio-b { outline: 2px solid #5ED9EE; outline-offset: 3px; }
+@keyframes ka-wave { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+
+/* 11. 이동 지점 (Teleport UI 219:1601) — 240×120 원형 빛, 핀 96 */
+.view#view-kaia .ka-tp { position: relative; display: block; width: 240px; height: 120px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.view#view-kaia .ka-tp-g { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(60,207,229,.30), rgba(60,207,229,.12) 72%, rgba(60,207,229,0)); transition: opacity .2s ease; }
+.view#view-kaia .ka-tp-g::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(60,207,229,.45), rgba(60,207,229,.12) 72%, rgba(60,207,229,0)); opacity: 0; transition: opacity .2s ease; }
+.view#view-kaia .ka-tp:hover .ka-tp-g::after, .view#view-kaia .ka-tp:focus-visible .ka-tp-g::after { opacity: 1; }
+.view#view-kaia .ka-tp-p { position: absolute; left: 72px; top: 0; color: #fff; filter: drop-shadow(0 0 7.5px rgba(60,207,229,.7)); transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+.view#view-kaia .ka-tp:hover .ka-tp-p { transform: translateY(-6px); }
+.view#view-kaia .ka-tp.is-drop .ka-tp-p { animation: ka-drop .6s cubic-bezier(.34,1.56,.64,1); }
+.view#view-kaia .ka-tp.is-drop .ka-tp-g { animation: ka-pulse .6s ease-out; }
+.view#view-kaia .ka-tp:focus-visible { outline: 2px solid #5ED9EE; outline-offset: 4px; border-radius: 8px; }
+@keyframes ka-drop { 0% { transform: translateY(-28px); opacity: .2; } 60% { transform: translateY(2px); opacity: 1; } 100% { transform: none; } }
+@keyframes ka-pulse { 0% { transform: scale(.6); opacity: .4; } 100% { transform: scale(1); opacity: 1; } }
+
+/* 12. 확인 팝업 (Popup Type=Confirm 116:3) — 400 폭, 패딩 36/32/28, 간격 28 */
+.view#view-kaia .ka-pop-st { display: flex; align-items: center; justify-content: center; min-height: 228px; background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), #0A1626; }
+.view#view-kaia .ka-pop { width: 400px; max-width: 100%; box-sizing: border-box; padding: 36px 32px 28px; border-radius: 4px; background: rgba(6,23,43,.96); box-shadow: inset 0 0 0 1px #2A5F88, 0 12px 32px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.3); text-align: center; color: #EAF2F8; font-family: 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; }
+.view#view-kaia .ka-pop-m { margin: 0 0 28px; font-weight: 700; font-size: 18px; line-height: 26px; }
+.view#view-kaia .ka-pop-a { display: flex; gap: 12px; }
+.view#view-kaia .ka-pop-a .ka-btn { flex: 1; min-width: 0; }
+.view#view-kaia .ka-pop-st .ka-pop { animation: ka-pop .22s cubic-bezier(.2,.8,.2,1); }
+.view#view-kaia .ka-pop[hidden], .view#view-kaia .ka-pop-open[hidden] { display: none; }
+@keyframes ka-pop { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+
+/* 13. 말풍선 (Speech Bubble 117:53) — 아바타 34, 말풍선 436, 20/28 */
+.view#view-kaia .ka-talk { display: flex; flex-direction: column; gap: 14px; width: 520px; }
+.view#view-kaia .ka-sb { display: flex; gap: 10px; align-items: flex-start; width: 480px; max-width: 100%; transition: opacity .3s ease; }
+.view#view-kaia .ka-sb-r { align-self: flex-end; }
+.view#view-kaia .ka-av { display: flex; align-items: center; justify-content: center; flex: none; width: 34px; height: 34px; box-sizing: border-box; border-radius: 17px; background: #0B3A4A; box-shadow: inset 0 0 0 1.2px #3CCFE6; color: #5ED9EE; }
+.view#view-kaia .ka-sb-r .ka-av { background: #0A1F37; box-shadow: inset 0 0 0 1.2px #2A5F88; color: #A3B6C8; }
+.view#view-kaia .ka-bub { flex: 1; min-width: 0; min-height: 103px; box-sizing: border-box; padding: 8px 12px; border-radius: 2px; background: rgba(22,34,46,.8); }
+.view#view-kaia .ka-sb.is-on .ka-bub { background: rgba(22,34,46,.92); box-shadow: inset 0 0 0 1.5px #3CCFE6; }
+.view#view-kaia .ka-sp { display: block; margin-bottom: 3px; font: 700 20px/28px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #5ED9EE; }
+.view#view-kaia .ka-sb-r .ka-sp { text-align: right; }
+.view#view-kaia .ka-msg { margin: 0; min-height: 56px; font: 400 20px/28px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #A3B6C8; word-break: break-all; }
+.view#view-kaia .ka-sb.is-on .ka-msg { color: #EAF2F8; }
+.view#view-kaia .ka-msg.is-typing::after { content: ""; display: inline-block; width: 2px; height: 20px; margin-left: 2px; vertical-align: -3px; background: #5ED9EE; animation: ka-blink .8s steps(1) infinite; }
+.view#view-kaia .ka-sb.is-wait { opacity: 0; }
+
+/* 14. 로딩 게이지 (Loading Gauge 113:15) — 트랙 480×6, 채움 + 빛 번짐 8 */
+.view#view-kaia .ka-gauge { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 520px; }
+.view#view-kaia .ka-g-t { position: relative; display: block; width: 480px; max-width: 100%; height: 6px; box-sizing: border-box; border-radius: 3px; background: #0C2540; box-shadow: inset 0 0 0 1px #1B3A55; }
+.view#view-kaia .ka-g-f { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 3px; background: #3CCFE6; box-shadow: 0 0 8px rgba(60,207,229,.6); }
+.view#view-kaia .ka-g-l { font: 500 12px/16px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #A3B6C8; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 640px) {
+  .view#view-kaia .ka-talk, .view#view-kaia .ka-gauge { width: 100%; }
+  .view#view-kaia .ka-line { width: 48px; }
+  .view#view-kaia .ka-msg, .view#view-kaia .ka-sp { font-size: 16px; line-height: 24px; }
+}
+
+/* ===== 패널 카드 슬라이드 ===== */
+.view#view-kaia .ka-cf .cf-stage { height: 640px; }
+.view#view-kaia .ka-cf .cf-nav { top: 300px; }
+.view#view-kaia .ka-cf .cf-card[data-i="0"] { width: 400px; margin-left: -200px; }
+.view#view-kaia .ka-cf .cf-card[data-i="1"] { width: 560px; margin-left: -280px; }
+.view#view-kaia .ka-cf .cf-card[data-i="2"] { width: 480px; margin-left: -240px; }
+.view#view-kaia .ka-cf .cf-card[data-i="3"] { width: 546px; margin-left: -273px; }
+.view#view-kaia .ka-cf .cf-panel { border-radius: 4px; background: #08121F; }
+.view#view-kaia .ka-pn { font-family: 'Noto Sans KR', 'Pretendard', sans-serif; letter-spacing: -0.01em; color: #EAF2F8; text-align: left; cursor: default; -webkit-user-select: text; user-select: text; -webkit-font-smoothing: antialiased; }
+.view#view-kaia .ka-pn .ka-pop { width: 400px; }
+
+/* 수료 완료 팝업 (Popup Type=Complete 278:357) — 560 폭, 패딩 40, 간격 32 */
+.view#view-kaia .ka-done { display: flex; flex-direction: column; align-items: center; gap: 32px; width: 560px; padding: 40px; box-sizing: border-box; border-radius: 4px; background: rgba(6,23,43,.96); box-shadow: inset 0 0 0 1px #3CCFE5, 0 12px 32px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.3); }
+.view#view-kaia .ka-done-x { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+.view#view-kaia .ka-done-i { display: flex; color: #3CCFE6; filter: drop-shadow(0 0 8px rgba(60,207,230,.6)); }
+.view#view-kaia .ka-done-i .ka-i { width: 64px; height: 64px; }
+.view#view-kaia .ka-done-i path { stroke-width: .8; }
+.view#view-kaia .ka-done-t { margin: 0; font: 700 32px/40px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; }
+.view#view-kaia .ka-done-d { margin: 0; font: 500 22px/34px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; }
+.view#view-kaia .ka-done .ka-btn { width: 478px; }
+.view#view-kaia .ka-ck-c { stroke-dasharray: 57; stroke-dashoffset: 0; }
+.view#view-kaia .ka-ck-m { stroke-dasharray: 9; stroke-dashoffset: 0; }
+.view#view-kaia .ka-done.is-play .ka-done-i { animation: ka-ckpop .45s cubic-bezier(.34,1.56,.64,1) both; }
+.view#view-kaia .ka-done.is-play .ka-ck-c { animation: ka-draw-c .5s ease-out both; }
+.view#view-kaia .ka-done.is-play .ka-ck-m { animation: ka-draw-m .3s ease-out .45s both; }
+.view#view-kaia .ka-done.is-play .ka-done-t, .view#view-kaia .ka-done.is-play .ka-done-d, .view#view-kaia .ka-done.is-play .ka-btn { animation: ka-in .35s ease .55s both; }
+.view#view-kaia .ka-done.is-play .ka-done-d { animation-delay: .7s; }
+.view#view-kaia .ka-done.is-play .ka-btn { animation-delay: .85s; }
+@keyframes ka-ckpop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes ka-draw-c { from { stroke-dashoffset: 57; } to { stroke-dashoffset: 0; } }
+@keyframes ka-draw-m { from { stroke-dashoffset: 9; } to { stroke-dashoffset: 0; } }
+
+/* 로그인 패널 (Login Panel 143:1281) — 480 폭, 패딩 56/56/40, 로고 44 Bold */
+.view#view-kaia .ka-login { display: flex; flex-direction: column; align-items: center; width: 480px; margin: 0; padding: 56px 56px 40px; box-sizing: border-box; border-radius: 2px; background: rgba(6,23,43,.94); box-shadow: inset 0 0 0 1px rgba(60,207,230,.55), 0 16px 40px rgba(0,0,0,.45), 0 0 24px rgba(60,207,229,.12); }
+.view#view-kaia .ka-logo { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 40px; }
+.view#view-kaia .ka-logo-w { font: 700 44px/1.2 'Noto Sans KR', sans-serif; letter-spacing: .06em; color: #5ED9EE; text-shadow: 0 0 14px rgba(60,207,229,.55); }
+.view#view-kaia .ka-logo-l { width: 160px; height: 2px; background: linear-gradient(90deg, rgba(60,207,229,0), #5ED9ED, rgba(60,207,229,0)); filter: blur(.5px); }
+.view#view-kaia .ka-login-f { display: flex; flex-direction: column; gap: 12px; width: 366px; }
+.view#view-kaia .ka-login .ka-in { width: 366px; }
+.view#view-kaia .ka-login .ka-help { margin-top: 6px; }
+.view#view-kaia .ka-login-b { width: 366px; margin-top: 24px; }
+.view#view-kaia .ka-links { display: flex; align-items: center; gap: 8px; margin: 20px 0 0; font: 400 14px/20px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #7A8FA3; }
+.view#view-kaia .ka-link { height: 24px; padding: 2px 4px; border: 0; border-radius: 2px; background: transparent; font: 400 14px/20px 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; color: #EAF2F8; cursor: pointer; }
+.view#view-kaia .ka-link:hover { color: #5ED9EE; }
+.view#view-kaia .ka-link:active { color: #1FA9C2; }
+.view#view-kaia .ka-link:focus-visible { outline: 0; box-shadow: inset 0 0 0 1.5px #5ED9EE; }
+
+/* 조작 가이드 (Controls Guide/Method 1264:318) — 758×272, 0.72배로 카드에 넣음 */
+.view#view-kaia .ka-guide-w { width: 546px; height: 196px; overflow: visible; }
+.view#view-kaia .ka-guide { display: flex; align-items: stretch; width: 758px; height: 272px; padding: 48px 24px 40px; box-sizing: border-box; border-radius: 4px; background: rgba(6,23,43,.9); box-shadow: inset 0 0 0 2px #3CCFE6; transform: scale(.72); transform-origin: 0 0; }
+.view#view-kaia .ka-gm { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.view#view-kaia .ka-gm p { margin: 0; font: 500 20px/1.4 'Noto Sans KR', sans-serif; letter-spacing: 0; color: #EAF2F8; text-align: center; }
+.view#view-kaia .ka-gdiv { width: 0; border-left: 2px dashed rgba(60,207,230,.8); margin: 16px 0 0; }
+.view#view-kaia .ka-gm-ill { position: relative; width: 240px; height: 96px; }
+.view#view-kaia .ka-next-demo { position: absolute; left: 55px; top: 16px; cursor: default; }
+.view#view-kaia .ka-doc { position: absolute; left: 49px; top: 47px; width: 128px; height: 50px; background: url(kaia-guide-doc.webp) center / 100% 100% no-repeat; }
+.view#view-kaia .ka-chip-demo { position: absolute; left: 124px; top: 4px; }
+.view#view-kaia .ka-ring { position: absolute; left: 118px; top: 59px; width: 26px; height: 26px; box-sizing: border-box; border: 3px solid #3CCFE6; border-radius: 50%; }
+.view#view-kaia .ka-cur { position: absolute; width: 32px; height: 32px; pointer-events: none; }
+.view#view-kaia .ka-cur-1 { left: 158px; top: 54px; animation: ka-click 2.4s ease-in-out infinite; }
+.view#view-kaia .ka-cur-2 { left: 126px; top: 67px; animation: ka-click 2.4s ease-in-out .6s infinite; }
+.view#view-kaia .ka-next-demo { animation: ka-npress 2.4s ease-in-out infinite; }
+.view#view-kaia .ka-ring { animation: ka-ring 2.4s ease-out .6s infinite; }
+@keyframes ka-click { 0%, 30% { transform: translate(14px, 12px); } 45% { transform: none; } 52% { transform: scale(.88); } 60%, 100% { transform: none; } }
+@keyframes ka-npress { 0%, 48% { background: #3CCFE6; } 52% { background: #1FA9C2; } 62%, 100% { background: #3CCFE6; } }
+@keyframes ka-ring { 0%, 48% { transform: scale(1); opacity: 1; } 70% { transform: scale(1.5); opacity: 0; } 71%, 100% { transform: scale(1); opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .view#view-kaia .ka *, .view#view-kaia .ka-pn * { animation: none !important; transition: none !important; }
+}
