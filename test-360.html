@@ -13,16 +13,26 @@
   h2 { margin: 0 0 12px; font-size: 32px; letter-spacing: -.02em; }
   .desc { margin: 0 0 28px; max-width: 640px; font-size: 16px; line-height: 1.6; color: #4A4B50; }
 
-  .vr360 { position: relative; height: 620px; border-radius: 20px; overflow: hidden; background: #1b1f24; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
-  .vr360.drag { cursor: grabbing; }
-  .vr360 canvas { display: block; width: 100%; height: 100%; }
-  .vr360 .ui { position: absolute; left: 0; top: 0; transform-origin: 50% 50%; will-change: transform, opacity; cursor: pointer; transition: filter .2s ease; z-index: 2; }
-  .vr360 .ui img { display: block; width: 100%; height: auto; pointer-events: none; }
-  .vr360 .ui:hover { filter: brightness(1.12); }
-  .vr360 .ui.is-focus { filter: drop-shadow(0 0 18px rgba(255, 255, 255, .35)); }
-  .vr360 .hint { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); padding: 8px 14px; border-radius: 999px; background: rgba(0, 0, 0, .5); color: #fff; font-size: 13px; pointer-events: none; transition: opacity .4s; z-index: 5; white-space: nowrap; }
+  .vr360 { position: relative; height: 640px; border-radius: 20px; overflow: hidden; background: #1b1f24; user-select: none; -webkit-user-select: none; outline: none; }
+  .vr360 canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
   .vr360 .msg { position: absolute; inset: 0; display: grid; place-items: center; color: #ddd; font-size: 15px; }
-  @media (max-width: 640px) { .vr360 { height: 460px; } h2 { font-size: 24px; } }
+  /* 커버 플로 카드 */
+  .cf-stage { position: absolute; inset: 0; perspective: 1400px; perspective-origin: 50% 45%; cursor: grab; touch-action: pan-y; z-index: 2; }
+  .cf-stage.is-drag { cursor: grabbing; }
+  .cf-card { position: absolute; left: 50%; top: 46%; margin: 0; transform-style: preserve-3d; will-change: transform, filter, opacity; cursor: pointer; }
+  .cf-card img { display: block; width: 100%; height: auto; pointer-events: none; filter: drop-shadow(0 18px 36px rgba(0,0,0,.45)); }
+  .cf-card figcaption { position: absolute; left: 0; right: 0; top: 100%; margin-top: 12px; text-align: center; font-size: 13px; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.6); opacity: 0; transition: opacity .25s ease; }
+  .cf-card.is-center figcaption { opacity: 1; }
+  .cf-nav { position: absolute; top: 46%; width: 44px; height: 44px; margin-top: -22px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); cursor: pointer; z-index: 5; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+  .cf-nav::before { content: ''; position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; border-left: 2px solid #26282c; border-bottom: 2px solid #26282c; transform: translate(-30%, -50%) rotate(45deg); }
+  .cf-prev { left: 16px; }
+  .cf-next { right: 16px; }
+  .cf-next::before { transform: translate(-70%, -50%) rotate(-135deg); }
+  .cf-nav:disabled { opacity: .35; cursor: default; }
+  .cf-dots { position: absolute; left: 0; right: 0; bottom: 20px; display: flex; justify-content: center; gap: 8px; z-index: 5; }
+  .cf-dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,.5); cursor: pointer; transition: width .25s ease, background .25s ease; }
+  .cf-dots button.is-on { width: 22px; border-radius: 4px; background: #fff; }
+  @media (max-width: 640px) { .vr360 { height: 480px; } h2 { font-size: 24px; } }
 </style>
 </head>
 <body>
@@ -30,13 +40,19 @@
   <div class="container">
     <p class="label">VR SPACE UI</p>
     <h2>정비장 공간 속 UI</h2>
-    <p class="desc">헤드셋 안에서 보이는 그대로, 정비장 360° 공간에 UI 패널을 띄웠습니다. 드래그해 둘러보고 패널을 누르면 그쪽으로 시선이 돌아갑니다.</p>
-    <div class="vr360" id="vr360">
+    <p class="desc">헤드셋 안 정비장 공간에 떠 있는 패널을 카드로 넘겨 봅니다. 드래그하거나 화살표·점을 누르면 카드가 돌아가고, 뒤의 공간도 그 방향으로 함께 돕니다.</p>
+    <div class="vr360" id="vr360" tabindex="0" role="region" aria-roledescription="carousel" aria-label="정비 VR 패널">
       <div class="msg" id="msg">360 이미지를 불러오는 중…</div>
-      <div class="ui" data-yaw="-36" data-pitch="3" data-w="440"><img src="assets/comp/vr-maintenance/type-list-popup.webp" alt="장비 유형 선택 팝업"></div>
-      <div class="ui" data-yaw="36" data-pitch="4" data-w="320"><img src="assets/comp/vr-maintenance/warning-popup.webp" alt="경고 팝업"></div>
-      <div class="ui" data-yaw="0" data-pitch="-15" data-w="380"><img src="assets/comp/vr-maintenance/main-menu-buttons.webp" alt="메인 메뉴 버튼"></div>
-      <div class="hint" id="hint">드래그해서 둘러보기 · 패널을 누르면 시선 이동</div>
+      <div class="cf-stage" id="stage">
+        <figure class="cf-card" data-w="400"><img src="assets/comp/vr-maintenance/info-popup.png" alt="인 게임 메뉴 열기 안내" draggable="false"><figcaption>인 게임 메뉴 열기 안내</figcaption></figure>
+        <figure class="cf-card" data-w="400"><img src="assets/comp/vr-maintenance/tutorial-dialog.png" alt="튜토리얼 팝업" draggable="false"><figcaption>튜토리얼 팝업</figcaption></figure>
+        <figure class="cf-card" data-w="560"><img src="assets/comp/vr-maintenance/type-list-popup.webp" alt="장비 유형 선택 팝업" draggable="false"><figcaption>장비 유형 선택 팝업</figcaption></figure>
+        <figure class="cf-card" data-w="400"><img src="assets/comp/vr-maintenance/warning-popup.webp" alt="경고 팝업" draggable="false"><figcaption>경고 팝업</figcaption></figure>
+        <figure class="cf-card" data-w="460"><img src="assets/comp/vr-maintenance/dimensions-compare-panel.webp" alt="사양 비교 패널" draggable="false"><figcaption>사양 비교 패널</figcaption></figure>
+      </div>
+      <button type="button" class="cf-nav cf-prev" aria-label="이전 패널"></button>
+      <button type="button" class="cf-nav cf-next" aria-label="다음 패널"></button>
+      <div class="cf-dots" id="dots"></div>
     </div>
   </div>
 </section>
@@ -44,14 +60,15 @@
 <script>
 (function () {
   var SRC = 'assets/pano/vr-maint-360.webp?v=6';
-  var box = document.getElementById('vr360'), msg = document.getElementById('msg'), hint = document.getElementById('hint');
-  var uis = [].slice.call(box.querySelectorAll('.ui'));
+  var box = document.getElementById('vr360'), stage = document.getElementById('stage'), msg = document.getElementById('msg');
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 360 배경
   var renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
   if (THREE.sRGBEncoding) renderer.outputEncoding = THREE.sRGBEncoding;
   box.insertBefore(renderer.domElement, box.firstChild);
-  var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1100);
+  var scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1100);
   var geo = new THREE.SphereGeometry(500, 64, 40); geo.scale(-1, 1, 1);
   var mat = new THREE.MeshBasicMaterial({ color: 0x222222 });
   scene.add(new THREE.Mesh(geo, mat));
@@ -59,56 +76,79 @@
     if (THREE.sRGBEncoding) tex.encoding = THREE.sRGBEncoding;
     mat.map = tex; mat.color.set(0xffffff); mat.needsUpdate = true; msg.remove();
   }, undefined, function () { msg.textContent = '360 이미지를 찾을 수 없습니다'; });
-
-  // 파노라마 가운데(정면)가 lon 180 방향
-  var BASE = 180, lon = BASE, lat = 0, vLon = 0, vLat = 0, down = false, px = 0, py = 0, moved = 0, auto = true, goal = null;
   var HFOV = 80;
-  function applyFov() { var v = 2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(HFOV) / 2) / camera.aspect); camera.fov = Math.min(70, THREE.MathUtils.radToDeg(v)); camera.updateProjectionMatrix(); }
-  function size() { var w = box.clientWidth, h = box.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; applyFov(); }
+  function size() { var w = box.clientWidth, h = box.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; var v = 2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(HFOV) / 2) / camera.aspect); camera.fov = Math.min(70, THREE.MathUtils.radToDeg(v)); camera.updateProjectionMatrix(); }
   window.addEventListener('resize', size); size();
 
-  function dirOf(yawDeg, pitchDeg) { // 패널 각도 → 공간 방향(시점 계산과 같은 규칙)
-    var phi = THREE.MathUtils.degToRad(90 - pitchDeg), th = THREE.MathUtils.degToRad(BASE + yawDeg);
-    return new THREE.Vector3(Math.sin(phi) * Math.cos(th), Math.cos(phi), Math.sin(phi) * Math.sin(th));
-  }
-  uis.forEach(function (u) {
-    u._d = dirOf(+u.dataset.yaw, +u.dataset.pitch);
-    u.addEventListener('click', function () {
-      if (moved > 6) return;
-      goal = { lon: BASE + (+u.dataset.yaw), lat: Math.max(-12, Math.min(12, +u.dataset.pitch)) };
-      auto = false; hint.style.opacity = 0;
-      uis.forEach(function (o) { o.classList.toggle('is-focus', o === u); });
+  // 카드
+  var cards = [].slice.call(stage.querySelectorAll('.cf-card')), n = cards.length;
+  var dotsBox = document.getElementById('dots'), prev = box.querySelector('.cf-prev'), next = box.querySelector('.cf-next');
+  cards.forEach(function (c, i) {
+    c.style.width = c.dataset.w + 'px'; c.style.marginLeft = (-c.dataset.w / 2) + 'px';
+    var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', (i + 1) + '번째 패널');
+    b.addEventListener('click', function () { go(i); }); dotsBox.appendChild(b);
+  });
+  var dots = [].slice.call(dotsBox.children);
+  var mid = Math.floor(n / 2), pos = mid, target = mid, GAP = 300, STEP = 14; // 카드 한 장마다 배경이 도는 각도
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function place() {
+    var scale = Math.min(1, box.clientWidth / 1100);
+    cards.forEach(function (c, i) {
+      var d = i - pos, ad = Math.abs(d), sd = clamp(d, -1, 1);
+      c.style.transform = 'translateY(-50%) translateX(' + (d * GAP * scale) + 'px) translateZ(' + (-ad * 140) + 'px) rotateY(' + (sd * 32) + 'deg) scale(' + (Math.max(0.55, 1 - ad * 0.2) * scale) + ')';
+      c.style.filter = 'brightness(' + (1 - Math.min(ad, 3) * 0.18) + ')';
+      c.style.opacity = String(ad > 2.4 ? Math.max(0, 3.2 - ad) : 1);
+      c.style.zIndex = String(100 - Math.round(ad * 10));
+      c.classList.toggle('is-center', ad < 0.5);
     });
+    var k = Math.round(clamp(pos, 0, n - 1));
+    dots.forEach(function (b, i) { b.classList.toggle('is-on', i === k); });
+    prev.disabled = target <= 0; next.disabled = target >= n - 1;
+  }
+  function go(k) { target = clamp(Math.round(k), 0, n - 1); }
+  prev.addEventListener('click', function () { go(target - 1); });
+  next.addEventListener('click', function () { go(target + 1); });
+  box.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { go(target - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { go(target + 1); e.preventDefault(); }
   });
 
-  box.addEventListener('pointerdown', function (e) { down = true; moved = 0; auto = false; goal = null; px = e.clientX; py = e.clientY; box.classList.add('drag'); hint.style.opacity = 0; });
-  window.addEventListener('pointermove', function (e) { if (!down) return; var dx = px - e.clientX, dy = e.clientY - py; moved += Math.abs(dx) + Math.abs(dy); vLon = dx * 0.1; vLat = dy * 0.1; lon += vLon; lat += vLat; px = e.clientX; py = e.clientY; });
-  window.addEventListener('pointerup', function () { down = false; box.classList.remove('drag'); });
+  var down = false, sx = 0, sp = 0, moved = 0, lastX = 0, lastT = 0, vel = 0;
+  stage.addEventListener('pointerdown', function (e) {
+    if (e.button !== 0) return;
+    down = true; moved = 0; sx = lastX = e.clientX; lastT = performance.now(); sp = pos; vel = 0;
+    stage.setPointerCapture(e.pointerId); stage.classList.add('is-drag');
+  });
+  stage.addEventListener('pointermove', function (e) {
+    if (!down) return;
+    var dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx));
+    var now = performance.now(); vel = (e.clientX - lastX) / Math.max(1, now - lastT); lastX = e.clientX; lastT = now;
+    pos = clamp(sp - dx / GAP, -0.4, n - 0.6); target = pos;
+  });
+  function up(e) {
+    if (!down) return;
+    down = false; stage.classList.remove('is-drag');
+    if (moved < 6) {
+      stage.releasePointerCapture && stage.releasePointerCapture(e.pointerId);
+      var el = document.elementFromPoint(e.clientX, e.clientY), c = el && el.closest('.cf-card');
+      go(c ? cards.indexOf(c) : target); return;
+    }
+    go(pos - vel * 0.35);
+  }
+  stage.addEventListener('pointerup', up);
+  stage.addEventListener('pointercancel', up);
 
-  var tmp = new THREE.Vector3(), fwd = new THREE.Vector3(), cr = new THREE.Vector3();
+  // 배경은 카드 위치를 따라 돈다(가운데 카드 = 굴삭기 정면)
+  var BASE = 180, lon = BASE, idle = 0;
   (function loop() {
-    if (goal) { lon += (goal.lon - lon) * 0.08; lat += (goal.lat - lat) * 0.08; if (Math.abs(goal.lon - lon) < 0.05 && Math.abs(goal.lat - lat) < 0.05) goal = null; }
-    else if (!down) { lon += vLon; lat += vLat; vLon *= 0.93; vLat *= 0.93; if (auto) lon += 0.03; }
-    var lim = Math.max(0, 40 - camera.fov / 2); lat = Math.max(-lim, Math.min(lim, lat));
-    var phi = THREE.MathUtils.degToRad(90 - lat), th = THREE.MathUtils.degToRad(lon);
+    if (!down) pos += (target - pos) * (reduce ? 1 : 0.12);
+    var goalLon = BASE + (pos - mid) * STEP;
+    lon += (goalLon - lon) * (reduce ? 1 : 0.08);
+    idle += reduce ? 0 : 0.004;
+    var lat = Math.sin(idle) * 1.2, phi = THREE.MathUtils.degToRad(90 - lat), th = THREE.MathUtils.degToRad(lon + Math.sin(idle * 0.7) * 1.5);
     camera.lookAt(500 * Math.sin(phi) * Math.cos(th), 500 * Math.cos(phi), 500 * Math.sin(phi) * Math.sin(th));
-    camera.updateMatrixWorld();
     renderer.render(scene, camera);
-    // 패널: 공간에 고정된 위치를 화면 좌표로
-    var W = box.clientWidth, H = box.clientHeight;
-    camera.getWorldDirection(fwd);
-    var k = (W / 2) / Math.tan(THREE.MathUtils.degToRad(HFOV) / 2) / 900;
-    uis.forEach(function (u) {
-      var facing = u._d.dot(fwd);
-      if (facing < 0.15) { u.style.opacity = 0; u.style.pointerEvents = 'none'; return; }
-      tmp.copy(u._d).multiplyScalar(400).project(camera);
-      var x = (tmp.x + 1) / 2 * W, y = (1 - tmp.y) / 2 * H, w = +u.dataset.w * k;
-      var side = cr.crossVectors(fwd, u._d).y; // 옆으로 갈수록 살짝 돌아감
-      u.style.width = w + 'px';
-      u.style.transform = 'translate(' + (x - w / 2) + 'px,' + (y - u.offsetHeight / 2) + 'px) perspective(900px) rotateY(' + (-side * 40) + 'deg)';
-      u.style.opacity = String(Math.min(1, (facing - 0.15) / 0.25));
-      u.style.pointerEvents = 'auto';
-    });
+    place();
     requestAnimationFrame(loop);
   })();
 })();
