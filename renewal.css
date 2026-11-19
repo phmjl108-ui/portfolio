@@ -540,3 +540,26 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .view .dsx-r { position: absolute; left: 0; right: 0; cursor: pointer; mix-blend-mode: multiply; }
 .view .dsx-r:hover { background: rgb(242,247,255); }
 .view .dsx-r.is-sel { background: rgb(219,232,255); }
+
+/* 패널 3D 카드 슬라이드(커버 플로) */
+.view .cf { position: relative; margin-top: 32px; padding: 24px 0 56px; outline: none; user-select: none; -webkit-user-select: none; }
+.view .cf-stage { position: relative; height: 720px; perspective: 1400px; perspective-origin: 50% 40%; touch-action: pan-y; cursor: grab; overflow: hidden; }
+.view .cf-stage.is-drag { cursor: grabbing; }
+.view .cf-card { position: absolute; left: 50%; top: 50%; width: 348px; margin: 0 0 0 -174px; transform-style: preserve-3d; will-change: transform, filter; }
+.view .cf-panel { position: relative; }
+.view .cf-panel img { display: block; width: 348px; height: auto; max-width: none; border-radius: 0; box-shadow: none; pointer-events: none; }
+.view .cf-head { position: absolute; left: 15px; right: 15px; top: 15px; height: 64px; border: 0; background: transparent; cursor: pointer; border-radius: 12px 12px 0 0; }
+.view .cf-card:not(.is-center) .cf-head { pointer-events: none; }
+.view .cf-head:focus-visible { outline: 2px solid #4C8DFF; outline-offset: -2px; }
+.view .cf-card figcaption { margin-top: 6px; text-align: center; font-size: 12px; color: #6B6C72; transition: opacity .2s ease; }
+.view .cf-card:not(.is-center) figcaption { opacity: 0; }
+.view .cf-nav { position: absolute; top: 340px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid #E2E3E7; background: #fff; cursor: pointer; z-index: 150; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+.view .cf-nav::before { content: ''; position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; border-left: 2px solid #3A3B40; border-bottom: 2px solid #3A3B40; transform: translate(-30%, -50%) rotate(45deg); }
+.view .cf-prev { left: 8px; }
+.view .cf-next { right: 8px; }
+.view .cf-next::before { transform: translate(-70%, -50%) rotate(-135deg); }
+.view .cf-nav:disabled { opacity: .35; cursor: default; }
+.view .cf-dots { position: absolute; left: 0; right: 0; bottom: 16px; display: flex; justify-content: center; gap: 8px; }
+.view .cf-dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: #CDD0D6; cursor: pointer; transition: width .25s ease, background .25s ease; }
+.view .cf-dots button.is-on { width: 22px; border-radius: 4px; background: #1A1B1F; }
+@media (max-width: 640px) { .view .cf-stage { height: 640px; } }

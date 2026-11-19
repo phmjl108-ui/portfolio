@@ -144,3 +144,88 @@
     rows.forEach(function (r) { r.addEventListener('click', function () { rows.forEach(function (o) { o.classList.toggle('is-sel', o === r && !r.classList.contains('is-sel')); }); }); });
   });
 })();
+
+/* 패널 3D 카드 슬라이드: 드래그·스와이프·가로 휠·화살표·점·카드 누르기로 이동, 가운데 카드 제목 줄로 접기·펼치기 */
+(function () {
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.cf').forEach(function (cf) {
+    var stage = cf.querySelector('.cf-stage'), cards = [].slice.call(cf.querySelectorAll('.cf-card')), dots = [].slice.call(cf.querySelectorAll('.cf-dots button'));
+    var prev = cf.querySelector('.cf-prev'), next = cf.querySelector('.cf-next');
+    var n = cards.length, pos = 0, target = 0, raf = 0, GAP = 260;
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function render() {
+      cards.forEach(function (c, i) {
+        var d = i - pos, ad = Math.abs(d), sd = clamp(d, -1, 1);
+        c.style.transform = 'translateY(-50%) translateX(' + (d * GAP) + 'px) translateZ(' + (-ad * 120) + 'px) rotateY(' + (sd * 30) + 'deg) scale(' + Math.max(0.6, 1 - ad * 0.2) + ')';
+        c.style.filter = 'brightness(' + (1 - Math.min(ad, 3) * 0.15) + ')';
+        c.style.zIndex = String(100 - Math.round(ad * 10));
+        c.classList.toggle('is-center', ad < 0.5);
+      });
+      var k = Math.round(clamp(pos, 0, n - 1));
+      dots.forEach(function (b, i) { b.classList.toggle('is-on', i === k); b.setAttribute('aria-current', i === k ? 'true' : 'false'); });
+      prev.disabled = target <= 0; next.disabled = target >= n - 1;
+    }
+    function tick() {
+      var diff = target - pos;
+      if (reduce || Math.abs(diff) < 0.001) { pos = target; render(); raf = 0; return; }
+      pos += diff * 0.14; render(); raf = requestAnimationFrame(tick);
+    }
+    function go(k) { target = clamp(Math.round(k), 0, n - 1); if (!raf) raf = requestAnimationFrame(tick); }
+    prev.addEventListener('click', function () { go(target - 1); });
+    next.addEventListener('click', function () { go(target + 1); });
+    dots.forEach(function (b, i) { b.addEventListener('click', function () { go(i); }); });
+    cf.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { go(target - 1); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { go(target + 1); e.preventDefault(); }
+    });
+
+    // 드래그·스와이프: 끄는 만큼 돌아가고, 놓으면 가까운 카드로(빠르게 밀면 한 장 더)
+    var down = false, sx = 0, sp = 0, moved = 0, lastX = 0, lastT = 0, vel = 0;
+    stage.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      down = true; moved = 0; sx = lastX = e.clientX; lastT = performance.now(); sp = pos; vel = 0;
+      stage.setPointerCapture(e.pointerId); stage.classList.add('is-drag'); cancelAnimationFrame(raf); raf = 0;
+    });
+    stage.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx));
+      var now = performance.now(); vel = (e.clientX - lastX) / Math.max(1, now - lastT); lastX = e.clientX; lastT = now;
+      pos = clamp(sp - dx / GAP, -0.4, n - 0.6); target = pos; render();
+    });
+    function up(e) {
+      if (!down) return;
+      down = false; stage.classList.remove('is-drag');
+      if (moved < 6) { // 누르기: 옆 카드면 가운데로, 가운데 카드 제목 줄이면 접기·펼치기
+        stage.releasePointerCapture && stage.releasePointerCapture(e.pointerId);
+        var el = document.elementFromPoint(e.clientX, e.clientY), c = el && el.closest('.cf-card');
+        if (c && !c.classList.contains('is-center')) { go(+c.dataset.i); return; }
+        var hd = el && el.closest('.cf-head'); if (hd) toggle(hd);
+        go(target); return;
+      }
+      go(pos - vel * 0.35);
+    }
+    stage.addEventListener('pointerup', up);
+    stage.addEventListener('pointercancel', up);
+    // 가로 휠(트랙패드 좌우)만 사용, 세로 스크롤은 그대로 둠
+    var wheelT = 0;
+    stage.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault(); var now = Date.now(); if (now - wheelT < 350) return;
+      wheelT = now; go(target + (e.deltaX > 0 ? 1 : -1));
+    }, { passive: false });
+
+    // 제목 줄: 접기·펼치기(피그마 On·Off 상태)
+    function toggle(head) {
+      var c = head.closest('.cf-card'); if (!c.classList.contains('is-center')) return;
+      var pnl = head.parentNode, img = pnl.querySelector('img'), open = head.getAttribute('aria-expanded') !== 'true';
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      img.src = open ? pnl.dataset.on : pnl.dataset.off;
+    }
+    cards.forEach(function (c) {
+      var pnl = c.querySelector('.cf-panel'), head = pnl.querySelector('.cf-head');
+      new Image().src = pnl.dataset.off;
+      head.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { toggle(head); e.preventDefault(); } });
+    });
+    render();
+  });
+})();
