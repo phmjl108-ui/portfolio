@@ -459,3 +459,6 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .md-tile figcaption { padding: 12px 14px 14px; font-size: 13px; color: #6B6C72; line-height: 1.4; background: #fff; border-top: 1px solid #ECEDF0; }
 .md-tile figcaption b { display: block; font-size: 14px; color: #111; margin-bottom: 2px; }
 @media (max-width: 960px) { .md-grid { grid-template-columns: 1fr 1fr; } .md-pc { grid-column: 1 / -1; } }
+/* 겹친 창: 흰 바탕·테두리 대신 그림자 — 이미지 모양(둥근 모서리) 그대로 따라감 */
+.view .fig-float, .view .fig-sec .fig-float, .view .fig-sec[data-dev="vr"] .fig-float { background: none !important; border: 0 !important; box-shadow: none !important; overflow: visible !important; }
+.view .fig-float img, .view .fig-sec .fig-shot .fig-float img { filter: drop-shadow(0 10px 24px rgba(0,0,0,.22)) drop-shadow(0 2px 6px rgba(0,0,0,.12)) !important; }
