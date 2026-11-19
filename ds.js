@@ -19,7 +19,23 @@
     if (alt) {
       img.addEventListener('click', function () { on = !on; img.src = rest(); });
     }
+    if (img.dataset.cycle) { // 누를 때마다 다음 상태(예: 기본 → 포커스 → 입력 중 → 입력됨)
+      var list = img.dataset.cycle.split(','), k = 0;
+      list.forEach(preload);
+      img.addEventListener('click', function () { k = (k + 1) % list.length; img.src = list[k]; });
+    }
   }
+
+  // 상태 보기: 접힌 상태 이미지 펼치기/접기
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.dsx-btn'); if (!b) return;
+    var p = document.getElementById(b.getAttribute('aria-controls')); if (!p) return;
+    var open = b.getAttribute('aria-expanded') !== 'true';
+    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    b.textContent = open ? '상태 접기' : '상태 보기';
+    p.hidden = !open;
+    if (open) p.querySelectorAll('img[loading="lazy"]').forEach(function (i) { i.loading = 'eager'; });
+  });
 
   function typeToast(el) {
     if (el.__run) return; el.__run = 1;
@@ -38,7 +54,7 @@
   }
 
   function scan(root) {
-    (root || document).querySelectorAll('.dsb img[data-hover], .dsb img[data-toggle]').forEach(initImg);
+    (root || document).querySelectorAll('.dsb img[data-hover], .dsb img[data-toggle], .dsb img[data-cycle]').forEach(initImg);
     var ts = (root || document).querySelectorAll('.dsb-toast');
     if (!('IntersectionObserver' in window)) { ts.forEach(typeToast); return; }
     var io = scan.io || (scan.io = new IntersectionObserver(function (es) {

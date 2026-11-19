@@ -488,3 +488,23 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 .view .dsb-toast.is-in .dsb-toast-ic { opacity: 1; transform: scale(1); }
 .view .dsb-toast-tx { position: absolute; transform: translateY(-50%); color: #fff; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; line-height: 1; }
 @media (prefers-reduced-motion: reduce) { .view .dsb .dsb-toast-ic { transition: none; } }
+
+/* 디자인 시스템 판(분리형): 그룹마다 이름 | 동작하는 UI | 상태 보기(접힘) */
+.view .dsx { padding: 8px 40px; }
+.view .dsx-g { display: grid; grid-template-columns: 140px minmax(0, 420px) minmax(0, 1fr); gap: 32px; align-items: start; padding: 28px 0; border-top: 1px solid #F0F1F3; margin: 0; }
+.view .dsx-g:first-child { border-top: 0; }
+.view .dsx-g > .dsb-t { margin: 6px 0 0; }
+.view .dsx-live { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.view .dsx-live .dsb-row { margin: 0; }
+.view .dsx-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid #E2E3E7; border-radius: 999px; background: #fff; font-size: 12px; color: #4A4B50; cursor: pointer; }
+.view .dsx-btn::after { content: ''; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(-45deg); transition: transform .2s ease; }
+.view .dsx-btn[aria-expanded="true"]::after { transform: rotate(45deg); }
+.view .dsx-btn:hover { border-color: #C9CBD1; color: #1A1B1F; }
+.view .dsx-states { margin-top: 16px; padding: 16px; background: #F7F8FA; border-radius: 12px; }
+.view .dsx-states .dsb-row:last-child, .view .dsx-states > .dsb-cell:last-child { margin-bottom: 0; }
+@media (max-width: 900px) { .view .dsx { padding: 8px 20px; } .view .dsx-g { grid-template-columns: 1fr; gap: 12px; } }
+.view .dsx-tbl { padding: 28px 0 32px; border-top: 1px solid #F0F1F3; }
+.view .dsx-states { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: flex-end; }
+.view .dsx-states[hidden] { display: none; }
+.view .dsx-states > .dsb-cell, .view .dsx-states > .dsb-row { margin: 0; }
+.view .dsx-states > .dsb-row { flex-basis: 100%; }
