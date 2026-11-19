@@ -461,4 +461,4 @@ body:not([data-view="home"]):not([data-view="landing"]):not([data-view="about"])
 @media (max-width: 960px) { .md-grid { grid-template-columns: 1fr 1fr; } .md-pc { grid-column: 1 / -1; } }
 /* 겹친 창: 흰 바탕·테두리 대신 그림자 — 이미지 모양(둥근 모서리) 그대로 따라감 */
 .view .fig-float, .view .fig-sec .fig-float, .view .fig-sec[data-dev="vr"] .fig-float { background: none !important; border: 0 !important; box-shadow: none !important; overflow: visible !important; }
-.view .fig-float img, .view .fig-sec .fig-shot .fig-float img { filter: drop-shadow(0 10px 24px rgba(0,0,0,.22)) drop-shadow(0 2px 6px rgba(0,0,0,.12)) !important; }
+.view .fig-float img, .view .fig-sec .fig-shot .fig-float img { filter: drop-shadow(0 14px 30px rgba(0,0,0,.38)) drop-shadow(0 3px 8px rgba(0,0,0,.24)) !important; }
