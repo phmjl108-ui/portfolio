@@ -40,15 +40,17 @@
   }, undefined, function () { msg.textContent = '360 이미지를 찾을 수 없습니다: ' + SRC; });
 
   var lon = 180, lat = 0, vLon = 0, vLat = 0, down = false, px = 0, py = 0, auto = true;
-  function size() { var w = wrap.clientWidth, h = wrap.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+  var HFOV = 80; // 가로 시야 고정(넓은 화면에서 가장자리 휨 방지)
+  function applyFov() { var a = camera.aspect, v = 2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(HFOV) / 2) / a); camera.fov = Math.min(75, THREE.MathUtils.radToDeg(v)); camera.updateProjectionMatrix(); }
+  function size() { var w = wrap.clientWidth, h = wrap.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; applyFov(); }
   window.addEventListener('resize', size); size();
   wrap.addEventListener('pointerdown', function (e) { down = true; auto = false; px = e.clientX; py = e.clientY; wrap.setPointerCapture(e.pointerId); wrap.classList.add('drag'); hint.style.opacity = 0; });
   wrap.addEventListener('pointermove', function (e) { if (!down) return; vLon = (px - e.clientX) * 0.12; vLat = (e.clientY - py) * 0.12; lon += vLon; lat += vLat; px = e.clientX; py = e.clientY; });
   wrap.addEventListener('pointerup', function () { down = false; wrap.classList.remove('drag'); });
-  wrap.addEventListener('wheel', function (e) { e.preventDefault(); camera.fov = Math.max(45, Math.min(90, camera.fov + e.deltaY * 0.03)); camera.updateProjectionMatrix(); }, { passive: false });
+  wrap.addEventListener('wheel', function (e) { e.preventDefault(); HFOV = Math.max(50, Math.min(90, HFOV + e.deltaY * 0.03)); applyFov(); }, { passive: false });
   (function loop() {
     if (!down) { lon += vLon; lat += vLat; vLon *= 0.93; vLat *= 0.93; if (auto) lon += 0.04; }
-    lat = Math.max(-35, Math.min(35, lat));
+    lat = Math.max(-15, Math.min(15, lat));
     var phi = THREE.MathUtils.degToRad(90 - lat), th = THREE.MathUtils.degToRad(lon);
     camera.lookAt(500 * Math.sin(phi) * Math.cos(th), 500 * Math.cos(phi), 500 * Math.sin(phi) * Math.sin(th));
     renderer.render(scene, camera); requestAnimationFrame(loop);
