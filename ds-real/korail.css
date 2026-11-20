@@ -8,8 +8,8 @@
 .view#view-korail .ko button:focus-visible, .view#view-korail .ko-p button:focus-visible, .view#view-korail .ko [tabindex]:focus-visible { outline: 2px solid var(--ko-b); outline-offset: 2px; }
 .view#view-korail .ko-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .view#view-korail .ko-col { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
-/* 반투명 어두운 부품은 앱의 3D 화면처럼 어두운 바탕 위에 둠 */
-.view#view-korail .ko-dark { padding: 16px; border-radius: 12px; background: linear-gradient(135deg, #3A4049, #23262C); }
+/* 반투명(글래스) 부품은 실제 앱 3D 장면(피그마 '열차 입·출고 현황' 차량기지 배경 이미지) 위에 둠 — 바탕은 부품 크기에 맞춤 */
+.view#view-korail .ko-scene { width: max-content; max-width: 100%; padding: 16px; box-sizing: border-box; border-radius: 12px; background: #1E2A33 url("../assets/ds/korail/scene-depot.webp") center 35% / cover no-repeat; }
 
 /* 1. 입력 필드 (Input Field 10250:62132, 320×48) */
 .view#view-korail .ko-in { position: relative; display: flex; align-items: center; gap: 8px; width: 320px; max-width: 100%; height: 48px; padding: 0 16px; box-sizing: border-box; border-radius: 10px; background: #fff; box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); color: #000; transition: box-shadow .12s ease; }
@@ -25,10 +25,13 @@
 .view#view-korail .ko-eye:hover, .view#view-korail .ko-eye[aria-pressed="true"] { color: #0054A6; }
 
 /* 2. 반투명 버튼 (Btn - Apply 2229:198 304×40 · 상세보기 495:18812 · Go Back 1164:26707, 135×40) */
-.view#view-korail .ko-gb { display: inline-flex; align-items: center; justify-content: center; gap: 16px; height: 40px; padding: 8px 16px; box-sizing: border-box; border: 0; border-radius: 10px; background: rgba(41,41,41,.5); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); color: #fff; font: 500 16px/17px var(--ko-f); cursor: pointer; transition: background-color .12s ease; }
+.view#view-korail .ko-gb { display: inline-flex; align-items: center; justify-content: center; gap: 16px; height: 40px; padding: 8px 16px; box-sizing: border-box; border: 0; border-radius: 10px; background: rgba(41,41,41,.5); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.05); backdrop-filter: blur(20px) saturate(1.2) brightness(1.05); color: #fff; font: 500 16px/17px var(--ko-f); cursor: pointer; transition: background-color .12s ease; }
 .view#view-korail .ko-gb:hover { background: rgba(41,41,41,.7); }
 .view#view-korail .ko-gb:active, .view#view-korail .ko-gb[aria-pressed="true"] { background: var(--ko-b); }
 .view#view-korail .ko-apply { width: 304px; }
+.view#view-korail .ko-ring { cursor: pointer; outline: none; }
+.view#view-korail .ko-ring:focus-visible { box-shadow: 0 0 0 2px var(--ko-b); border-radius: 50%; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-korail .ko-gb { background: rgba(41,41,41,.82); } .view#view-korail .ko-pop, .view#view-korail .ko-wl { background-color: rgba(34,34,44,.95); } }
 
 /* 3. 원형 진행률 (Progress - Circle 137:2944, 132×132, 굵기 12) — 보이면 차오름 */
 .view#view-korail .ko-ring { position: relative; width: 132px; height: 132px; }
@@ -36,12 +39,8 @@
 .view#view-korail .ko-ring-bg { fill: none; stroke: #E6F7FB; stroke-width: 12; }
 .view#view-korail .ko-ring-fg { fill: none; stroke: var(--ko-b); stroke-width: 12; stroke-linecap: round; }
 .view#view-korail .ko-ring-v { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 700 22px/1 var(--ko-f); color: #0054A6; font-variant-numeric: tabular-nums; }
-.view#view-korail .ko-seg { display: inline-flex; padding: 3px; border-radius: 10px; background: #EEF1F4; }
-.view#view-korail .ko-seg button { height: 30px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; color: #5B6470; font: 500 13px/1 var(--ko-f); cursor: pointer; }
-.view#view-korail .ko-seg button[aria-checked="true"] { background: #fff; color: #0054A6; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
 
 /* 4. 드롭다운 (Dropdown - Basic 1287:58571 + Dropdown Menu 2265:3279) */
-.view#view-korail .ko-ddw { min-height: 150px; align-items: flex-start; }
 .view#view-korail .ko-dd { position: relative; }
 .view#view-korail .ko-dd.is-open { z-index: 40; }
 .view#view-korail .ko-dd-btn { display: flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px 0 24px; box-sizing: border-box; border: 0; border-radius: 14px; background: transparent; box-shadow: inset 0 0 0 1px #fff; color: #fff; font: 700 16px/17px var(--ko-f); cursor: pointer; transition: background-color .12s ease; }
@@ -80,8 +79,6 @@
 .view#view-korail .ko-ib { position: relative; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: #fff; cursor: pointer; transition: background-color .12s ease; }
 .view#view-korail .ko-ib:hover { background: rgba(0,0,0,.2); }
 .view#view-korail .ko-ib:active, .view#view-korail .ko-ib[aria-pressed="true"] { background: var(--ko-b); }
-.view#view-korail .ko-badge { position: absolute; right: 2px; top: 2px; min-width: 16px; height: 16px; padding: 0 4px; box-sizing: border-box; border-radius: 8px; background: #FF3B30; color: #fff; font: 700 10px/16px var(--ko-f); transition: transform .2s ease; }
-.view#view-korail .ko-noti:not(.is-new) .ko-badge { transform: scale(0); }
 .view#view-korail .ko-rot { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; padding: 9px; border: 0; border-radius: 14px; background: rgba(0,0,0,.5); color: #fff; cursor: pointer; transition: background-color .12s ease; }
 .view#view-korail .ko-rot:hover { background: rgba(0,0,0,.7); }
 .view#view-korail .ko-rot:active, .view#view-korail .ko-rot[aria-pressed="true"] { background: var(--ko-b); }
@@ -101,9 +98,11 @@
 .view#view-korail .ko-bar:focus-visible { box-shadow: 0 0 0 2px var(--ko-b); }
 
 /* ── 카드 슬라이드 패널 ── */
+.view#view-korail .ko-scene-p { padding: 12px; border-radius: 14px; }
 .view#view-korail .cf-card .ko-p { display: flex; justify-content: center; }
 .view#view-korail .cf-card:not(.is-center) .ko-p * { pointer-events: none; }
-.view#view-korail .cf-card.ko-c-bulk { width: 462px; margin-left: -231px; }
+.view#view-korail .cf-card.ko-c-bulk { width: 486px; margin-left: -243px; }
+.view#view-korail .cf-card.ko-c-wl { width: 368px; margin-left: -184px; }
 .view#view-korail .ko-x { position: absolute; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: #fff; cursor: pointer; transition: background-color .12s ease; }
 .view#view-korail .ko-x:hover { background: rgba(0,0,0,.2); }
 .view#view-korail .ko-x:active { background: var(--ko-b); }
@@ -111,8 +110,7 @@
 .view#view-korail .ko-x-d:hover { background: rgba(0,0,0,.06); }
 .view#view-korail .ko-x-d:active { background: var(--ko-b); color: #fff; }
 /* 제품 일괄 등록 (제품 목록 상세 Popup 3834:50692 + 데이터 매핑 결과, 768 폭 → ×0.6) */
-.view#view-korail .ko-pop { position: relative; zoom: .6; display: flex; flex-direction: column; gap: 16px; width: 768px; padding: 24px; box-sizing: border-box; border-radius: 10px; background: rgba(34,34,44,.8); box-shadow: inset 0 0 0 1px rgba(255,255,255,.5), 0 8px 24px rgba(0,0,0,.2); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
-.view#view-korail .ko-bulk { background-color: #4A4B52; }
+.view#view-korail .ko-pop { position: relative; zoom: .6; display: flex; flex-direction: column; gap: 16px; width: 768px; padding: 24px; box-sizing: border-box; border-radius: 10px; background: rgba(34,34,44,.8); box-shadow: inset 0 0 0 1px rgba(255,255,255,.5), 0 8px 24px rgba(0,0,0,.2); -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.05); backdrop-filter: blur(20px) saturate(1.2) brightness(1.05); }
 .view#view-korail .ko-pt { margin: 0; font: 700 24px/25px var(--ko-f); color: var(--ko-b); letter-spacing: 0; }
 .view#view-korail .ko-bulk .ko-x { right: 12px; top: 12px; }
 .view#view-korail .ko-tpl { margin: 0; font: 300 16px/16px var(--ko-f); color: #fff; }
@@ -183,7 +181,7 @@
 .view#view-korail .ko-io-l dt { width: 105px; flex: none; font: 700 16px/17px var(--ko-f); color: #fff; }
 .view#view-korail .ko-io-l dd { flex: 1; height: 34px; margin: 0; padding: 9px 13px; box-sizing: border-box; border-radius: 10px; background: rgba(255,255,255,.1); font: 300 16px/16px var(--ko-f); color: #fff; white-space: nowrap; font-variant-numeric: tabular-nums; }
 /* 경고표지 (Popup - 경고표지 3766:35045, 476×294 → ×0.72) — 그림은 기존 이미지에서 잘라 씀 */
-.view#view-korail .ko-wl { zoom: .72; display: flex; flex-direction: column; gap: 16px; width: 476px; padding: 24px; box-sizing: border-box; border-radius: 14px; background: #4A4B52; box-shadow: inset 0 0 0 1px rgba(255,255,255,.5), 0 8px 24px rgba(0,0,0,.2); }
+.view#view-korail .ko-wl { zoom: .72; display: flex; flex-direction: column; gap: 16px; width: 476px; padding: 24px; box-sizing: border-box; border-radius: 14px; background: rgba(34,34,44,.8); box-shadow: inset 0 0 0 1px rgba(255,255,255,.5), 0 8px 24px rgba(0,0,0,.2); -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.05); backdrop-filter: blur(20px) saturate(1.2) brightness(1.05); }
 .view#view-korail .ko-wl-t { margin: 0; font: 700 24px/28px 'Noto Sans KR', var(--ko-f); color: var(--ko-b); letter-spacing: 0; }
 .view#view-korail .ko-wl-b { overflow: hidden; border-radius: 10px; background: #fff; }
 .view#view-korail .ko-wl-n { margin: 0; height: 70px; padding: 0 20px; display: flex; align-items: center; background: #22222C; font: 500 20px/20px 'Noto Sans KR', var(--ko-f); color: #fff; }
@@ -203,3 +201,5 @@
 .view#view-korail .ko-ok:active { background: rgba(255,255,255,.16); }
 @media (prefers-reduced-motion: reduce) { .view#view-korail .ko *, .view#view-korail .ko-p * { animation: none !important; transition: none !important; } }
 @media (max-width: 700px) { .view#view-korail .cf-card.ko-c-bulk { width: 348px; margin-left: -174px; } .view#view-korail .ko-pop { zoom: .45; } .view#view-korail .ko-tags { grid-template-columns: repeat(3, 96px); } }
+/* 입력칸: 실제 input 의 브라우저 기본 모양·테두리·포커스 링 제거 — 테두리·포커스 표시는 바깥 틀(.ko-in)에만 */
+.view#view-korail .ko-in input, .view#view-korail .ko-p input { -webkit-appearance: none; appearance: none; border: 0; outline: 0; background: transparent; }

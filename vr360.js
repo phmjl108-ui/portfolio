@@ -1,4 +1,4 @@
-/* 프로젝트 상세의 360 공간 배경 + 카드 슬라이드(실제 UI). .vrc-box 마다 엔진 하나: 정비 VR(#vrcBox), MCU(#mcuBox) */
+/* 프로젝트 상세의 360 공간 배경 + 카드 슬라이드(실제 UI). .vrc-box 마다 엔진 하나: 정비 VR(#vrcBox), MCU(#mcuBox), 삼성 XR(#sxBox) */
 (function () {
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var NS = 'http://www.w3.org/2000/svg';
@@ -74,7 +74,7 @@
 
   // ── 360 배경 + 카드 슬라이드 엔진: .vrc-box(data-pano·data-fonts·data-base·data-step) 하나를 맡는다 ──
   function engine(box, opts) {
-    var SRC = box.dataset.pano || opts.pano;
+    var SRC = opts.pano || box.dataset.pano; // 스크립트 쪽 주소(캐시 버전 포함)를 우선
     var stage = box.querySelector('.vrc-stage'), msg = box.querySelector('.msg'), centerK = -1;
 
     var FONTS = box.dataset.fonts || opts.fonts;
@@ -344,7 +344,7 @@
     })();
     bindScroll($('dmScroll'), $('dmThumb'), 'y', 198, 452);
     engine(box, {
-      pano: 'assets/pano/vr-maint-360.webp?v=6', base: 180, step: 14,
+      pano: 'assets/pano/vr-maint-360.webp?v=7', base: 180, step: 14,
       fonts: 'https://fonts.googleapis.com/css2?family=Exo:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap',
       onCenter: function (k) { gsRun(k === 0); var pw = $('pnWarn'); pw.classList.remove('play'); if (k === 3) replay(pw, 'play'); },
       onRun: function (on, k) { gsRun(on && k === 0); }
@@ -412,10 +412,16 @@
     });
 
     api = engine(box, {
-      pano: 'assets/pano/mcu-360.webp?v=1', base: 180, step: 14, fonts: '',
+      pano: 'assets/pano/mcu-360.webp?v=2', base: 180, step: 14, fonts: '',
       onCenter: function (k) { tyRun(k === 1); },
       onRun: function (on, k) { if (on && k === 1) tyRun(true); else if (!on) tyFull(); }
     });
+  })();
+
+  // ── 삼성전자서비스 XR 패널: 패널 동작은 ds-real/samsung-xr.js 가 맡고, 여기서는 360 배경과 카드 슬라이드만 ──
+  (function () {
+    var box = $('sxBox'); if (!box) return;
+    engine(box, { pano: 'assets/pano/samsung-xr-360.webp?v=1', base: 180, step: 14, fonts: '' });
   })();
 
 })();

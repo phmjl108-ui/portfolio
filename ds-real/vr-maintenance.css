@@ -1,0 +1,142 @@
+/* 정비 VR(HD현대인프라코어 DEVELON) 실제 UI — 피그마 LARLVrhF1v9e74icA1ngyi 'Buttons'·'Progress Indicators' 페이지 값을 HTML/CSS 로 재현
+   범위: .view#view-vr-maintenance 안에서만. 접두사 vb- (360 섹션의 .pn·.btn-sq 등과 겹치지 않게)
+   피그마 px 그대로(상태 이미지가 2배 내보내기를 ½ 로 보여 주므로 판에서도 1배 = 같은 크기) */
+
+/* 공통 */
+.view#view-vr-maintenance .vb { font-family: 'Exo', 'Pretendard', sans-serif; color: #fff; line-height: 1.33; -webkit-font-smoothing: antialiased; word-break: keep-all; }
+/* 반투명 부품이 흰 판과 구분되도록 실제 정비 장면(360 배경 정면)을 부품 크기에 맞춰 깔기 */
+.view#view-vr-maintenance .vb-st { display: inline-block; box-sizing: border-box; width: fit-content; max-width: 100%; padding: 10px; border-radius: 8px; background: url(vr-maintenance-img/scene.webp) center 42% / cover no-repeat, #3a4148; }
+.view#view-vr-maintenance .vb-st-mn { padding-top: 20px; }
+.view#view-vr-maintenance .vb-st-ty { padding: 18px; }
+.view#view-vr-maintenance :where(.vb button) { position: relative; display: inline-flex; align-items: center; box-sizing: border-box; margin: 0; padding: 0; border: 0; background: none; font: inherit; color: inherit; line-height: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.view#view-vr-maintenance :where(.vb button):focus { outline: 0; }
+.view#view-vr-maintenance .vb button:focus-visible { outline: 3px solid #03DAC6; outline-offset: 4px; }
+.view#view-vr-maintenance .vb-row { display: flex; align-items: center; gap: 12px; }
+.view#view-vr-maintenance .vb-sh { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; display: block; pointer-events: none; }
+.view#view-vr-maintenance .vb-sh path { transition: fill .15s, fill-opacity .15s, stroke .15s, opacity .15s; }
+.view#view-vr-maintenance .vb-t { position: relative; white-space: nowrap; pointer-events: none; transition: color .15s; }
+.view#view-vr-maintenance .vb-ic { display: block; flex: none; transition: color .15s, transform .32s cubic-bezier(.3,1.3,.5,1); }
+/* 유리(글래스모피즘): 부품 모양 그대로 자른 층에 뒤 장면 흐림 */
+.view#view-vr-maintenance .vb-gl { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; -webkit-mask: var(--m) 0 0 / 100% 100% no-repeat; mask: var(--m) 0 0 / 100% 100% no-repeat; -webkit-backdrop-filter: blur(8px) saturate(1.2) brightness(.95); backdrop-filter: blur(8px) saturate(1.2) brightness(.95); transition: opacity .15s; }
+
+/* 1. 팝업 버튼 (Ingame/maintenance/Popup Button Type 2675:51697) — 232×61, 바탕 #000 ×0.8, 선 #C6CACC, Exo Bold 30 */
+.view#view-vr-maintenance .vb-pop { justify-content: center; min-width: 232px; height: 61px; padding: 0 32px; }
+.view#view-vr-maintenance .vb-pop .vb-sh path { opacity: .8; fill: #000; stroke: #C6CACC; }
+.view#view-vr-maintenance .vb-pop .vb-t { font-weight: 700; font-size: 30px; line-height: 40px; text-shadow: 0 0 4px rgba(0,0,0,.25); }
+.view#view-vr-maintenance .vb-pop:hover .vb-sh path { stroke: #03DAC6; }
+.view#view-vr-maintenance .vb-pop:active .vb-sh path { fill: #002C1F; stroke: #03DAC6; }
+.view#view-vr-maintenance .vb-pop[aria-pressed="true"] .vb-sh path { fill: #6B2800; fill-opacity: .8; stroke: #FF5F00; }
+
+/* 2. 공통 버튼 (Btn - Common 2710:38409) — 276×56, 가운데 진한 검정 그라데이션 + 위아래 2px 흰 그라데이션 선 */
+.view#view-vr-maintenance .vb-cm { justify-content: center; min-width: 276px; height: 56px; padding: 0 48px; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, #000 48.5%, rgba(0,0,0,0) 100%); transition: transform .15s; }
+.view#view-vr-maintenance .vb-cm::before, .view#view-vr-maintenance .vb-cm::after { content: ""; position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, rgba(255,255,255,0) 0%, #fff 50%, rgba(255,255,255,0) 100%); pointer-events: none; }
+.view#view-vr-maintenance .vb-cm::before { top: 0; }
+.view#view-vr-maintenance .vb-cm::after { bottom: 0; }
+.view#view-vr-maintenance .vb-gl-cm { -webkit-mask: linear-gradient(90deg, transparent 0%, #000 48.5%, transparent 100%); mask: linear-gradient(90deg, transparent 0%, #000 48.5%, transparent 100%); }
+.view#view-vr-maintenance .vb-cm .vb-t { font-weight: 700; font-size: 30px; line-height: 40px; text-shadow: 0 0 4px rgba(0,0,0,.25); }
+.view#view-vr-maintenance .vb-cm:hover { transform: scale(1.03); }
+.view#view-vr-maintenance .vb-cm:active .vb-t { color: #03DAC6; }
+
+/* 3. 주기 선택 (Btn - Cycle selection 2733:79640) — 370×60, 글자만(Normal) → Hover 청록 글자 → 선택(Pinch) 그라데이션 바탕+노란 굵은 글자, 바탕 흐림 20(÷2) */
+.view#view-vr-maintenance .vb-cy { min-width: 370px; height: 60px; padding: 0 16px; }
+.view#view-vr-maintenance .vb-cy .vb-sh, .view#view-vr-maintenance .vb-gl-cy { opacity: 0; transition: opacity .2s; }
+.view#view-vr-maintenance .vb-gl-cy { -webkit-backdrop-filter: blur(10px) saturate(1.2) brightness(.95); backdrop-filter: blur(10px) saturate(1.2) brightness(.95); }
+.view#view-vr-maintenance .vb-cy .vb-t { font-weight: 500; font-size: 24px; line-height: 32px; }
+.view#view-vr-maintenance .vb-cy:hover .vb-t { color: #03DAC6; }
+.view#view-vr-maintenance .vb-cy[aria-pressed="true"] .vb-sh, .view#view-vr-maintenance .vb-cy[aria-pressed="true"] .vb-gl-cy { opacity: 1; }
+.view#view-vr-maintenance .vb-cy[aria-pressed="true"] .vb-t { color: #FFFF00; font-weight: 700; }
+
+/* 4. 키워드 (Btn - Keyword 2733:79604) — 162×60, 글자만 → Hover 청록 → Active 청록(#03DAC6 ×0.8) 바탕 + 흰 굵은 글자 */
+.view#view-vr-maintenance .vb-kw { min-width: 162px; height: 60px; padding: 0 16px; }
+.view#view-vr-maintenance .vb-kw .vb-sh path { fill: #03DAC6; fill-opacity: .8; }
+.view#view-vr-maintenance .vb-kw .vb-sh, .view#view-vr-maintenance .vb-gl-kw { opacity: 0; transition: opacity .2s; }
+.view#view-vr-maintenance .vb-kw .vb-t { font-weight: 500; font-size: 24px; line-height: 32px; }
+.view#view-vr-maintenance .vb-kw:hover .vb-t { color: #03DAC6; }
+.view#view-vr-maintenance .vb-kw[aria-pressed="true"] .vb-sh, .view#view-vr-maintenance .vb-kw[aria-pressed="true"] .vb-gl-kw { opacity: 1; }
+.view#view-vr-maintenance .vb-kw[aria-pressed="true"] .vb-t { color: #fff; font-weight: 700; }
+
+/* 5. 기본 버튼 (Btn - Bagic 4750:58107) — 244×72, 바깥 선 #FF5F00 2, 안쪽 228×56 #212121 ×0.7 → 선택 #FF5F00, Exo SemiBold 30 */
+.view#view-vr-maintenance .vb-bs { justify-content: center; min-width: 244px; height: 72px; padding: 0 40px; transition: transform .1s; }
+.view#view-vr-maintenance .vb-bs .vb-sh path.o { stroke: #FF5F00; }
+.view#view-vr-maintenance .vb-bs .vb-sh path.i { fill: #212121; opacity: .7; }
+.view#view-vr-maintenance .vb-gl-bs { left: 8px; top: 8px; width: calc(100% - 16px); height: calc(100% - 16px); }
+.view#view-vr-maintenance .vb-bs .vb-t { font-weight: 600; font-size: 30px; line-height: 40px; text-shadow: 0 0 7.3px rgba(0,0,0,.25); }
+.view#view-vr-maintenance .vb-bs:hover .vb-sh path.i { opacity: .9; }
+.view#view-vr-maintenance .vb-bs:active { transform: scale(.97); }
+.view#view-vr-maintenance .vb-bs[aria-pressed="true"] .vb-sh path.i { fill: #FF5F00; opacity: 1; }
+
+/* 6. 아이콘 버튼 (Btn - Back 2710:38386 · Btn - Close 2710:38330 · Btn - Left 2733:76664) — 60×60, 바탕 #000 ×0.8×0.8 선 #C6CACC 2 */
+.view#view-vr-maintenance .vb-sq { width: 60px; height: 60px; flex: none; }
+.view#view-vr-maintenance .vb-sq .vb-sh path { opacity: .8; fill: #000; fill-opacity: .8; stroke: #C6CACC; }
+.view#view-vr-maintenance .vb-sq .vb-ic { position: absolute; left: 6px; top: 6px; color: #fff; }
+.view#view-vr-maintenance .vb-sq:hover .vb-sh path { fill-opacity: 1; }
+.view#view-vr-maintenance .vb-sq:active .vb-sh path { fill: #002C1F; fill-opacity: .8; stroke: #03DAC6; }
+.view#view-vr-maintenance .vb-sq:active .vb-ic { color: #03DAC6; }
+
+/* 7. 로딩 표시 (ui_indicator 4849:4931) — #FF5F00 호(반지름 124)가 원 중심을 돌며 진행 */
+.view#view-vr-maintenance .vb-ind { position: relative; width: 256px; height: 256px; }
+.view#view-vr-maintenance .vb-ind svg { position: absolute; left: 126px; top: 2px; display: block; overflow: visible; }
+.view#view-vr-maintenance .vb-ind.is-run { animation: vbSpin 1.1s linear infinite; }
+@keyframes vbSpin { to { transform: rotate(360deg); } }
+
+/* 8. 메뉴 버튼 (ui_btn_main 2711:37969 · ui_btn_Equipment list 4647:17945 · ui_btn_home 2711:38002 · ui_btn_map 2711:38026 · ui_btn_setting 2711:37991 · ui_btn_toolbox 2711:38037)
+   116×116, Normal #000 ×0.8 선 #C6CACC → Hover(Y Position +20) #002C1F·#03DAC6 → 선택(State4) #6B2800·#FF5F00, Exo SemiBold 16 */
+.view#view-vr-maintenance .vb-mn { width: 116px; height: 116px; flex: none; }
+.view#view-vr-maintenance .vb-mn-in { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transition: transform .22s cubic-bezier(.3,.7,.3,1); }
+.view#view-vr-maintenance .vb-mn .vb-sh path { opacity: .8; fill: #000; stroke: #C6CACC; }
+.view#view-vr-maintenance .vb-mn .vb-ic { position: absolute; left: 32px; top: 16px; color: #fff; }
+.view#view-vr-maintenance .vb-mn .vb-ic.big { left: 30px; top: 14px; }
+.view#view-vr-maintenance .vb-mn .vb-t { position: absolute; left: 13px; top: 66px; width: 90px; height: 42px; display: flex; align-items: center; justify-content: center; text-align: center; white-space: normal; font-weight: 600; font-size: 16px; line-height: 21px; }
+.view#view-vr-maintenance .vb-mn:hover .vb-mn-in { transform: translateY(-20px); }
+.view#view-vr-maintenance .vb-mn:hover .vb-sh path { fill: #002C1F; stroke: #03DAC6; }
+.view#view-vr-maintenance .vb-mn[aria-pressed="true"] .vb-sh path { fill: #6B2800; stroke: #FF5F00; }
+
+/* 9. 위치 변경 버튼 (ui_btn_Position Change 3108:32950) — 371×111 피그마 벡터, Normal 회색 선 → Hover 청록 선·#002C1F 바탕 → Active 청록 글자 */
+.view#view-vr-maintenance .vb-pc { justify-content: center; width: 371px; height: 111px; }
+.view#view-vr-maintenance .vb-pc .pf { fill: #000; fill-opacity: .8; transition: fill .15s, fill-opacity .15s; }
+.view#view-vr-maintenance .vb-pc .pf8 { fill-opacity: 0; }
+.view#view-vr-maintenance .vb-pc .ps { fill: #C6CACC; transition: fill .15s; }
+.view#view-vr-maintenance .vb-pc .pl { stroke: #C6CACC; transition: stroke .15s; }
+.view#view-vr-maintenance .vb-pc .vb-t { font-weight: 600; font-size: 30px; line-height: 40px; }
+.view#view-vr-maintenance .vb-pc:hover .pf, .view#view-vr-maintenance .vb-pc:active .pf { fill: #002C1F; fill-opacity: .8; }
+.view#view-vr-maintenance .vb-pc:hover .ps, .view#view-vr-maintenance .vb-pc:active .ps { fill: #03DAC6; }
+.view#view-vr-maintenance .vb-pc:hover .pl, .view#view-vr-maintenance .vb-pc:active .pl { stroke: #03DAC6; }
+.view#view-vr-maintenance .vb-pc:active .vb-t { color: #03DAC6; }
+
+/* 10. 리스트 버튼 (Btn - List 4750:60199) — 300×72 #000 ×0.4 선 #9F9F9F → Hover #FF5F00 ×0.4 → 선택 330×72 화살표 모양 선 #FF5F00 2, Exo Medium 24 */
+.view#view-vr-maintenance .vb-ls { min-width: 300px; height: 72px; padding: 0 64px 0 40px; }
+.view#view-vr-maintenance .vb-ls .vb-sh path { fill: #000; fill-opacity: .4; stroke: #9F9F9F; }
+.view#view-vr-maintenance .vb-ls .vb-sh.s path { stroke: #FF5F00; }
+.view#view-vr-maintenance .vb-ls .s { display: none; }
+.view#view-vr-maintenance .vb-ls .vb-t { font-weight: 500; font-size: 24px; line-height: 32px; }
+.view#view-vr-maintenance .vb-ls:hover .vb-sh path { fill: #FF5F00; fill-opacity: .4; stroke: #FF5F00; }
+.view#view-vr-maintenance .vb-ls[aria-pressed="true"] { min-width: 330px; }
+.view#view-vr-maintenance .vb-ls[aria-pressed="true"] .d { display: none; }
+.view#view-vr-maintenance .vb-ls[aria-pressed="true"] .s { display: block; }
+
+/* 11. 장비 선택 카드 (Btn -Type 4638:61268) — 256×276 #000 ×0.6 선 #9F9F9F → Hover(Variant2) #FF5F00 ×0.6·안쪽 그림자 20·번짐 60/22.9·아이콘 1.5배 */
+.view#view-vr-maintenance .vb-ty { display: block; width: 256px; height: 276px; transition: transform .12s; }
+.view#view-vr-maintenance .vb-ty .sh-def, .view#view-vr-maintenance .vb-ty .sh-sel, .view#view-vr-maintenance .vb-ty .gl { position: absolute; left: 0; top: 0; display: block; transition: opacity .25s; pointer-events: none; }
+.view#view-vr-maintenance .vb-ty .sh-sel, .view#view-vr-maintenance .vb-ty .gl { opacity: 0; }
+.view#view-vr-maintenance .vb-ty .gl1 { left: 37px; top: 62px; width: 181px; height: 119px; background: #FF5F00; filter: blur(30px); }
+.view#view-vr-maintenance .vb-ty .gl2 { left: 20px; top: 212px; width: 216px; height: 32px; background: #FF5F00; filter: blur(11.45px); }
+.view#view-vr-maintenance .vb-ty .ico { position: absolute; left: 68px; top: 54px; width: 120px; height: 120px; color: #fff; transition: transform .32s cubic-bezier(.3,1.3,.5,1); pointer-events: none; }
+.view#view-vr-maintenance .vb-ty .vb-t { position: absolute; left: 0; right: 0; top: 212px; height: 32px; text-align: center; font-weight: 500; font-size: 24px; line-height: 32px; }
+.view#view-vr-maintenance .vb-ty:hover .sh-sel, .view#view-vr-maintenance .vb-ty:hover .gl, .view#view-vr-maintenance .vb-ty[aria-pressed="true"] .sh-sel, .view#view-vr-maintenance .vb-ty[aria-pressed="true"] .gl { opacity: 1; }
+.view#view-vr-maintenance .vb-ty:hover .sh-def, .view#view-vr-maintenance .vb-ty[aria-pressed="true"] .sh-def { opacity: 0; }
+.view#view-vr-maintenance .vb-ty:hover .ico, .view#view-vr-maintenance .vb-ty[aria-pressed="true"] .ico { transform: scale(1.5); }
+.view#view-vr-maintenance .vb-ty:active { transform: scale(.97); }
+
+/* 흐림 미지원: 유리층 대신 바탕 불투명도 올림 */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .view#view-vr-maintenance .vb-gl { display: none; }
+  .view#view-vr-maintenance .vb-pop .vb-sh path, .view#view-vr-maintenance .vb-sq .vb-sh path, .view#view-vr-maintenance .vb-mn .vb-sh path { opacity: .95; }
+  .view#view-vr-maintenance .vb-sq .vb-sh path { fill-opacity: .95; }
+  .view#view-vr-maintenance .vb-bs .vb-sh path.i { opacity: .92; }
+  .view#view-vr-maintenance .vb-ls .vb-sh path { fill-opacity: .75; }
+  .view#view-vr-maintenance .vb-kw .vb-sh path, .view#view-vr-maintenance .vb-pc .pf { fill-opacity: .95; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .view#view-vr-maintenance .vb *, .view#view-vr-maintenance .vb { transition: none !important; }
+  .view#view-vr-maintenance .vb-ind.is-run { animation-duration: 3s; }
+}

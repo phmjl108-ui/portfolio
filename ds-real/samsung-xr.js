@@ -16,16 +16,15 @@
     requestAnimationFrame(tick);
   }
 
-  // 1. 단계 헤더: 이전·다음으로 STEP 이동, 막대가 차오름
+  // 1. 단계 헤더: 보이는 동안 STEP 이 01 → 07 로 차례로 넘어가며 막대가 차오름(반복)
   each('[data-sx="step"]', function (g) {
-    var n = +g.dataset.n, v = +g.dataset.v, bar = g.querySelector('.sx-step-bar'), f = bar.querySelector('i'), c = g.querySelector('.sx-step-c');
-    var prev = g.querySelector('[data-go="-1"]'), next = g.querySelector('[data-go="1"]');
+    var n = +g.dataset.n, v = 1, bar = g.querySelector('.sx-step-bar'), f = bar.querySelector('i'), c = g.querySelector('.sx-step-c'), tm = 0;
     function pad(x) { return (x < 10 ? '0' : '') + x; }
-    function draw() { f.style.width = (v / n * 100) + '%'; c.textContent = 'STEP ' + pad(v) + ' / ' + pad(n); bar.setAttribute('aria-valuenow', v); prev.disabled = v <= 1; next.disabled = v >= n; }
-    prev.addEventListener('click', function () { v = Math.max(1, v - 1); draw(); });
-    next.addEventListener('click', function () { v = Math.min(n, v + 1); draw(); });
-    prev.disabled = true;
-    onSeen(g, function () { if (!g.__s) { g.__s = 1; setTimeout(draw, 150); } });
+    function draw() { f.style.width = (v / n * 100) + '%'; c.textContent = 'STEP ' + pad(v) + ' / ' + pad(n); bar.setAttribute('aria-valuenow', v); }
+    function stepNext() { v = v >= n ? 1 : v + 1; draw(); tm = setTimeout(stepNext, v >= n ? 2400 : 1300); }
+    draw();
+    if (reduce) return;
+    onSeen(g, function () { if (!tm) tm = setTimeout(stepNext, 900); }, function () { clearTimeout(tm); tm = 0; });
   });
 
   // 2. 판독 패널: 보이면(또는 누르면) 측정값이 올라가고, 기준을 넘으면 ✓ 줄이 나타남
@@ -56,10 +55,9 @@
     onSeen(g, function () { if (!raf) { t0 = 0; raf = requestAnimationFrame(tick); } }, function () { cancelAnimationFrame(raf); raf = 0; });
   });
 
-  // 5. 진행 막대(가로): 0 → 100% 칸이 차오름(반복), 칸 색은 피그마 그라데이션(#00C7E5 → #80F2FF)
+  // 5. 진행 막대(가로): 0 → 100% 칸이 차오름(반복), 칸 모양·색은 피그마 ui_bg_indicator_line_gauge 그대로
   each('[data-sx="line"]', function (g) {
-    var segs = qa(g, '.sx-line-s i'), v = g.querySelector('.sx-line-v'), raf = 0, t0 = 0, DUR = 3200, HOLD = 1400;
-    segs.forEach(function (s, i) { var t = i / (segs.length - 1); s.style.setProperty('--c', 'rgb(' + Math.round(0 + 128 * t) + ',' + Math.round(199 + 43 * t) + ',' + Math.round(229 + 26 * t) + ')'); });
+    var segs = qa(g, '.sx-line-on rect'), v = g.querySelector('.sx-line-v'), raf = 0, t0 = 0, DUR = 3200, HOLD = 1400;
     function set(p) { var k = Math.round(p / 100 * segs.length); segs.forEach(function (s, i) { s.classList.toggle('on', i < k); }); v.textContent = p + '%'; g.setAttribute('aria-valuenow', p); }
     function tick(now) { if (!t0) t0 = now; var e = now - t0; if (e > DUR + HOLD) { t0 = now; e = 0; } set(Math.round(ease(Math.min(1, e / DUR)) * 100)); raf = requestAnimationFrame(tick); }
     if (reduce) { set(60); return; }
@@ -67,18 +65,11 @@
     onSeen(g, function () { if (!raf) { t0 = 0; raf = requestAnimationFrame(tick); } }, function () { cancelAnimationFrame(raf); raf = 0; });
   });
 
-  // 6. 핸드 메뉴: 누른 버튼이 Focused, '훈련 전용' 모드면 목록 버튼만 켜지고 나머지는 흐려짐
+  // 6. 핸드 메뉴: 누른 버튼이 Focused 로 남음
   each('[data-sx="hand"]', function (h) {
-    var navs = qa(h, '.sx-nav'), seg = h.parentNode.parentNode.querySelector('[data-sx="mode"]');
+    var navs = qa(h, '.sx-nav');
     function pick(b) { navs.forEach(function (x) { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', x === b); }); }
     navs.forEach(function (b) { b.addEventListener('click', function () { pick(b); }); });
-    if (seg) qa(seg, '[role="radio"]').forEach(function (r) {
-      r.addEventListener('click', function () {
-        qa(seg, '[role="radio"]').forEach(function (x) { x.setAttribute('aria-checked', x === r); });
-        var train = r.dataset.mode === 'train'; h.classList.toggle('is-train', train);
-        if (train) pick(h.querySelector('[data-k="menu"]')); else pick(null);
-      });
-    });
   });
 
   // 7. 완료 알림: 보이면 체크가 튀어나오고 '단계 완료'가 타이핑됨(반복)
@@ -100,7 +91,7 @@
   });
 
   // 8. 대상 태그: 누르면 활성(Active) ↔ 강조(Highlight)
-  each('[data-sx="tags"] .sx-tag:not(.is-ghost)', function (b) {
+  each('[data-sx="tags"] .sx-tag', function (b) {
     b.addEventListener('click', function () { var on = !b.classList.contains('is-act'); b.classList.toggle('is-act', on); b.setAttribute('aria-pressed', on); });
   });
 

@@ -65,10 +65,10 @@
     document.addEventListener('keyup', function (e) { on(find(e), false); });
   });
 
-  // 단계 표시: 비활성이 아닌 단계를 누르면 현재 단계
+  // 단계 표시: 누르면 현재 단계(주황) ↔ 기본
   each('[data-ag="steps"]', function (s) {
     var bs = qa(s, '.ag-step');
-    bs.forEach(function (b) { b.addEventListener('click', function () { bs.forEach(function (x) { if (x === b) x.setAttribute('aria-current', 'step'); else x.removeAttribute('aria-current'); }); }); });
+    bs.forEach(function (b) { b.addEventListener('click', function () { if (bs.length === 1) { if (b.hasAttribute('aria-current')) b.removeAttribute('aria-current'); else b.setAttribute('aria-current', 'step'); return; } bs.forEach(function (x) { if (x === b) x.setAttribute('aria-current', 'step'); else x.removeAttribute('aria-current'); }); }); });
   });
 
   // VOC 팝업: 사진 칸 + 누르면 사진 추가(빈 칸이 채워짐), 사진 누르면 선택, 휴지통은 선택 사진 삭제

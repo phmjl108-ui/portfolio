@@ -39,6 +39,7 @@
   // 4. 안내 칩: 화면에 보이면 글자가 타이핑됨(반복)
   each('[data-ka="type"]', function (c) {
     var t = c.querySelector('.ka-chip-t'), text = c.dataset.text, timers = [];
+    c.style.minWidth = c.offsetWidth + 'px'; // 글자가 쳐지는 동안 칩·바탕 폭이 들썩이지 않게
     function clear() { timers.forEach(clearTimeout); timers = []; }
     function cycle() {
       clear(); t.textContent = ''; c.classList.add('is-typing');
@@ -113,16 +114,9 @@
     });
   });
 
-  // 8. 무전기: 누르고 있는 동안 통화 중(Space·Enter 도 같음)
+  // 8. 무전기: 신호 아이콘은 늘 수신 모션(CSS), 누르면 통화 중(Talking) ↔ 기본 전환
   each('[data-ka="radio"]', function (b) {
-    function on() { b.setAttribute('aria-pressed', 'true'); }
-    function off() { b.setAttribute('aria-pressed', 'false'); }
-    b.addEventListener('pointerdown', function (e) { if (e.button !== 0) return; b.setPointerCapture && b.setPointerCapture(e.pointerId); on(); });
-    b.addEventListener('pointerup', off); b.addEventListener('pointercancel', off); b.addEventListener('lostpointercapture', off);
-    b.addEventListener('keydown', function (e) { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); on(); } });
-    b.addEventListener('keyup', function (e) { if (e.key === ' ' || e.key === 'Enter') off(); });
-    b.addEventListener('blur', off);
-    b.addEventListener('click', function (e) { e.preventDefault(); });
+    b.addEventListener('click', function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true'); });
   });
 
   // 9. 이동 지점: 누르면 핀이 내려앉음

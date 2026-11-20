@@ -1,0 +1,87 @@
+<div class="cf ag-cf" tabindex="0" role="region" aria-roledescription="carousel" aria-label="패널 컴포넌트">
+<div class="cf-stage">
+<figure class="cf-card ag-c-voc" data-i="0" aria-label="VOC 등록 팝업">
+<div class="cf-panel ag-p"><form class="ag-voc" aria-label="VOC 등록" novalidate onsubmit="return false">
+  <svg class="ag-logo" width="330" height="40" viewBox="0 0 330 40" role="img" aria-label="DEVELON"><path d="M268.758 20.0185C268.758 12.739 265.745 9.95843 258.838 9.95843C252.422 9.95843 248.918 12.739 248.918 20.0185C248.918 27.2979 252.172 30.0416 258.838 30.0416C265.504 30.0416 268.758 27.1409 268.758 20.0185ZM282.321 20.0185C282.321 33.5335 274.46 40 258.838 40C243.216 40 235.355 33.5335 235.355 20.0185C235.355 6.50346 243.216 0 258.838 0C274.46 0 282.321 6.11547 282.321 20.0185ZM318.413 0.692841V27.2055L304.794 2.22633C304.275 1.28406 303.283 0.692841 302.207 0.692841H286.577V39.3072H298.36V13.6721L311.645 37.7829C312.164 38.7252 313.156 39.3072 314.223 39.3072H329.993V0.692841H318.404H318.413ZM209.164 0.692841H195.601V36.9885C195.601 38.2725 196.639 39.3072 197.928 39.3072H233.5V29.2656H209.164V0.692841ZM53.0781 36.9885C53.0781 38.2725 54.1165 39.3072 55.4051 39.3072H91.3672V29.6536H66.6415V24.3233H90.9778V15.3626H66.6415V9.95843H91.3672V0.692841H53.0874V36.9885H53.0781ZM151.888 36.9885C151.888 38.2725 152.926 39.3072 154.215 39.3072H190.177V29.6536H165.451V24.3233H189.788V15.3626H165.451V9.95843H190.177V0.692841H151.888V36.9885Z" fill="#161616"/><path d="M30.5756 28.0924C32.1424 27.4735 32.745 26.2448 32.745 24.6559V15.3534C32.745 13.7645 32.1424 12.5358 30.5756 11.9169C25.8104 10.0601 19.367 7.75061 13.7581 5.94922V34.0601C19.367 32.2679 25.8104 29.9492 30.5756 28.0924ZM0 0.692871H35.2204C37.7236 0.692871 39.8095 2.00465 41.2743 4.18479C43.2861 7.1871 45.0754 10.3834 46.6051 13.4689C47.6064 15.4735 48.2925 17.746 48.2925 19.9908C48.2925 22.2356 47.6064 24.4989 46.6051 26.5127C45.0754 29.5982 43.2954 32.7945 41.2743 35.7968C39.8095 37.9769 37.7143 39.2887 35.2204 39.2887H0V0.692871Z" fill="#161616"/><path d="M133.594 0.692871H148.011L131.861 37.5428C131.388 38.6143 130.331 39.3072 129.163 39.3072H113.921C112.744 39.3072 111.687 38.6143 111.214 37.5335L95.2402 0.692871H109.888L121.746 30.0416L133.594 0.692871Z" fill="#161616"/></svg>
+  <div class="ag-fs">
+    <div class="ag-fr"><label class="ag-fl" for="ag-v1">Version</label><input class="ag-fi is-fix" id="ag-v1" value="1.0.1_01_01_01" readonly></div>
+    <div class="ag-fr"><label class="ag-fl" for="ag-v2">Device Type</label><input class="ag-fi is-fix" id="ag-v2" value="Windows 11 (10.0.26100) 64bit" readonly></div>
+    <div class="ag-fr"><label class="ag-fl" for="ag-v3">E-mail</label><input class="ag-fi is-fix" id="ag-v3" value="admin@ymx.co.kr" readonly></div>
+    <div class="ag-fr"><span class="ag-fl" id="ag-vt">VOC Type</span>
+      <div class="ag-vdd" data-ag="dd">
+        <button type="button" class="ag-vdd-btn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="ag-vt"><span class="ag-dd-v">Choose your VOC type</span><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 10L12 16L6 10L7.4 8.6L12 13.2L16.6 8.6L18 10Z" fill="currentColor"/></svg></button>
+        <ul class="ag-vdd-list" role="listbox" aria-label="VOC 유형" tabindex="-1" hidden>
+          <li role="option" aria-selected="false">Login error</li>
+          <li role="option" aria-selected="false">text, image error</li>
+          <li role="option" aria-selected="false">3D modeling error</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ag-fr"><label class="ag-fl" for="ag-v5">Title</label><input class="ag-fi" id="ag-v5" maxlength="20" placeholder="Enter no more than 20 characters" autocomplete="off"></div>
+    <div class="ag-fr ag-fr-ta"><label class="ag-fl" for="ag-v6">Description</label><textarea class="ag-fi ag-ta" id="ag-v6" maxlength="200" placeholder="Enter no more than 200 characters"></textarea></div>
+    <div class="ag-att" data-ag="attach">
+      <button type="button" class="ag-thumb is-img is-sel" style="background-image:url(assets/comp/ar-guidance/voc-popup.webp)" aria-pressed="true" aria-label="첨부 사진 1 선택"><i class="ag-tck" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg></i></button>
+      <button type="button" class="ag-thumb" aria-label="사진 추가"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="currentColor"/></svg></button>
+      <button type="button" class="ag-thumb" aria-label="사진 추가"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="currentColor"/></svg></button>
+      <button type="button" class="ag-del" aria-label="선택한 사진 삭제"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 7L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 7M10 11V17M14 11V17M15 7V4C15 3.44772 14.5523 3 14 3H10C9.44772 3 9 3.44772 9 4V7M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+  <div class="ag-bs">
+    <button type="button" class="ag-bt ag-bt-s"><svg class="ag-shp" viewBox="0 0 128 52" aria-hidden="true"><path d="M15.5 .5L127.5 .5L127.5 35.8L111.8 51.5L.5 51.5L.5 13.2Z"/></svg><span>Cancel</span></button>
+    <button type="button" class="ag-bt ag-bt-p ag-apply"><svg class="ag-shp" viewBox="0 0 180 52" aria-hidden="true"><path d="M15.5 0L180 0L180 36L164 52L0 52L0 13Z"/></svg><span>Apply</span></button>
+  </div>
+</form></div>
+<figcaption>VOC 등록 팝업</figcaption>
+</figure>
+<figure class="cf-card ag-c-fn" data-i="1" aria-label="기능 선택 목록">
+<div class="cf-panel ag-p"><div class="ag-scene ag-scene-fn"><div class="ag-fn" role="radiogroup" aria-label="기능 선택" data-ag="radio">
+  <button type="button" class="ag-fi2" role="radio" aria-checked="false"><svg class="ag-shp" viewBox="0 0 640 200" aria-hidden="true"><path d="M19 2L621 2L638 19L638 181L621 198L19 198L2 181L2 19Z"/></svg><span>AR Guidance</span></button>
+  <button type="button" class="ag-fi2" role="radio" aria-checked="false"><svg class="ag-shp" viewBox="0 0 640 200" aria-hidden="true"><path d="M19 2L621 2L638 19L638 181L621 198L19 198L2 181L2 19Z"/></svg><span>Performance Test</span></button>
+</div></div></div>
+<figcaption>기능 선택 목록</figcaption>
+</figure>
+<figure class="cf-card ag-c-gd" data-i="2" aria-label="가이던스 카드 버튼">
+<div class="cf-panel ag-p"><button type="button" class="ag-gd" aria-pressed="false" aria-label="Guidance">
+<svg width="467" height="448" viewBox="0 0 467 448" fill="none" aria-hidden="true">
+<path d="M3 3.5V46.4515V425.024L24.4768 446.5H465V74.9194L436.531 46.4515H274.706L226.758 3.5H3Z" stroke="#FF5F00" stroke-width="3"/>
+<path d="M455 81.8344L430.351 58H13V417.956L31.5946 436.5H455V81.8344Z" fill="#323232" fill-opacity="0.9"/>
+<g class="ag-gd-f">
+<path d="M189.442 162.646C187.954 156.228 191.175 149.432 197.42 146.66C198.05 146.384 198.695 146.164 199.349 145.983L235.96 109.371C238.606 106.725 242.126 105.269 245.883 105.269C249.639 105.269 253.159 106.725 255.806 109.371C255.821 109.387 255.837 109.403 255.845 109.411L288.432 141.998L297.662 107.08H296.244C294.283 107.08 292.7 105.497 292.7 103.536C292.7 101.575 294.283 99.9922 296.244 99.9922H335.816C344.282 99.9922 351.173 106.883 351.173 115.349V135.824H396.352C397.289 135.824 398.195 136.194 398.857 136.863L409.96 147.975C410.622 148.637 411 149.542 411 150.479V179.161C411 180.098 410.63 181.003 409.96 181.665L398.857 192.761C398.195 193.422 397.289 193.8 396.352 193.8H381.571C386.603 198.541 389.753 205.259 389.753 212.701C389.753 227.033 378.098 238.688 363.765 238.688H274.044C259.712 238.688 248.056 227.033 248.056 212.701C248.056 198.368 259.712 186.713 274.044 186.713H281.195L253.364 158.882C252.774 158.292 252.411 157.504 252.34 156.669L251.332 144.597L243.292 136.556L216.619 163.229C216.493 163.67 216.351 164.103 216.186 164.536C215.28 166.891 213.776 168.907 211.855 170.435L221.502 192.186L224.715 190.761C226.502 189.965 228.597 190.776 229.392 192.564C230.188 194.352 229.377 196.446 227.589 197.242L214.792 202.92C211.697 204.29 208.421 204.991 205.051 204.991C195.545 204.991 186.906 199.376 183.055 190.682C178.645 180.736 181.551 169.38 189.434 162.646H189.442ZM205.925 165.844C207.618 165.096 208.917 163.725 209.587 161.993C210.256 160.26 210.209 158.37 209.461 156.677C208.35 154.165 205.854 152.551 203.098 152.551C202.129 152.551 201.192 152.747 200.294 153.149C196.79 154.7 195.207 158.811 196.758 162.316C197.868 164.828 200.373 166.442 203.121 166.442C204.09 166.442 205.027 166.245 205.925 165.844ZM294.795 145.691H307.663L315.066 137.068C315.743 136.281 316.719 135.832 317.751 135.832H325.476V107.088H304.993L294.795 145.691ZM344.085 115.356C344.085 110.797 340.376 107.088 335.816 107.088H332.564V135.832H344.085V115.356ZM403.912 177.688V151.944L394.888 142.919H319.381L311.979 151.543C311.301 152.33 310.325 152.779 309.293 152.779H293.74V170.12H331.666C333.627 170.12 335.21 171.703 335.21 173.664C335.21 175.625 333.627 177.207 331.666 177.207H293.74V186.689L394.895 186.713L403.92 177.688H403.912ZM255.152 212.701C255.152 223.119 263.633 231.601 274.052 231.601H363.773C374.192 231.601 382.673 223.119 382.673 212.701C382.673 202.282 374.192 193.8 363.773 193.8H274.052C263.633 193.8 255.152 202.282 255.152 212.701ZM257.27 140.51C257.861 141.1 258.223 141.888 258.294 142.722L259.302 154.795L286.644 182.137V150.243L250.805 114.404C250.805 114.404 250.781 114.38 250.765 114.364C249.458 113.073 247.726 112.364 245.883 112.364C244.04 112.364 242.276 113.081 240.969 114.396C239.662 115.703 238.937 117.451 238.937 119.31C238.937 121.168 239.662 122.909 240.969 124.224L257.27 140.525V140.51ZM235.96 129.225C234.212 127.476 232.991 125.334 232.361 123.003L208.72 146.644C211.878 148.022 214.493 150.542 215.934 153.803C215.942 153.826 215.95 153.85 215.965 153.874L238.291 131.548L235.96 129.217V129.225ZM189.537 187.815C192.253 193.942 198.349 197.903 205.058 197.903C207.429 197.903 209.736 197.415 211.925 196.438L215.036 195.06L205.397 173.325C204.649 173.451 203.893 173.53 203.121 173.53C199.184 173.53 195.514 171.876 192.907 169.12C188.229 173.939 186.654 181.303 189.544 187.815H189.537Z"/>
+<path d="M387.296 152.228C389.257 152.228 390.84 153.81 390.84 155.771V164.237C390.84 166.198 389.257 167.781 387.296 167.781C385.335 167.781 383.752 166.198 383.752 164.237V155.771C383.752 153.81 385.335 152.228 387.296 152.228Z"/>
+<path d="M373.121 152.228C375.082 152.228 376.665 153.81 376.665 155.771V164.237C376.665 166.198 375.082 167.781 373.121 167.781C371.16 167.781 369.577 166.198 369.577 164.237V155.771C369.577 153.81 371.16 152.228 373.121 152.228Z"/>
+<path d="M358.946 152.228C360.907 152.228 362.49 153.81 362.49 155.771V164.237C362.49 166.198 360.907 167.781 358.946 167.781C356.985 167.781 355.402 166.198 355.402 164.237V155.771C355.402 153.81 356.985 152.228 358.946 152.228Z"/>
+<path d="M363.773 204.164C368.474 204.164 372.302 207.991 372.302 212.693C372.302 217.394 368.474 221.221 363.773 221.221C360.332 221.221 357.371 219.174 356.024 216.236H281.809C280.462 219.174 277.493 221.221 274.06 221.221C269.359 221.221 265.531 217.394 265.531 212.693C265.531 207.991 269.359 204.164 274.06 204.164C277.501 204.164 280.462 206.211 281.809 209.149H356.024C357.371 206.211 360.339 204.164 363.773 204.164Z"/>
+</g>
+<g class="ag-gd-s" stroke-width="9.26" stroke-linecap="round" stroke-linejoin="round">
+<path d="M128.023 216.604C112.589 216.604 100.076 204.101 100.076 188.657C100.076 173.214 112.589 160.71 128.023 160.71C143.456 160.71 155.97 173.224 155.97 188.657C155.97 204.091 143.456 216.604 128.023 216.604Z"/>
+<path d="M162.42 343.887V325.513"/><path d="M93.6255 306.041V343.887"/>
+<path d="M185.209 303.06L180.661 325.513H114.614L118.622 305.735"/>
+<path d="M123.109 283.618L133.049 234.652H199.086L189.349 282.672"/>
+<path d="M180.336 291.33C178.881 297.464 182.848 302.073 187.864 304.749C190.713 306.265 194.223 304.718 194.925 301.575L197.916 288.054C198.607 284.92 196.115 282.051 192.91 282.194C187.325 282.438 181.882 284.869 180.346 291.34L180.336 291.33Z"/>
+<path d="M113.953 234.652H98.8854C82.221 234.652 68.7104 248.163 68.7104 264.827V288.746C68.7104 298.299 76.4526 306.041 86.0056 306.041H115.56C122.844 306.041 128.755 301.361 128.755 294.219C128.755 287.077 122.844 281.288 115.56 281.288H96.8405C95.0601 281.288 93.6257 279.844 93.6257 278.073V266.282"/>
+</g>
+<path d="M266 48H13V10H223.31L266 48Z" fill="#FF5F00" fill-opacity="0.5"/>
+<path d="M0 32H6V7L29 7V0H0V32Z" fill="#FF5F00"/><path d="M278.52 26H275.01L296.69 45H300.2L278.52 26Z" fill="#FF5F00"/><path d="M271.5 26H267.98L289.67 45H293.18L271.5 26Z" fill="#FF5F00"/>
+<path d="M251 25H400L421 46" stroke="#FF5F00" stroke-width="3"/>
+</svg>
+<span class="ag-gd-tag">GUIDANCE</span><span class="ag-gd-t">Guidance</span></button></div>
+<figcaption>가이던스 카드 버튼</figcaption>
+</figure>
+<figure class="cf-card ag-c-ck" data-i="3" aria-label="사전 점검 팝업">
+<div class="cf-panel ag-p"><div class="ag-ac" role="dialog" aria-label="All Check" data-ag="allcheck">
+  <h3 class="ag-ck-t">All Check</h3>
+  <ul class="ag-ck-l">
+    <li><button type="button" class="ag-ckb" role="checkbox" aria-checked="true"><i aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg></i><span>Make sure the safety check items before machine opearation.</span></button></li>
+    <li><button type="button" class="ag-ckb" role="checkbox" aria-checked="false"><i aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg></i><span>Perform basic checks on hydraulic oil, lubricant, coolant, engine oil level and fan belt status</span></button></li>
+    <li><button type="button" class="ag-ckb" role="checkbox" aria-checked="true"><i aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg></i><span>Check the Attachment and make sure that the boom, arm, bucket is standard or options.</span></button></li>
+    <li><button type="button" class="ag-ckb" role="checkbox" aria-checked="true"><i aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z" fill="currentColor"/></svg></i><span>Warm up the equipment</span></button></li>
+  </ul>
+  <div class="ag-ck-b"><button type="button" class="ag-bt ag-bt-p ag-confirm" disabled><svg class="ag-shp" viewBox="0 0 180 52" aria-hidden="true"><path d="M15.5 0L180 0L180 36L164 52L0 52L0 13Z"/></svg><span>Confirm</span></button></div>
+</div></div>
+<figcaption>사전 점검 팝업</figcaption>
+</figure>
+</div>
+<button type="button" class="cf-nav cf-prev" aria-label="이전 패널"></button>
+<button type="button" class="cf-nav cf-next" aria-label="다음 패널"></button>
+<div class="cf-dots"><button type="button" aria-label="1번째 패널"></button><button type="button" aria-label="2번째 패널"></button><button type="button" aria-label="3번째 패널"></button><button type="button" aria-label="4번째 패널"></button></div>
+</div>

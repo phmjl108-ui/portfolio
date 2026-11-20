@@ -8,7 +8,6 @@
 .view#view-koreatech-xr .kx svg, .view#view-koreatech-xr .kx-cf svg { display: block; flex: none; }
 .view#view-koreatech-xr .kx-press { cursor: pointer; transition: background .15s ease, color .15s ease, border-color .15s ease, transform .12s ease, filter .15s ease, opacity .2s ease; }
 .view#view-koreatech-xr .kx-press:active { transform: scale(.96); }
-.view#view-koreatech-xr .kx-dark { padding: 16px; border-radius: 12px; background: #3A3D42; }
 
 /* 드롭다운 (ui_Dropdown_menu_list) */
 .view#view-koreatech-xr .kx-dd { position: relative; width: 374px; max-width: 100%; }
@@ -139,8 +138,6 @@
 /* 닫기 → 다시 열기 */
 .view#view-koreatech-xr .kx-pop { transition: opacity .22s ease, transform .22s ease; }
 .view#view-koreatech-xr .cf-panel.is-closed .kx-pop { opacity: 0; transform: scale(.94); pointer-events: none; }
-.view#view-koreatech-xr .kx-reopen { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 10px 18px; border: 1px solid #D0D3DA; border-radius: 999px; background: #fff; color: #333; font: 500 14px/1 var(--kx-f); cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .2s ease .1s; }
-.view#view-koreatech-xr .cf-panel.is-closed .kx-reopen { opacity: 1; pointer-events: auto; }
 /* 팝업 공용 */
 .view#view-koreatech-xr .kx-hd { position: relative; display: flex; align-items: center; height: 60px; padding: 0 24px; background: var(--kx-v); color: #fff; font: 700 24px/1 var(--kx-f); }
 .view#view-koreatech-xr .kx-x { position: absolute; right: 15px; top: 15px; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 6px; background: transparent; cursor: pointer; }
@@ -220,3 +217,28 @@
 @media (prefers-reduced-motion: reduce) {
   .view#view-koreatech-xr .kx *, .view#view-koreatech-xr .kx *::before, .view#view-koreatech-xr .kx *::after, .view#view-koreatech-xr .kx-cf .cf-panel *, .view#view-koreatech-xr .kx-cf .cf-panel *::before, .view#view-koreatech-xr .kx-cf .cf-panel *::after { transition: none !important; animation: none !important; }
 }
+
+/* ── 2026-11-20 수정 ── */
+/* 대비 바탕: 반투명(글래스) 부품 뒤에 실제 인게임 공장 장면(ktx 스마트팩토리 화면 일부)을 부품 크기에 맞춰 깔아 흐림이 드러나게. 회색 무대 상자 삭제 */
+.view#view-koreatech-xr .kx-scene { display: inline-flex; padding: 14px; border-radius: 10px; background: #8C949C url("../assets/ds/koreatech-xr/scene-factory.webp") center / cover no-repeat; }
+.view#view-koreatech-xr .kx-sel { -webkit-backdrop-filter: blur(8px) saturate(1.2); backdrop-filter: blur(8px) saturate(1.2); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-koreatech-xr .kx-sel[aria-checked="false"] { background: rgba(0,0,0,.55); } }
+/* 사이드 메뉴: 닫힘(24×116) 크기로 자리 잡고, 펼침(48×232)은 공간 차지 없이 위아래로 겹쳐 뜸 */
+.view#view-koreatech-xr .kx-side { height: 116px; overflow: visible; }
+/* 반투명 어두운 팝업(.kx-dk) — 카드 안에 실제 장면 바탕을 깔아, 흐림이 옆 카드가 아닌 장면을 비추게 */
+.view#view-koreatech-xr .kx-cf .cf-panel.kx-scn { padding: 16px; border-radius: 26px; background: #8C949C url("../assets/ds/koreatech-xr/scene-factory.webp") center / cover no-repeat; }
+.view#view-koreatech-xr .kx-dk { -webkit-backdrop-filter: blur(14px) saturate(1.2) brightness(.95); backdrop-filter: blur(14px) saturate(1.2) brightness(.95); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-koreatech-xr .kx-dk { background: linear-gradient(180deg, rgba(0,0,0,.88) 0%, rgba(57,57,57,.88) 48%, rgba(0,0,0,.88) 100%); } }
+
+/* 타이머 (반도체 평가 '타이머' 4059:65585, 114×48 r24, #292929 30% 유리, 시계 아이콘 + 00:29 Bold 20) — 1초마다 줄어듦 */
+.view#view-koreatech-xr .kx-timer { display: flex; align-items: center; gap: 6px; width: 114px; height: 48px; padding: 0 0 0 12px; box-sizing: border-box; border-radius: 24px; background: rgba(41,41,41,.3); -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2); color: #fff; }
+.view#view-koreatech-xr .kx-timer b { font: 700 20px/1 var(--kx-f); font-variant-numeric: tabular-nums; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-koreatech-xr .kx-timer { background: rgba(41,41,41,.7); } }
+
+/* 태그 팝업 (ui_popup_tag 2994:38596, 438×104): 초록 그라데이션 테두리 3px r14 + 안쪽 #292929 80% r10 유리 */
+.view#view-koreatech-xr .kx-tag { position: relative; width: 438px; max-width: 100%; height: 104px; padding: 5px; box-sizing: border-box; animation: kx-tag-in .35s cubic-bezier(.3,.7,.3,1) both; }
+.view#view-koreatech-xr .kx-tag::before { content: ""; position: absolute; inset: 0; padding: 3px; border-radius: 14px; background: linear-gradient(180deg, #00BB34 0%, rgba(0,187,52,0) 39%, rgba(0,187,52,0) 66%, #00BB34 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); pointer-events: none; }
+.view#view-koreatech-xr .kx-tag-in { position: relative; height: 100%; margin: 0; padding: 11px 16px 0 16px; box-sizing: border-box; border-radius: 10px; background: rgba(41,41,41,.8); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: #fff; }
+.view#view-koreatech-xr .kx-tag-t { display: flex; align-items: center; gap: 4px; margin: 0; font: 500 20px/24px var(--kx-f); }
+.view#view-koreatech-xr .kx-tag-d { margin: 6px 0 0; font: 400 16px/18px var(--kx-f); }
+@keyframes kx-tag-in { from { opacity: 0; transform: translateY(6px) scale(.97); } }

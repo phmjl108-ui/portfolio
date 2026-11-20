@@ -25,17 +25,9 @@
     }, g);
   });
 
-  // 이전 · 다음: 5단계 사이를 오가며 점이 옮겨 감, 끝에서는 비활성
-  each('[data-ks="step"]', function (g) {
-    var dots = g.querySelectorAll('.ks-dots i'), vh = q(g, '.ks-vh'), prev = q(g, '.is-prev'), next = q(g, '.is-next'), k = 1;
-    function show() {
-      [].forEach.call(dots, function (d, i) { d.classList.toggle('is-on', i === k); });
-      vh.textContent = (k + 1) + ' / ' + dots.length + ' 단계'; prev.disabled = k === 0; next.disabled = k === dots.length - 1;
-    }
-    function hit(b) { b.classList.remove('is-hit'); void b.offsetWidth; b.classList.add('is-hit'); setTimeout(function () { b.classList.remove('is-hit'); }, 220); }
-    prev.addEventListener('click', function () { if (k > 0) { k--; hit(prev); show(); } });
-    next.addEventListener('click', function () { if (k < dots.length - 1) { k++; hit(next); show(); } });
-    show();
+  // 이전 · 다음 버튼: 누르면 눌림 모션(자막을 넘기는 실제 동작은 하단 자막 그룹)
+  each('[data-ks="step"] .ks-arw', function (b) {
+    b.addEventListener('click', function () { b.classList.remove('is-hit'); void b.offsetWidth; b.classList.add('is-hit'); setTimeout(function () { b.classList.remove('is-hit'); }, 220); });
   });
 
   // 라디오 묶음(시험편 탭은 role=tab, 나머지는 radio)
@@ -44,7 +36,7 @@
     var bs = [].slice.call(g.querySelectorAll('[role=' + role + ']'));
     function pick(b, f) {
       bs.forEach(function (x) { x.setAttribute(attr, x === b); x.tabIndex = x === b ? 0 : -1; });
-      if (g.classList.contains('ks-seg')) g.classList.toggle('is-2', bs.indexOf(b) === 1);
+      if (g.classList.contains('ks-seg') || g.classList.contains('ks-iso')) g.classList.toggle('is-2', bs.indexOf(b) === 1);
       if (f) b.focus();
     }
     bs.forEach(function (b, i) {
@@ -97,29 +89,90 @@
 
   // 메인 메뉴: 로고를 누르면 둥근 메뉴가 펼쳐지고 버튼이 바깥으로 퍼짐, 항목 위에 설명 말풍선, 닫기·Esc 로 접힘
   each('[data-ks="mm"]', function (m) {
-    var logo = q(m, '.ks-logo'), items = [].slice.call(m.querySelectorAll('.ks-mi')), msg = q(m, '.ks-mm-msg'), tm = 0;
+    var logo = q(m, '.ks-logo'), items = [].slice.call(m.querySelectorAll('.ks-mi'));
     items.forEach(function (b) { b.style.setProperty('--tx', (172 - parseFloat(b.style.left)) + 'px'); b.style.setProperty('--ty', (172 - parseFloat(b.style.top)) + 'px'); });
     function open(v) {
       m.classList.toggle('is-open', v); logo.setAttribute('aria-expanded', v); logo.setAttribute('aria-label', v ? '메인 메뉴 닫기' : '메인 메뉴 열기');
       items.forEach(function (b) { b.tabIndex = v ? 0 : -1; });
     }
-    function say(t) { msg.textContent = t; msg.classList.add('is-on'); clearTimeout(tm); tm = setTimeout(function () { msg.classList.remove('is-on'); }, 1400); }
     logo.addEventListener('click', function () { open(!m.classList.contains('is-open')); });
     items.forEach(function (b) {
       b.addEventListener('click', function () {
         if (b.dataset.act === 'close') { open(false); logo.focus(); return; }
         items.forEach(function (x) { x.classList.toggle('is-act', x === b); });
-        say(q(b, '.ks-vh').textContent + ' 열기');
       });
     });
     m.addEventListener('keydown', function (e) { if (e.key === 'Escape' && m.classList.contains('is-open')) { open(false); logo.focus(); } });
   });
 
-  // 환경설정: 닫기 → 다시 열기
+  // 환경설정: 닫기 → 닫히는 모션 뒤 다시 나타남(다시 열기 버튼은 피그마에 없어 두지 않음)
   each('.ks-pop', function (pop) {
-    var z = pop.parentNode, x = q(pop, '.ks-pop-x'), re = q(z, '.ks-reopen');
-    x.addEventListener('click', function () { z.classList.add('is-closed'); setTimeout(function () { re.focus(); }, 50); });
-    re.addEventListener('click', function () { z.classList.remove('is-closed'); x.focus(); });
+    var z = pop.parentNode, x = q(pop, '.ks-pop-x');
+    x.addEventListener('click', function () { z.classList.add('is-closed'); setTimeout(function () { z.classList.remove('is-closed'); }, 1100); });
+  });
+
+  // 상단 메뉴: 2뎁스 탭 선택(초록 표시가 미끄러져 옮겨 감), 3뎁스 드롭다운 열고 고르기, 오른쪽 버튼으로 메뉴 접기
+  each('[data-ks="tm"]', function (t) {
+    var scn = t.closest('.ks-scn'), tabs = [].slice.call(t.querySelectorAll('.ks-tm-tabs [role=tab]')), ind = q(t, '.ks-tm-ind');
+    var dd = q(t, '.ks-tm-dd'), list = q(t, '.ks-dd'), opts = [].slice.call(list.querySelectorAll('[role=option]')), t3 = q(t, '.ks-tm-t3'), fold = q(t, '.ks-tm-fold'), sub = q(t, '.ks-tm-sub');
+    function pick(b, f) { tabs.forEach(function (x, i) { var on = x === b; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; if (on) ind.style.transform = 'translateX(' + (i * 335) + 'px)'; }); if (f) b.focus(); }
+    tabs.forEach(function (b, i) {
+      b.addEventListener('click', function () { pick(b); });
+      b.addEventListener('keydown', function (e) { var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (d) { e.preventDefault(); pick(tabs[(i + d + tabs.length) % tabs.length], true); } });
+    });
+    pick(tabs[0]);
+    function openDD(v) { t.classList.toggle('is-dd', v); if (scn) scn.classList.toggle('is-open', v); dd.setAttribute('aria-expanded', v); dd.setAttribute('aria-label', v ? '세부 단계 닫기' : '세부 단계 열기'); opts.forEach(function (o) { o.tabIndex = v ? 0 : -1; }); }
+    openDD(false);
+    dd.addEventListener('click', function () { openDD(!t.classList.contains('is-dd')); });
+    opts.forEach(function (o) {
+      o.addEventListener('click', function () { opts.forEach(function (x) { x.setAttribute('aria-selected', x === o); }); t3.textContent = q(o, 'span').textContent; openDD(false); dd.focus(); });
+    });
+    document.addEventListener('pointerdown', function (e) { if (t.classList.contains('is-dd') && !sub.contains(e.target)) openDD(false); });
+    t.addEventListener('keydown', function (e) { if (e.key === 'Escape' && t.classList.contains('is-dd')) { openDD(false); dd.focus(); } });
+    fold.addEventListener('click', function () { var f = !t.classList.contains('is-fold'); openDD(false); t.classList.toggle('is-fold', f); fold.setAttribute('aria-expanded', !f); fold.setAttribute('aria-label', f ? '상단 메뉴 펼치기' : '상단 메뉴 접기'); });
+  });
+
+  // 하단 자막: 이전·다음으로 자막과 (현재/전체)가 바뀜, 처음·끝에서는 화살표가 비활성 모양, 가운데 위 화살표로 접기
+  each('[data-ks="bc"]', function (c) {
+    var caps = [].map.call(c.querySelectorAll('template'), function (x) { return x.innerHTML; }), tx = q(c, '.ks-bc-t'), n = q(c, '.ks-bc-n');
+    var prev = q(c, '.is-prev'), next = q(c, '.is-next'), fold = q(c, '.ks-bc-fold'), k = 0, tm = 0;
+    function show(anim) {
+      prev.disabled = k === 0; next.disabled = k === caps.length - 1;
+      function put() { tx.innerHTML = caps[k]; n.textContent = '(' + (k + 1) + '/' + caps.length + ')'; tx.classList.remove('is-fade'); }
+      if (!anim || reduce) { put(); return; }
+      tx.classList.add('is-fade'); clearTimeout(tm); tm = setTimeout(put, 180);
+    }
+    prev.addEventListener('click', function () { if (k > 0) { k--; show(true); } });
+    next.addEventListener('click', function () { if (k < caps.length - 1) { k++; show(true); } });
+    fold.addEventListener('click', function () { var f = !c.classList.contains('is-fold'); c.classList.toggle('is-fold', f); fold.setAttribute('aria-expanded', !f); fold.setAttribute('aria-label', f ? '자막 펼치기' : '자막 접기'); });
+    show(false);
+  });
+
+  // 가이드북 · 조견표 버튼, 오브젝트 라벨: 누르면 선택(Active) ↔ 기본
+  each('.ks-sbs .ks-sb, .ks-lb', function (b) { b.addEventListener('click', function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true'); }); });
+
+  // 조작키 보기: 버튼 → 조작키 목록·키 펼침(공간 차지 없이 겹쳐 뜸), 닫기 버튼·Esc 로 접힘, 키보드를 누르면 해당 키가 켜짐
+  each('[data-ks="op"]', function (o) {
+    var scn = o.closest('.ks-scn'), btn = q(o, '.ks-op-open'), p = q(o, '.ks-op-p'), x = q(o, '.ks-op-x');
+    function set(v) { p.hidden = !v; o.classList.toggle('is-open', v); if (scn) scn.classList.toggle('is-open', v); btn.setAttribute('aria-expanded', v); (v ? x : btn).focus(); }
+    btn.addEventListener('click', function () { set(true); });
+    x.addEventListener('click', function () { set(false); });
+    o.addEventListener('keydown', function (e) { if (e.key === 'Escape' && o.classList.contains('is-open')) set(false); });
+  });
+
+  // 토스트: 나타나며 종이 흔들리고 글자가 쳐진 뒤 잠시 머물다 사라짐(반복), 화면에 보일 때만 돎
+  each('[data-ks="toast"]', function (t) {
+    var b = q(t, 'b'), full = b.getAttribute('data-t'), timers = [], on = false;
+    function later(f, ms) { timers.push(setTimeout(f, ms)); }
+    function stop() { timers.forEach(clearTimeout); timers = []; }
+    function cycle() {
+      stop(); b.style.width = ''; b.textContent = full; b.style.width = Math.ceil(b.offsetWidth) + 1 + 'px'; b.textContent = '';
+      t.classList.remove('is-ring'); void t.offsetWidth; t.classList.add('is-in', 'is-ring');
+      if (reduce) { b.textContent = full; later(function () { t.classList.remove('is-in'); }, 3600); later(cycle, 4400); return; }
+      var i = 0; later(function step() { b.textContent = full.slice(0, ++i); if (i < full.length) later(step, 45); else { later(function () { t.classList.remove('is-in'); }, 2200); later(cycle, 3000); } }, 380);
+    }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && !on) { on = true; cycle(); } else if (!e.isIntersecting && on) { on = false; stop(); t.classList.remove('is-in'); } }); }).observe(t.parentNode);
+    else cycle();
   });
 })();
 
@@ -151,8 +204,8 @@
         var edge = W[k] / 2;
         for (var i = k + s, j = 1; i >= 0 && i < n; i += s, j++) {
           ss[i] = sc(j) * lim(i, k);
-          edge += j === 1 ? 150 : 70;
-          xs[i] = s * Math.max(edge - W[i] * ss[i] / 2, j === 1 ? W[k] * 0.4 + W[i] * ss[i] / 2 : 0); // 가운데 카드와 겹치는 폭은 가운데 카드의 10% 까지
+          var hw = W[i] * ss[i] / 2;
+          xs[i] = s * (j === 1 ? edge + 48 + hw : Math.max(edge + 70 - hw, 0)); // 옆 카드는 가운데 카드 가장자리에서 48px 띄워 겹치지 않게(3D 회전 여유 포함)
           if (j > 1) xs[i] = s * Math.max(Math.abs(xs[i]), Math.abs(xs[i - s]) + 40);
           edge = Math.max(edge, Math.abs(xs[i]) + W[i] * ss[i] / 2);
         }

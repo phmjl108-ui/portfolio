@@ -43,18 +43,16 @@
     });
   });
 
-  // 로그인 팝업: 빈 칸이면 흔들림, 채워져 있으면 확인 → 진행 표시 → 결과 문구
+  // 로그인 팝업: 빈 칸이면 흔들림, 채워져 있으면 확인 → 진행 표시
   each('[data-xu="login"]', function (f) {
-    var ins = f.querySelectorAll('.xu-inp'), ok = q(f, '.xu-ok'), msg = q(f, '.xu-msg'), tm = 0;
-    function say(t) { msg.textContent = t; msg.classList.add('is-on'); clearTimeout(tm); tm = setTimeout(function () { msg.classList.remove('is-on'); }, 1800); }
+    var ins = f.querySelectorAll('.xu-inp'), ok = q(f, '.xu-ok');
     [].forEach.call(ins, function (i) { i.addEventListener('input', function () { i.classList.remove('is-err'); }); });
-    q(f, '.xu-reset').addEventListener('click', function () { say('비밀번호 재설정 메일을 보냈습니다.'); });
     f.addEventListener('submit', function (e) {
       e.preventDefault();
       var empty = [].filter.call(ins, function (i) { return !i.value.trim(); });
-      if (empty.length) { empty.forEach(function (i) { i.classList.remove('is-err'); void i.offsetWidth; i.classList.add('is-err'); }); empty[0].focus(); say('아이디와 비밀번호를 입력해 주세요.'); return; }
+      if (empty.length) { empty.forEach(function (i) { i.classList.remove('is-err'); void i.offsetWidth; i.classList.add('is-err'); }); empty[0].focus(); return; }
       ok.classList.add('is-busy');
-      setTimeout(function () { ok.classList.remove('is-busy'); say('로그인되었습니다.'); }, reduce ? 0 : 1100);
+      setTimeout(function () { ok.classList.remove('is-busy'); }, reduce ? 0 : 1100);
     });
   });
 
@@ -119,8 +117,8 @@
         var edge = W[k] / 2;
         for (var i = k + s, j = 1; i >= 0 && i < n; i += s, j++) {
           ss[i] = sc(j) * lim(i, k);
-          edge += j === 1 ? 150 : 70;
-          xs[i] = s * Math.max(edge - W[i] * ss[i] / 2, j === 1 ? W[k] * 0.4 + W[i] * ss[i] / 2 : 0); // 가운데 카드와 겹치는 폭은 가운데 카드의 10% 까지
+          var hw = W[i] * ss[i] / 2;
+          xs[i] = s * (j === 1 ? edge + 48 + hw : Math.max(edge + 70 - hw, 0)); // 옆 카드는 가운데 카드 가장자리에서 48px 띄워 겹치지 않게(3D 회전 여유 포함)
           if (j > 1) xs[i] = s * Math.max(Math.abs(xs[i]), Math.abs(xs[i - s]) + 40);
           edge = Math.max(edge, Math.abs(xs[i]) + W[i] * ss[i] / 2);
         }

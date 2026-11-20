@@ -106,12 +106,22 @@
     if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { run(); io.disconnect(); } }); io.observe(s); } else run();
   });
 
+  // 타이머: 화면에 보일 때 1초마다 줄어들고 0 이 되면 처음 값부터 다시
+  each('[data-kx="timer"]', function (t) {
+    var b = q(t, 'b'), start = +t.getAttribute('data-sec') || 29, n = start, id = 0;
+    function fmt(x) { return '00:' + (x < 10 ? '0' : '') + x; }
+    function run() { if (id) return; id = setInterval(function () { n = n <= 0 ? start : n - 1; b.textContent = fmt(n); }, 1000); }
+    function stop() { clearInterval(id); id = 0; }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { es[0].isIntersecting ? run() : stop(); }).observe(t); else run();
+  });
+
   // ===== 팝업 카드 =====
-  // 닫기(X·확인·Close) → 팝업이 사라지고 '다시 열기'
+  // 닫기(X·확인·Close) → 팝업이 닫히는 모션 후 잠시 뒤 다시 뜸(카드가 빈 채로 남지 않게, 별도 버튼 없음)
   each('.kx-cf .cf-panel', function (p) {
-    var re = q(p, '.kx-reopen');
-    each('[data-close]', function (b) { b.addEventListener('click', function () { p.classList.add('is-closed'); setTimeout(function () { re.focus(); }, 50); }); }, p);
-    re.addEventListener('click', function () { p.classList.remove('is-closed'); var f = q(p, '.kx-pop button'); f && f.focus(); });
+    each('[data-close]', function (b) { b.addEventListener('click', function () {
+      p.classList.add('is-closed'); clearTimeout(p.__rt);
+      p.__rt = setTimeout(function () { p.classList.remove('is-closed'); }, 1400);
+    }); }, p);
   });
   // 학습 선택 확인: 고른 항목으로 시작 표시
   each('.kx-learn', function (pop) {
@@ -174,8 +184,8 @@
         var edge = W[k] / 2;
         for (var i = k + s, j = 1; i >= 0 && i < n; i += s, j++) {
           ss[i] = sc(j) * lim(i, k);
-          edge += j === 1 ? 150 : 70;
-          xs[i] = s * Math.max(edge - W[i] * ss[i] / 2, j === 1 ? W[k] * 0.4 + W[i] * ss[i] / 2 : 0); // 가운데 카드와 겹치는 폭은 가운데 카드의 10% 까지
+          var hw = W[i] * ss[i] / 2;
+          xs[i] = s * (j === 1 ? edge + 48 + hw : Math.max(edge + 70 - hw, 0)); // 옆 카드는 가운데 카드 가장자리에서 48px 띄워 겹치지 않게(3D 회전 여유 포함)
           if (j > 1) xs[i] = s * Math.max(Math.abs(xs[i]), Math.abs(xs[i - s]) + 40);
           edge = Math.max(edge, Math.abs(xs[i]) + W[i] * ss[i] / 2);
         }

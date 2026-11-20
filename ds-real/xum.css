@@ -133,8 +133,6 @@
 .view#view-xum .xu-ok.is-busy::after { content: ''; position: absolute; left: 50%; top: 50%; width: 20px; height: 20px; margin: -10px 0 0 -10px; border: 2.5px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; animation: xu-spin .7s linear infinite; }
 .view#view-xum .xu-login .xu-ok { margin-top: 0; }
 .view#view-xum .xu-copy { position: absolute; left: 0; right: 0; top: 588px; margin: 0; text-align: center; font: 700 14px/17px var(--xu-suit); letter-spacing: -.25px; }
-.view#view-xum .xu-msg { position: absolute; left: 50%; top: 540px; transform: translate(-50%, 6px); padding: 6px 12px; border-radius: 6px; background: rgba(28,27,31,.86); color: #fff; font: 500 13px/1.3 var(--xu-suit); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
-.view#view-xum .xu-msg.is-on { opacity: 1; transform: translate(-50%, 0); }
 
 /* 그룹 만들기 (768×671) */
 .view#view-xum .xu-group { width: 768px; box-sizing: border-box; padding: 12px 48px; border-radius: 16px; background: #fff; box-shadow: 0 0 4px 1px rgba(0,0,0,.25); font-family: var(--xu-suit); letter-spacing: -.25px; color: #000; }
@@ -183,9 +181,8 @@
 .view#view-xum .xu-gbtn.is-p:disabled { background: #C2C2C2; box-shadow: none; cursor: default; transform: none; }
 
 /* 확인 버튼 · 성별 토글 탭 받침 */
-.view#view-xum .xu-plate { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 40px; border-radius: 16px; background: #fff; box-shadow: 0 0 4px 1px rgba(0,0,0,.12); }
+.view#view-xum .xu-plate { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .view#view-xum .xu-plate .xu-ok { width: 258px; }
-.view#view-xum .xu-cap { margin: 0; font: 500 12px/1 var(--xu-pre); color: #8A8B90; letter-spacing: 0; }
 .view#view-xum .xu-gender { display: flex; gap: 24px; width: 500px; }
 .view#view-xum .xu-gender button { flex: 1; height: 40px; border: 1px solid #D0D0D0; border-radius: 8px; background: #fff; color: #000; font: 700 16px/20px var(--xu-suit); letter-spacing: -.25px; }
 .view#view-xum .xu-gender button:hover { border-color: var(--xu-b); }
@@ -202,3 +199,6 @@
 @media (prefers-reduced-motion: reduce) {
   .view#view-xum .xu *, .view#view-xum .xu *::before, .view#view-xum .xu *::after, .view#view-xum .xu-cf .cf-panel *, .view#view-xum .xu-cf .cf-panel *::before, .view#view-xum .xu-cf .cf-panel *::after { transition: none !important; animation: none !important; }
 }
+/* 입력칸: 브라우저 기본 모양 제거. 검색칸은 바깥 틀(.xu-search)만 테두리·포커스 표시, 칸 자체가 틀인 입력(.xu-inp·.xu-gi)은 자기 테두리 하나만 */
+.view#view-xum .xu-search input, .view#view-xum .xu-msearch input { -webkit-appearance: none; appearance: none; border: 0; outline: 0; background: transparent; }
+.view#view-xum .xu-inp, .view#view-xum .xu-gi { -webkit-appearance: none; appearance: none; outline: 0; }

@@ -1,0 +1,53 @@
+/* NHN Edu MCU 마약 예방 VR 실제 UI — 피그마 TvTAjDBw5As4tDj1H96103 'VR앱고도화(2026)' 페이지 컴포넌트 값을 HTML/CSS 로 재현
+   범위: .view#view-mcu 안에서만. 접두사 mb- (.mc- 는 360 섹션 패널이 씀)
+   VR 화면 단위(피그마 px) 그대로 만들고, 판에서는 상태 이미지와 같은 크기로 zoom 해서 보여 줌 */
+
+.view#view-mcu .mb { font-family: 'GmarketSansVRC', 'Pretendard', sans-serif; -webkit-font-smoothing: antialiased; }
+.view#view-mcu .mb button { font-family: inherit; margin: 0; padding: 0; border: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.view#view-mcu .mb button:focus-visible { outline: 6px solid #0f95ff; outline-offset: 8px; }
+.view#view-mcu .mb-z5 { zoom: .5; }
+.view#view-mcu .mb-z25 { zoom: .25; }
+.view#view-mcu .mb-row { display: flex; align-items: center; }
+
+/* 흰 부품이 흰 판과 구분되도록 실제 장면(360 배경 정면, 10대의 방)을 부품 크기에 맞춰 깔기 */
+.view#view-mcu .mb-scene { display: inline-block; padding: 14px 18px 22px; border-radius: 14px; background: url(mcu-img/scene.webp) center 40% / cover no-repeat, #d1931a; }
+
+/* 캡슐 버튼(Btn - Blue / Main / Sub): 500×124, 라운드 62, Gmarket Sans Bold 48
+   그림자: DROP 0,15 r10 #0043a3 13% + INNER -6,-10 r10 #000 5%. 눌림 = 90% 크기 */
+.view#view-mcu .mb-btn { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; min-width: 500px; height: 124px; padding: 0 60px !important; border-radius: 62px; font-weight: 700; font-size: 48px; line-height: 48px; white-space: nowrap; box-shadow: 0 15px 10px rgba(0, 67, 163, .13), inset -6px -10px 10px rgba(0, 0, 0, .05); transition: background-color .15s ease, color .15s ease, transform .12s ease; }
+.view#view-mcu .mb-btn > span { display: block; padding-top: 4px; }
+.view#view-mcu .mb-btn:active, .view#view-mcu .mb-btn.is-press { transform: scale(.9); }
+.view#view-mcu .mb-blue { background: #0f95ff; color: #fff; font-size: 64px; line-height: 64px; } /* 화면에 쓰인 '시작' 인스턴스(2360:2161) 글자 64 */
+.view#view-mcu .mb-blue:hover, .view#view-mcu .mb-blue:active, .view#view-mcu .mb-blue.is-press { background: #0c77cc; }
+.view#view-mcu .mb-main { background: #fff; color: #0f95ff; }
+.view#view-mcu .mb-sub { background: #fff; color: #484c6f; }
+.view#view-mcu .mb-main:hover, .view#view-mcu .mb-main:active, .view#view-mcu .mb-main.is-press,
+.view#view-mcu .mb-sub:hover, .view#view-mcu .mb-sub:active, .view#view-mcu .mb-sub.is-press { background: #f2f2f2; }
+
+/* 체크박스(Btn - Check box): 48 원, 체크 아이콘 ui_ic_check_small
+   해제(피그마 'Disabled') #cecece · Hover #b1b1b1 · 눌림 90% · 선택(Active) #0f95ff */
+.view#view-mcu .mb-chk { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 24px; background: #cecece; transition: background-color .15s ease, transform .1s ease; }
+.view#view-mcu .mb-chk svg { display: block; width: 48px; height: 48px; }
+.view#view-mcu .mb-chk:hover { background: #b1b1b1; }
+.view#view-mcu .mb-chk:active { transform: scale(.9); background: #b1b1b1; }
+.view#view-mcu .mb-chk[aria-checked="true"] { background: #0f95ff; }
+.view#view-mcu .mb-chk[aria-checked="true"] path { animation: mbCheck .32s cubic-bezier(.3, 1.6, .5, 1); transform-origin: 24px 24px; }
+.view#view-mcu .mb-chk:focus-visible { outline-width: 2px; outline-offset: 3px; }
+@keyframes mbCheck { from { transform: scale(.3); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* OX 퀴즈 버튼(Btn - O / Btn - X): 500×500, 라운드 74, 흰색 → Hover #f2f2f2 → 눌림 90%
+   O = 지름 340 고리(innerRadius 0.6) #0f95ff, X = 피그마 Union 벡터 #ff3b30 */
+.view#view-mcu .mb-oxs { gap: 74px; }
+.view#view-mcu .mb-ox { display: grid; place-items: center; width: 500px; height: 500px; border-radius: 74px; background: #fff; box-shadow: 0 15px 10px rgba(0, 67, 163, .13), inset -6px -10px 10px rgba(0, 0, 0, .05); transition: background-color .15s ease, transform .12s ease; }
+.view#view-mcu .mb-ox:hover, .view#view-mcu .mb-ox:active { background: #f2f2f2; }
+.view#view-mcu .mb-ox:active { transform: scale(.9); }
+.view#view-mcu .mb-ox:focus-visible { outline-width: 16px; outline-offset: 24px; }
+.view#view-mcu .mb-o { display: block; width: 340px; height: 340px; box-sizing: border-box; border-radius: 50%; border: 68px solid #0f95ff; }
+.view#view-mcu .mb-ox svg { display: block; }
+
+/* 컨트롤러 키 안내(ui_ic_*): 동작 없는 표시 아이콘, 피그마 벡터 그대로 */
+.view#view-mcu .mb-keys { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+.view#view-mcu .mb-keys .mb-row { gap: 20px; align-items: flex-end; }
+.view#view-mcu .mb-key { display: block; flex: none; }
+
+@media (prefers-reduced-motion: reduce) { .view#view-mcu .mb *, .view#view-mcu .mb { animation: none !important; transition: none !important; } }

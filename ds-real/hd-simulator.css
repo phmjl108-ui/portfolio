@@ -9,10 +9,11 @@
 .view#view-hd-simulator .hs-z5 { zoom: .5; }
 .view#view-hd-simulator .hs-z25 { zoom: .25; }
 .view#view-hd-simulator .hs-z45 { zoom: .45; }
+.view#view-hd-simulator .hs-z4 { zoom: .4; }
+.view#view-hd-simulator .hs-z42 { zoom: .42; }
 .view#view-hd-simulator .hs-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
 .view#view-hd-simulator .hs-col { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
 .view#view-hd-simulator .hs-shp { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.view#view-hd-simulator .hs-hint { margin: 8px 0 0; font: 400 12px/16px 'Pretendard', sans-serif; color: #6B6C72; }
 
 /* 1. 키 안내 버튼 (Common/Status Button Type 2194:4267, 395×112): 가운데가 진한 검정 띠 + 위·아래 흰 선(양끝 흐림) */
 .view#view-hd-simulator .hs-keys { display: grid; grid-template-columns: repeat(2, 395px); gap: 24px; }
@@ -92,7 +93,51 @@
 .view#view-hd-simulator .hs-at-sc:focus-visible { box-shadow: 0 0 0 2px var(--hs-t); }
 .view#view-hd-simulator .hs-at-row { display: flex; gap: 22px; width: max-content; padding: 2px; }
 .view#view-hd-simulator .hs-at-row .hs-tile { scroll-snap-align: start; }
-.view#view-hd-simulator .hs-at-bar { position: relative; height: 4px; margin-top: 12px; border-radius: 2px; background: #E1E4E8; cursor: pointer; }
-.view#view-hd-simulator .hs-at-bar span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; background: var(--hs-t); }
 @media (prefers-reduced-motion: reduce) { .view#view-hd-simulator .hs *, .view#view-hd-simulator .hs-p * { animation: none !important; transition: none !important; } }
 @media (max-width: 700px) { .view#view-hd-simulator .cf-card.hs-c-dq, .view#view-hd-simulator .cf-card.hs-c-at { width: 348px; margin-left: -174px; } .view#view-hd-simulator .hs-dq { zoom: .145; } .view#view-hd-simulator .hs-at { width: 340px; } .view#view-hd-simulator .hs-menus { zoom: .3; } }
+
+/* ── 2026-11-20 수정 ──
+   대비 바탕: 키 안내(가장자리가 투명해지는 검정 띠+흰 선)·메뉴(검정 50% 반투명)·설정 행은 흰 판에서 구분이 안 되므로
+   실제 게임 화면(로비 운전석 장면)을 부품 크기에 맞춰 깔아 줌. 회색 무대 상자 없음. */
+.view#view-hd-simulator .hs-scene { display: inline-block; padding: 10px; border-radius: 6px; background: #1A1E20 url(../assets/ds/hd-simulator/scene.webp) 50% 55% / cover no-repeat; }
+.view#view-hd-simulator .hs-scene-wide { display: block; width: max-content; max-width: 100%; }
+/* 메뉴 버튼 = 반투명 → 글래스모피즘(뒤 장면 흐림 + 약한 채도·밝기 보정), 흐림 미지원이면 불투명도 올림 */
+.view#view-hd-simulator .hs-menu { clip-path: polygon(38px 0, 1108px 0, 1146px 38px, 1146px 114px, 1108px 152px, 38px 152px, 0 114px, 0 38px); -webkit-backdrop-filter: blur(16px) saturate(1.25) brightness(.92); backdrop-filter: blur(16px) saturate(1.25) brightness(.92); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-hd-simulator .hs-menu .hs-shp path { fill: rgba(0,0,0,.78); } }
+
+/* 7. 콘텐츠 선택 (Btn - Content Select 3569:85731, 1020×1458 → ×0.25): 사진+검정 그라데이션(위 투명→아래 검정)+격자, 테두리 #ABB1B4
+      Hover·선택: 그라데이션 #007957, 테두리 #03DAC6. Disabled(공개 예정)는 상태 보기에만 */
+.view#view-hd-simulator .hs-cs { position: relative; display: block; width: 1020px; height: 1458px; padding: 0; border: 0; background: none; color: #fff; text-align: left; cursor: pointer; }
+.view#view-hd-simulator .hs-cs-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.view#view-hd-simulator .hs-cs-bg stop { stop-color: #000; transition: stop-color .2s ease; }
+.view#view-hd-simulator .hs-cs-e { fill: #ABB1B4; transition: fill .2s ease; }
+.view#view-hd-simulator .hs-cs:hover .hs-cs-bg stop, .view#view-hd-simulator .hs-cs[aria-pressed="true"] .hs-cs-bg stop { stop-color: #007957; }
+.view#view-hd-simulator .hs-cs:hover .hs-cs-e, .view#view-hd-simulator .hs-cs[aria-pressed="true"] .hs-cs-e { fill: #03DAC6; }
+.view#view-hd-simulator .hs-cs-tx { position: absolute; left: 56px; top: 322px; width: 908px; display: flex; flex-direction: column; gap: 58px; }
+.view#view-hd-simulator .hs-cs-t { font: 600 72px/104px var(--hs-f); }
+.view#view-hd-simulator .hs-cs-p { font: 500 40px/53px var(--hs-f); }
+.view#view-hd-simulator .hs-cs-s { display: flex; flex-direction: column; gap: 34px; }
+.view#view-hd-simulator .hs-cs-h { font: 600 40px/58px var(--hs-f); }
+.view#view-hd-simulator .hs-cs-d { font: 500 40px/58px var(--hs-f); }
+.view#view-hd-simulator .hs-cs:focus-visible { outline: 8px solid var(--hs-t); outline-offset: 8px; }
+
+/* 8·9. 환경설정 (Btn - Sound Setting 3571:98220 · Setting 3584:25785, 폭 3816 → ×0.25) */
+.view#view-hd-simulator .hs-set { width: 3816px; }
+.view#view-hd-simulator .hs-set-t { margin: 0 0 32px; font: 600 52px/69px var(--hs-f); color: #fff; }
+.view#view-hd-simulator .hs-set-d { margin: 15px 0 0; font: 500 40px/53px var(--hs-f); color: #fff; }
+.view#view-hd-simulator .hs-sl { position: relative; height: 120px; cursor: pointer; touch-action: none; outline: none; }
+.view#view-hd-simulator .hs-sl-bg, .view#view-hd-simulator .hs-opt-bg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.view#view-hd-simulator .hs-sl .hs-ic { position: absolute; left: 57px; top: 34px; }
+.view#view-hd-simulator .hs-sl-v { position: absolute; right: 57px; top: 34px; font: 500 40px/53px var(--hs-f); color: #fff; transition: color .15s ease; }
+.view#view-hd-simulator .hs-sl-e, .view#view-hd-simulator .hs-opt-e { fill: none; stroke: transparent; stroke-width: 5; transition: stroke .15s ease; }
+.view#view-hd-simulator .hs-sl:hover .hs-sl-e, .view#view-hd-simulator .hs-sl:focus-visible .hs-sl-e, .view#view-hd-simulator .hs-sl.is-drag .hs-sl-e,
+.view#view-hd-simulator .hs-opt:hover .hs-opt-e, .view#view-hd-simulator .hs-opt:focus-within .hs-opt-e { stroke: var(--hs-t); }
+.view#view-hd-simulator .hs-sl:hover .hs-sl-v, .view#view-hd-simulator .hs-sl:focus-visible .hs-sl-v, .view#view-hd-simulator .hs-sl.is-drag .hs-sl-v { color: var(--hs-t); }
+.view#view-hd-simulator .hs-opt { position: relative; height: 120px; display: flex; align-items: center; }
+.view#view-hd-simulator .hs-opt-l { position: relative; margin-left: 49px; font: 500 40px/53px var(--hs-f); color: #fff; }
+.view#view-hd-simulator .hs-opt-sel { position: absolute; left: 2206px; top: 0; width: 878px; height: 120px; }
+.view#view-hd-simulator .hs-opt-b { position: absolute; top: 30px; width: 60px; height: 60px; padding: 0; border: 0; background: none; cursor: pointer; }
+.view#view-hd-simulator .hs-opt-b[data-d="-1"] { left: 104px; } .view#view-hd-simulator .hs-opt-b[data-d="1"] { left: 774px; }
+.view#view-hd-simulator .hs-opt-b:active { transform: scale(.9); }
+.view#view-hd-simulator .hs-opt-v { position: absolute; left: 188px; top: 34px; width: 502px; text-align: center; font: 700 40px/53px var(--hs-f); color: #fff; }
+@media (max-width: 700px) { .view#view-hd-simulator .hs-set { zoom: .085; } .view#view-hd-simulator .hs-scene-wide { max-width: none; } }

@@ -5,16 +5,16 @@
 .view#view-samsung-xr .sx, .view#view-samsung-xr .sx-pn { font-family: 'Pretendard', 'Pretendard Variable', sans-serif; letter-spacing: 0; color: #fff; -webkit-font-smoothing: antialiased; }
 .view#view-samsung-xr .sx button, .view#view-samsung-xr .sx-pn button { font-family: inherit; letter-spacing: 0; color: inherit; -webkit-tap-highlight-color: transparent; }
 .view#view-samsung-xr .sx-i { display: block; flex: none; }
-.view#view-samsung-xr .sx-st { box-sizing: border-box; max-width: 100%; padding: 20px; border-radius: 12px; background: radial-gradient(120% 140% at 30% 20%, #10262e 0%, #071116 60%, #04090c 100%); box-shadow: inset 0 0 0 1px #12262d; }
+/* 바탕: 회색 무대 대신 실제 VR 로비 장면 일부(피그마 BG / VR Env)를 부품 크기에 맞춰 깔아 유리 효과가 드러나게 */
+.view#view-samsung-xr .sx-st { display: inline-block; box-sizing: border-box; max-width: 100%; padding: 16px; border-radius: 8px; background: #050b1c url(samsung-xr-img/vr-bg.webp) center 62% / cover no-repeat; }
 .view#view-samsung-xr .sx-z { zoom: .5; }
 .view#view-samsung-xr .sx-row { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
 .view#view-samsung-xr .sx-col { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
-.view#view-samsung-xr .sx-note { display: block; margin-top: 10px; font-size: 12px; line-height: 16px; color: #7FA3AE; }
 .view#view-samsung-xr .sx-glow { filter: drop-shadow(0 0 7px rgba(0,229,255,.55)); }
 .view#view-samsung-xr .sx button:focus-visible, .view#view-samsung-xr .sx-pn button:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 
 /* 모서리 꺾쇠(Bracket) */
-.view#view-samsung-xr .sx-br { position: absolute; color: #00E5FF; filter: drop-shadow(0 0 7px rgba(0,229,255,.55)); pointer-events: none; }
+.view#view-samsung-xr .sx-br { position: absolute; overflow: visible; color: #00E5FF; filter: drop-shadow(0 0 7px rgba(0,229,255,.55)); pointer-events: none; }
 .view#view-samsung-xr .sx-br.tl { left: 0; top: 0; }
 .view#view-samsung-xr .sx-br.tr { right: 0; top: 0; transform: scaleX(-1); }
 .view#view-samsung-xr .sx-br.br { right: 0; bottom: 0; transform: scale(-1, -1); }
@@ -79,13 +79,9 @@
 
 /* 5. 핸드 메뉴 (Hand Menu Style=A) — 내비 버튼 3개, 간격 24 */
 .view#view-samsung-xr .sx-hand { display: flex; gap: 24px; padding: 28px; }
-.view#view-samsung-xr .sx-hand.is-train .sx-nav:not(.is-on) { opacity: .5; pointer-events: none; }
-.view#view-samsung-xr .sx-seg { display: inline-flex; margin-top: 12px; padding: 3px; border-radius: 999px; background: rgba(0,188,212,.12); box-shadow: inset 0 0 0 1px rgba(0,229,255,.35); }
-.view#view-samsung-xr .sx-seg button { height: 26px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; font-size: 12px; font-weight: 600; color: #9CC7D2; cursor: pointer; }
-.view#view-samsung-xr .sx-seg button[aria-checked="true"] { background: rgba(0,229,255,.28); color: #fff; }
 
 /* 6. 완료 알림 (Toast 124:1667) — 270×100, 아이콘 44, 34 SemiBold */
-.view#view-samsung-xr .sx-toast { position: relative; display: inline-flex; align-items: center; gap: 20px; width: 270px; height: 100px; padding: 24px 44px 24px 32px; box-sizing: border-box; border-radius: 6px; background: rgba(4,13,18,.86); box-shadow: inset 0 0 0 2px rgba(0,229,255,.8), 0 0 40px rgba(76,175,80,.16); -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); }
+.view#view-samsung-xr .sx-toast { position: relative; display: inline-flex; align-items: center; gap: 20px; min-width: 270px; height: 100px; padding: 24px 44px 24px 32px; box-sizing: border-box; border-radius: 6px; background: rgba(4,13,18,.86); box-shadow: inset 0 0 0 2px rgba(0,229,255,.8), 0 0 40px rgba(76,175,80,.16); -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); }
 .view#view-samsung-xr .sx-toast .sx-br { filter: drop-shadow(0 0 7px rgba(76,175,80,.55)); }
 .view#view-samsung-xr .sx-toast-i { display: flex; width: 44px; height: 44px; flex: none; align-items: center; justify-content: center; }
 .view#view-samsung-xr .sx-toast-i svg { width: 40px; height: 40px; }
@@ -96,7 +92,7 @@
 .view#view-samsung-xr .sx-toast.is-anim.is-in .sx-toast-i path { stroke-dashoffset: 0; }
 
 /* 7. 판독 패널 (Readout 124:1659) — 376×202, 64 Bold 값 */
-.view#view-samsung-xr .sx-read { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: 376px; padding: 24px 36px; box-sizing: border-box; border: 0; background: rgba(4,13,18,.86); box-shadow: inset 0 0 0 2px rgba(0,188,212,.8), 0 0 40px rgba(0,188,212,.16); -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); text-align: left; cursor: pointer; }
+.view#view-samsung-xr .sx-read { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 376px; width: max-content; padding: 24px 36px; box-sizing: border-box; border: 0; background: rgba(4,13,18,.86); box-shadow: inset 0 0 0 2px rgba(0,188,212,.8), 0 0 40px rgba(0,188,212,.16); -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); text-align: left; cursor: pointer; }
 .view#view-samsung-xr .sx-read:hover { box-shadow: inset 0 0 0 2px #00E5FF, 0 0 40px rgba(0,188,212,.3); }
 .view#view-samsung-xr .sx-read-l { font-weight: 500; font-size: 24px; line-height: 29px; color: #BFCCD9; }
 .view#view-samsung-xr .sx-read-v { font-weight: 700; font-size: 64px; line-height: 76px; color: #fff; white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -118,11 +114,6 @@
 .view#view-samsung-xr .sx-tag.is-act .sx-tag-m > i { background: #00E5FF; box-shadow: inset 0 0 0 2px #00E5FF, 0 0 16px rgba(0,229,255,.9); }
 .view#view-samsung-xr .sx-tag.is-act .sx-tag-n { background: rgba(0,188,212,.45); }
 .view#view-samsung-xr .sx-tag.is-act .sx-tag-m { animation: sx-ping 1.6s ease-in-out infinite; }
-.view#view-samsung-xr .sx-tag.is-ghost { cursor: default; }
-.view#view-samsung-xr .sx-tag.is-ghost .sx-br { color: rgba(255,255,255,.7); filter: drop-shadow(0 0 7px rgba(255,255,255,.38)); }
-.view#view-samsung-xr .sx-tag.is-ghost .sx-tag-m > i { background: none; box-shadow: none; border: 2px dashed rgba(255,255,255,.7); }
-.view#view-samsung-xr .sx-tag.is-ghost .sx-tag-l { background: rgba(255,255,255,.8); }
-.view#view-samsung-xr .sx-tag.is-ghost .sx-tag-n { box-shadow: none; outline: 2px dashed rgba(255,255,255,.5); outline-offset: -2px; background: rgba(4,13,18,.82); }
 @keyframes sx-ping { 0%, 100% { transform: none; } 50% { transform: scale(1.06); } }
 
 /* 10. 훈련 카드 (Training Card 125:144) — 400×260 팔각, 이미지 368×168, 32 SemiBold */
@@ -149,30 +140,29 @@
 /* 11. 원형 게이지 (Indicator 514:4057) — 512 기준 → 판에서 256 */
 .view#view-samsung-xr .sx-ring-st { display: flex; justify-content: center; }
 .view#view-samsung-xr .sx-ring { position: relative; width: 256px; height: 256px; }
-.view#view-samsung-xr .sx-ring-svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.view#view-samsung-xr .sx-ring-arc { filter: drop-shadow(0 0 4px rgba(0,229,255,.8)); }
-.view#view-samsung-xr .sx-ring-on { filter: drop-shadow(0 0 5px rgba(0,229,255,.85)); }
+.view#view-samsung-xr .sx-ring::before { content: ""; position: absolute; left: 10.5px; top: 10.5px; width: 235px; height: 235px; border-radius: 50%; -webkit-backdrop-filter: blur(15px) saturate(1.2); backdrop-filter: blur(15px) saturate(1.2); }
+.view#view-samsung-xr .sx-ring-svg { position: absolute; left: -4.5px; top: -4.5px; width: 265px; height: 265px; overflow: visible; }
 .view#view-samsung-xr .sx-ring-on rect { opacity: 0; transition: opacity .12s linear; }
 .view#view-samsung-xr .sx-ring-on rect.on { opacity: 1; }
 .view#view-samsung-xr .sx-ring-v { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 40px; line-height: 1; color: #fff; text-shadow: 0 0 8px rgba(0,229,255,.6); font-variant-numeric: tabular-nums; }
 
 /* 12. 진행 막대 (Indicator Line 517:3408) — 1000×120, 칸 40개 */
 .view#view-samsung-xr .sx-line { position: relative; width: 1000px; height: 120px; }
-.view#view-samsung-xr .sx-line-bg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 12px rgba(0,229,255,.3)); }
-.view#view-samsung-xr .sx-line-s { position: absolute; left: 40px; top: 34px; display: flex; gap: 6px; }
-.view#view-samsung-xr .sx-line-s i { width: 13px; height: 46px; border-radius: 1.5px; background: rgba(0,229,255,.1); transition: background-color .1s linear, box-shadow .1s linear; }
-.view#view-samsung-xr .sx-line-s i.on { background: var(--c, #00C7E5); box-shadow: 0 0 10px rgba(0,229,255,.85); }
+.view#view-samsung-xr .sx-line::before { content: ""; position: absolute; inset: 0; clip-path: polygon(14px 0, 986px 0, 100% 14px, 100% 106px, 986px 100%, 14px 100%, 0 106px, 0 14px); -webkit-backdrop-filter: blur(15px) saturate(1.2); backdrop-filter: blur(15px) saturate(1.2); }
+.view#view-samsung-xr .sx-line-bg { position: absolute; left: -24px; top: -24px; width: 1048px; height: 168px; overflow: visible; }
+.view#view-samsung-xr .sx-line-on rect { opacity: 0; transition: opacity .1s linear; }
+.view#view-samsung-xr .sx-line-on rect.on { opacity: 1; }
 .view#view-samsung-xr .sx-line-v { position: absolute; left: 836px; top: 29px; width: 150px; text-align: center; font-weight: 700; font-size: 52px; line-height: 62px; color: #fff; text-shadow: 0 0 7px rgba(0,229,255,.6); font-variant-numeric: tabular-nums; }
 
 /* ===== 패널 카드 슬라이드 ===== */
 .view#view-samsung-xr .sx-cf .cf-stage { height: 680px; }
 .view#view-samsung-xr .sx-cf .cf-nav { top: 320px; }
-.view#view-samsung-xr .sx-cf .cf-card[data-i="0"] { width: 376px; margin-left: -188px; }
-.view#view-samsung-xr .sx-cf .cf-card[data-i="1"] { width: 270px; margin-left: -135px; }
+.view#view-samsung-xr .sx-cf .cf-card[data-i="0"] { width: 424px; margin-left: -212px; }
+.view#view-samsung-xr .sx-cf .cf-card[data-i="1"] { width: 318px; margin-left: -159px; }
 .view#view-samsung-xr .sx-cf .cf-card[data-i="2"] { width: 280px; margin-left: -140px; }
 .view#view-samsung-xr .sx-cf .cf-card[data-i="3"] { width: 680px; margin-left: -340px; }
 .view#view-samsung-xr .sx-pn { position: relative; text-align: left; cursor: default; -webkit-user-select: text; user-select: text; }
-.view#view-samsung-xr .sx-c-read, .view#view-samsung-xr .sx-c-toast { background: #06141A; }
+.view#view-samsung-xr .sx-c-read, .view#view-samsung-xr .sx-c-toast { display: inline-block; padding: 24px; border-radius: 8px; background: #050b1c url(samsung-xr-img/vr-bg.webp) center 60% / cover no-repeat; }
 
 /* 진단 앱 화면 (HASS Screen=Home 347:251) — 430×884 폰, 0.65배 */
 .view#view-samsung-xr .sx-ha-w { width: 280px; height: 575px; }

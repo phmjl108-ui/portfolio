@@ -10,6 +10,12 @@
     new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) start(); else if (stop) stop(); }); }, { threshold: 0.3 }).observe(el);
   }
 
+  // 닫기: 자리는 그대로 두고 감췄다가 잠시 뒤 다시 뜸(피그마에 없는 '다시 열기' 버튼 대신)
+  function gone(el) {
+    el.classList.add('is-gone'); clearTimeout(el.__t);
+    el.__t = setTimeout(function () { el.classList.remove('is-gone'); el.style.animation = 'none'; el.offsetWidth; el.style.animation = ''; }, 1200);
+  }
+
   // 1. 비밀번호 보기, 좌표·수치 입력은 숫자만
   each('.dx-eye[aria-pressed]', function (b) { var i = b.parentNode.querySelector('input'); b.addEventListener('click', function () { var s = tg(b, 'aria-pressed'); i.type = s ? 'text' : 'password'; b.setAttribute('aria-label', s ? '비밀번호 숨기기' : '비밀번호 보기'); }); });
   each('.dx-co input, .dx-eq-in input', function (i) { i.addEventListener('input', function () { var v = i.value.replace(/[^0-9.\-]/g, ''); if (v !== i.value) i.value = v; }); });
@@ -58,19 +64,16 @@
     subs.forEach(function (x) { x.addEventListener('click', function () { subs.forEach(function (y) { y.classList.toggle('is-on', y === x); }); }); });
   });
 
-  // 6. 다이얼로그: 버튼을 누르면 닫히고 '다시 열기', 토스트는 보이면 떠올랐다 사라짐(반복)
+  // 6. 다이얼로그: 버튼을 누르면 닫혔다가 잠시 뒤 다시 뜸, 토스트는 보이면 떠올랐다 사라짐(반복)
   each('[data-dx="dlg"]', function (st) {
-    var d = st.querySelector('.dx-dlg'), re = st.querySelector('.dx-reopen');
-    qa(d, '[data-close]').forEach(function (b) { b.addEventListener('click', function () { d.hidden = true; re.hidden = false; re.focus(); }); });
-    re.addEventListener('click', function () { re.hidden = true; d.hidden = false; d.querySelector('.dx-p').focus(); });
+    var d = st.querySelector('.dx-dlg');
+    qa(d, '[data-close]').forEach(function (b) { b.addEventListener('click', function () { gone(d); }); });
   });
   each('[data-dx="toast"]', function (t) { if (reduce) return; onSeen(t, function () { t.classList.add('is-anim'); }, function () { t.classList.remove('is-anim'); }); });
 
-  // 7. 상태 인디케이터: ✕ 로 닫고 다시 열기
+  // 7. 상태 인디케이터: ✕ 로 닫으면 잠시 뒤 다시 뜸
   each('[data-dx="si"]', function (c) {
-    var re = c.parentNode.querySelector('.dx-reopen');
-    c.querySelector('.dx-x').addEventListener('click', function () { c.hidden = true; re.hidden = false; re.focus(); });
-    re.addEventListener('click', function () { re.hidden = true; c.hidden = false; });
+    c.querySelector('.dx-x').addEventListener('click', function () { gone(c); });
   });
 
   // 8. AI 챗봇: 보이면 안내 말풍선이 타이핑되고 이어서 질문이 올라옴(반복)
@@ -91,11 +94,9 @@
     onSeen(a, function () { if (!timers.length) cycle(); }, function () { clear(); ms.forEach(function (m) { m.classList.remove('is-wait'); var p = m.querySelector('p'); p.textContent = p.dataset.text; p.classList.remove('is-typing'); }); });
   });
 
-  // 9. 장비 정보 패널(카드): ✕ 로 닫고 다시 열기
+  // 9. 장비 정보 패널(카드): ✕ 로 닫으면 잠시 뒤 다시 뜸
   each('[data-dx="ep"]', function (p) {
-    var h = p.querySelector('.dx-ep-h'), b = p.querySelector('.dx-ep-b'), c = p.querySelector('.dx-ep-closed');
-    p.querySelector('.dx-x').addEventListener('click', function () { h.hidden = b.hidden = true; c.hidden = false; c.querySelector('button').focus(); });
-    c.querySelector('button').addEventListener('click', function () { h.hidden = b.hidden = false; c.hidden = true; });
+    p.querySelector('.dx-x').addEventListener('click', function () { gone(p); });
   });
 
   // 패널 카드: 가운데 카드만 조작

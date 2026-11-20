@@ -151,12 +151,34 @@
   document.querySelectorAll('.cf').forEach(function (cf) {
     var stage = cf.querySelector('.cf-stage'), cards = [].slice.call(cf.querySelectorAll('.cf-card')), dots = [].slice.call(cf.querySelectorAll('.cf-dots button'));
     var prev = cf.querySelector('.cf-prev'), next = cf.querySelector('.cf-next');
-    var n = cards.length, pos = 0, target = 0, raf = 0, GAP = 260;
+    var n = cards.length, pos = 0, target = 0, raf = 0, GAP = 260, W = [];
     function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function sc(ad) { return Math.max(0.6, 1 - ad * 0.2); }
+    // 카드마다 폭이 달라서 간격을 카드 폭 기준으로 잡음: 옆 카드는 가운데 카드 가장자리 밖에서 시작(가운데 카드를 덮지 않음)
+    function measure() {
+      W = cards.map(function (c) { var p = c.querySelector('.cf-panel'); return Math.max(c.offsetWidth, p ? p.offsetWidth : 0) || 348; });
+    }
+    function layout(k) {
+      var xs = []; xs[k] = 0;
+      [1, -1].forEach(function (s) {
+        var edge = W[k] / 2 + 32; // 가운데 카드 가장자리 + 틈
+        for (var i = k + s, j = 1; i >= 0 && i < n; i += s, j++) {
+          var hw = W[i] * sc(j) / 2;
+          xs[i] = s * (j === 1 ? edge + hw : Math.max(edge + 64 - hw, Math.abs(xs[i - s]) + 40)); // 두 번째부터는 앞 카드 뒤로 64px 만 보이게
+          edge = Math.max(edge, Math.abs(xs[i]) + hw);
+        }
+      });
+      return xs;
+    }
     function render() {
+      measure();
+      var cp = clamp(pos, 0, n - 1), a = Math.floor(cp), b = Math.min(n - 1, a + 1), t = cp - a, la = layout(a), lb = layout(b);
+      var near = la[a + 1] !== undefined ? Math.abs(la[a + 1]) : la[a - 1] !== undefined ? Math.abs(la[a - 1]) : 260;
+      GAP = near; // 드래그 1장 거리
       cards.forEach(function (c, i) {
         var d = i - pos, ad = Math.abs(d), sd = clamp(d, -1, 1);
-        c.style.transform = 'translateY(-50%) translateX(' + (d * GAP) + 'px) translateZ(' + (-ad * 120) + 'px) rotateY(' + (sd * 30) + 'deg) scale(' + Math.max(0.6, 1 - ad * 0.2) + ')';
+        var x = la[i] * (1 - t) + lb[i] * t + (pos - cp) * -near; // 양 끝에서 더 끌면 살짝 밀림
+        c.style.transform = 'translateY(-50%) translateX(' + x.toFixed(1) + 'px) translateZ(' + (-ad * 120) + 'px) rotateY(' + (sd * 30) + 'deg) scale(' + sc(ad) + ')';
         c.style.filter = 'brightness(' + (1 - Math.min(ad, 3) * 0.15) + ')';
         c.style.zIndex = String(100 - Math.round(ad * 10));
         var center = ad < 0.5;
@@ -235,6 +257,8 @@
       new Image().src = pnl.dataset.off;
       head.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { toggle(head); e.preventDefault(); } });
     });
+    // 숨겨진 화면에서 처음 보일 때·카드 패널을 접고 펼쳐 폭이 바뀔 때 다시 배치
+    if (window.ResizeObserver) { var ro = new ResizeObserver(function () { if (!raf) render(); }); ro.observe(stage); cards.forEach(function (c) { ro.observe(c.querySelector('.cf-panel') || c); }); }
     render();
   });
 })();

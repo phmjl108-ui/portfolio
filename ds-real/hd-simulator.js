@@ -36,21 +36,44 @@
     });
   });
 
-  // 어태치먼트 가로 목록: 휠(세로)도 가로로 넘김, 아래 막대가 위치를 따라감(누르면 그 위치로)
+  // 어태치먼트 가로 목록: 휠(세로)도 가로로 넘김
   each('.hs-at', function (a) {
-    var sc = q(a, '.hs-at-sc'), bar = q(a, '.hs-at-bar'), th = q(bar, 'span');
-    function sync() { var w = sc.clientWidth / sc.scrollWidth, max = sc.scrollWidth - sc.clientWidth; th.style.width = (w * 100) + '%'; th.style.left = (max ? sc.scrollLeft / max * (1 - w) * 100 : 0) + '%'; }
-    sc.addEventListener('scroll', sync, { passive: true });
+    var sc = q(a, '.hs-at-sc');
     sc.addEventListener('wheel', function (e) {
       e.stopPropagation(); // 카드 슬라이드의 가로 휠로 넘어가지 않게
       var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY, max = sc.scrollWidth - sc.clientWidth;
       if ((d < 0 && sc.scrollLeft <= 0) || (d > 0 && sc.scrollLeft >= max - 1)) return;
       e.preventDefault(); sc.scrollLeft += d;
     }, { passive: false });
-    bar.addEventListener('pointerdown', function (e) { e.stopPropagation(); var r = bar.getBoundingClientRect(); sc.scrollTo({ left: (e.clientX - r.left) / r.width * sc.scrollWidth - sc.clientWidth / 2, behavior: 'smooth' }); });
     sc.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
-    sync(); window.addEventListener('resize', sync);
-    var sel = q(a, '[aria-checked="true"]'); if (sel) setTimeout(function () { sc.scrollLeft = sel.getBoundingClientRect().left - sc.getBoundingClientRect().left + sc.scrollLeft - 40; sync(); }, 0);
+    var sel = q(a, '[aria-checked="true"]'); if (sel) setTimeout(function () { sc.scrollLeft = sel.getBoundingClientRect().left - sc.getBoundingClientRect().left + sc.scrollLeft - 40; }, 0);
+  });
+
+  // 콘텐츠 선택 카드: 누르면 선택(Hover 와 같은 청록), 다시 누르면 해제
+  each('[data-hs="card"] .hs-cs', function (b) {
+    b.addEventListener('click', function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); });
+  });
+
+  // 음량 슬라이더: 끌기·누르기·방향키, 값(0~100)과 채움 폭이 같이 바뀜
+  each('[data-hs="slider"] .hs-sl', function (sl) {
+    var cr = q(sl, '.hs-sl-cr'), v = q(sl, '.hs-sl-v'), W = 3816;
+    function set(n) { n = Math.max(0, Math.min(100, Math.round(n))); cr.setAttribute('width', W * n / 100); v.textContent = n; sl.setAttribute('aria-valuenow', n); }
+    function at(e) { var r = sl.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); }
+    sl.addEventListener('pointerdown', function (e) { e.preventDefault(); sl.setPointerCapture(e.pointerId); sl.classList.add('is-drag'); sl.focus(); at(e); });
+    sl.addEventListener('pointermove', function (e) { if (sl.classList.contains('is-drag')) at(e); });
+    ['pointerup', 'pointercancel'].forEach(function (t) { sl.addEventListener(t, function () { sl.classList.remove('is-drag'); }); });
+    sl.addEventListener('keydown', function (e) {
+      var d = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1, PageUp: 10, PageDown: -10 }[e.key], n = +sl.getAttribute('aria-valuenow');
+      if (e.key === 'Home') d = -n; if (e.key === 'End') d = 100 - n; if (d == null) return;
+      e.preventDefault(); set(n + d);
+    });
+    set(+sl.getAttribute('aria-valuenow'));
+  });
+
+  // 설정 항목: 좌우 화살표로 값 순환(미터 m ↔ 인치 in)
+  each('[data-hs="option"] .hs-opt', function (o) {
+    var vals = ['미터 m', '인치 in'], i = 0, out = q(o, '.hs-opt-v');
+    qa(o, '.hs-opt-b').forEach(function (b) { b.addEventListener('click', function () { i = (i + (+b.getAttribute('data-d')) + vals.length) % vals.length; out.textContent = vals[i]; }); });
   });
 
   // 카드 슬라이드: 가운데가 아닌 카드 안 부품은 포커스·클릭 안 되게

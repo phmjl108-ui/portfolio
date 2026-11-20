@@ -14,7 +14,7 @@
   });
   // 눌림 상태가 남는 버튼(적용·상세보기·아이콘·3D 회전)
   each('.ko-gb[aria-pressed], .ko-ib[aria-pressed], .ko-rot', function (b) {
-    b.addEventListener('click', function () { var on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); if (b.classList.contains('ko-noti') && on) { b.classList.remove('is-new'); b.setAttribute('aria-label', '알림'); } });
+    b.addEventListener('click', function () { var on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); });
   });
   // 토글 · 라디오 · 태그
   each('.ko-tg', function (t) { t.addEventListener('click', function () { t.setAttribute('aria-checked', t.getAttribute('aria-checked') !== 'true'); }); });
@@ -24,15 +24,17 @@
   });
   each('.ko-tag', function (t) { t.addEventListener('click', function () { t.setAttribute('aria-pressed', t.getAttribute('aria-pressed') !== 'true'); }); });
 
-  // 원형 진행률: 화면에 보이면 0 → 값까지 차오름, 값 버튼으로 바꾸면 그 값까지 움직임
+  // 원형 진행률: 화면에 보이면 0 → 값까지 차오름, 누르면 다시
   each('[data-ko="ring"]', function (w) {
-    var ring = q(w, '.ko-ring'), fg = q(w, '.ko-ring-fg'), v = q(w, '.ko-ring-v'), cur = 0, raf = 0, segs = qa(w, '.ko-seg button');
+    var ring = q(w, '.ko-ring'), fg = q(w, '.ko-ring-fg'), v = q(w, '.ko-ring-v'), cur = 0, raf = 0;
     function to(t) {
       cancelAnimationFrame(raf); var from = cur, st = performance.now(), dur = reduce ? 0 : 900;
       (function step(now) { var k = dur ? Math.min(1, (now - st) / dur) : 1, e = 1 - Math.pow(1 - k, 3); cur = from + (t - from) * e; fg.setAttribute('stroke-dasharray', cur.toFixed(2) + ' 100'); v.textContent = Math.round(cur) + '%'; ring.setAttribute('aria-valuenow', Math.round(cur)); if (k < 1) raf = requestAnimationFrame(step); })(st);
     }
-    segs.forEach(function (b) { b.addEventListener('click', function () { segs.forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); }); to(+b.dataset.v); }); });
-    onView(w, function () { to(+q(w, '.ko-seg [aria-checked="true"]').dataset.v); });
+    var T = +(ring.getAttribute('aria-valuenow') || 75);
+    function replay() { cur = 0; to(T); }
+    ring.addEventListener('click', replay); ring.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); replay(); } });
+    onView(w, function () { to(T); });
   });
   // 진행 바: 보이면 차오름, 누르면 다시
   each('[data-ko="bar"] .ko-bar', function (b) {

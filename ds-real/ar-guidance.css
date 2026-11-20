@@ -7,8 +7,11 @@
 .view#view-ar-guidance .ag button:focus-visible, .view#view-ar-guidance .ag-p button:focus-visible { outline: 2px solid var(--ag-or); outline-offset: 2px; }
 .view#view-ar-guidance .ag-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .view#view-ar-guidance .ag-col { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
-/* 흰 선·흰 글자 부품은 앱처럼 어두운 바탕 위에 둠 */
-.view#view-ar-guidance .ag-dark { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 14px; border-radius: 10px; background: #3B3B3B; }
+/* 흰 선·흰 글자·반투명 부품은 실제 앱 장면(피그마 성능 시험 화면의 운전석 배경 이미지) 위에 둠 — 바탕은 부품 크기에 맞춤 */
+.view#view-ar-guidance .ag-scene { position: relative; display: inline-flex; flex-wrap: wrap; gap: 12px; align-items: center; width: max-content; max-width: 100%; padding: 16px; box-sizing: border-box; border-radius: 10px; overflow: hidden; isolation: isolate; background: #2a2a2a url("../assets/ds/ar-guidance/scene-cab.webp") center 40% / cover no-repeat; }
+/* 어두운 장면 = 피그마 Frame 298 오버레이(#161616 70% + 배경 흐림 20) */
+.view#view-ar-guidance .ag-dark::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(22,22,22,.7); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-ar-guidance .ag-dark::before { background: rgba(22,22,22,.88); } }
 
 /* 도형 버튼 공통: 피그마 벡터 모양(모서리 깎임)을 SVG 로 깔고 글자를 위에 */
 .view#view-ar-guidance .ag-shp { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
@@ -99,10 +102,10 @@
 .view#view-ar-guidance .ag-key[aria-pressed="true"] { transform: translateY(2px); }
 .view#view-ar-guidance .ag-key[aria-pressed="true"] .ag-k-bg { fill: var(--ag-or); }
 .view#view-ar-guidance .ag-key[aria-pressed="true"] .ag-k-ln, .view#view-ar-guidance .ag-key[aria-pressed="true"] text { fill: #fff; }
-.view#view-ar-guidance .ag-hint { margin: 0; font: 400 12px/16px 'Pretendard', sans-serif; color: #6B6C72; }
 
 /* 8. 안내 팝업 (Pop-up - Noti 1782:13531, 338×114) — 화살표가 위로 움직임 */
-.view#view-ar-guidance .ag-pop { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 338px; padding: 16px 56px 24px; box-sizing: border-box; border-radius: 10px; background: rgba(255,255,255,.5); box-shadow: 0 4px 8px rgba(0,0,0,.1), inset 0 0 0 1px rgba(0,0,0,.04); -webkit-backdrop-filter: blur(50px); backdrop-filter: blur(50px); }
+.view#view-ar-guidance .ag-pop { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 338px; padding: 16px 56px 24px; box-sizing: border-box; border-radius: 10px; background: rgba(255,255,255,.5); box-shadow: 0 4px 8px rgba(0,0,0,.1), inset 0 0 0 1px rgba(255,255,255,.45); -webkit-backdrop-filter: blur(50px) saturate(1.2) brightness(1.05); backdrop-filter: blur(50px) saturate(1.2) brightness(1.05); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-ar-guidance .ag-pop { background: rgba(255,255,255,.85); } }
 .view#view-ar-guidance .ag-pop p { margin: 0; font: 700 24px/28px var(--ag-f); color: var(--ag-bk); white-space: nowrap; }
 .view#view-ar-guidance .ag-pop-ar { animation: ag-up 1.2s ease-in-out infinite; }
 @keyframes ag-up { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-5px); } }
@@ -115,7 +118,6 @@
 .view#view-ar-guidance .ag-start:hover span, .view#view-ar-guidance .ag-start[aria-pressed="true"] span { color: var(--ag-or); }
 .view#view-ar-guidance .ag-start:disabled { color: var(--ag-or); cursor: not-allowed; filter: none; }
 .view#view-ar-guidance .ag-start:disabled .ag-shp path { stroke: var(--ag-or); }
-.view#view-ar-guidance .ag-start[aria-pressed="true"] span::after { content: ""; display: inline-block; width: 8px; height: 8px; margin-left: 10px; border-radius: 50%; background: var(--ag-or); vertical-align: middle; animation: ag-glow 1s ease-in-out infinite; }
 
 /* 10. 단계 표시 (Step 1381:3054, 384×24) */
 .view#view-ar-guidance .ag-steps { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
@@ -130,6 +132,7 @@
 .view#view-ar-guidance .cf-card .ag-p { display: flex; justify-content: center; }
 .view#view-ar-guidance .cf-card:not(.is-center) .ag-p * { pointer-events: none; }
 .view#view-ar-guidance .cf-card.ag-c-ck { width: 624px; margin-left: -312px; }
+.view#view-ar-guidance .cf-card.ag-c-fn { width: 392px; margin-left: -196px; }
 .view#view-ar-guidance .cf-card.ag-c-voc { width: 400px; margin-left: -200px; }
 /* VOC 등록 팝업 (Pop-up - VOC 1379:8949, 793×936 → ×0.5) */
 .view#view-ar-guidance .ag-voc { zoom: .5; display: flex; flex-direction: column; align-items: center; gap: 78px; width: 793px; height: 936px; margin: 0; padding: 78px 50px 24px; box-sizing: border-box; border-radius: 10px; background: #fff; box-shadow: 0 8px 30px rgba(0,0,0,.12), 0 0 0 2px rgba(0,0,0,.04); }
@@ -173,7 +176,9 @@
 .view#view-ar-guidance .ag-bs { display: flex; justify-content: flex-end; gap: 8px; width: 693px; margin-top: auto; }
 .view#view-ar-guidance .ag-voc.is-sent .ag-apply span { color: var(--ag-or); }
 /* 기능 선택 목록 (Function Item List 1350:6792, 720×476 → ×0.5) */
-.view#view-ar-guidance .ag-fn { zoom: .5; display: flex; flex-direction: column; gap: 12px; width: 720px; padding: 32px 40px; box-sizing: border-box; border-radius: 20px; background: rgba(59,59,59,.8); box-shadow: 0 3.2px 6.4px rgba(0,0,0,.1); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+.view#view-ar-guidance .ag-fn { zoom: .5; display: flex; flex-direction: column; gap: 12px; width: 720px; padding: 32px 40px; box-sizing: border-box; border-radius: 20px; background: rgba(59,59,59,.8); box-shadow: 0 3.2px 6.4px rgba(0,0,0,.1), inset 0 0 0 2px rgba(255,255,255,.18); -webkit-backdrop-filter: blur(16px) saturate(1.2) brightness(1.05); backdrop-filter: blur(16px) saturate(1.2) brightness(1.05); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-ar-guidance .ag-fn { background: rgba(59,59,59,.94); } }
+.view#view-ar-guidance .ag-scene-fn { padding: 14px; border-radius: 14px; }
 .view#view-ar-guidance .ag-fi2 { position: relative; display: flex; align-items: center; justify-content: center; width: 640px; height: 200px; padding: 0; border: 0; background: none; color: #000; font: 700 48px/58px var(--ag-f); letter-spacing: -.01em; cursor: pointer; }
 .view#view-ar-guidance .ag-fi2 span { position: relative; transition: color .15s ease; }
 .view#view-ar-guidance .ag-fi2 .ag-shp path { fill: #fff; stroke: transparent; stroke-width: 4; }
@@ -206,3 +211,5 @@
 .view#view-ar-guidance .ag-ac.is-ok .ag-confirm { animation: ag-in .3s ease; }
 @media (prefers-reduced-motion: reduce) { .view#view-ar-guidance .ag *, .view#view-ar-guidance .ag-p *, .view#view-ar-guidance .ag, .view#view-ar-guidance .ag-p { animation: none !important; transition: none !important; } }
 @media (max-width: 700px) { .view#view-ar-guidance .cf-card.ag-c-ck { width: 348px; margin-left: -174px; } .view#view-ar-guidance .ag-ac { zoom: .3; } .view#view-ar-guidance .ag-steps .ag-step { width: 300px; } .view#view-ar-guidance .ag-start { width: 300px; } }
+/* 입력칸: 브라우저 기본 모양·테두리 제거(테두리·포커스 표시는 칸 자체 inset 그림자 하나만) */
+.view#view-ar-guidance .ag-num input, .view#view-ar-guidance .ag-fi { -webkit-appearance: none; appearance: none; border: 0; outline: 0; }

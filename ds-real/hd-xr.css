@@ -19,7 +19,7 @@
 .view#view-hd-xr .hx-search-box[hidden] { display: none; }
 .view#view-hd-xr .hx-search-f { display: flex; align-items: center; gap: 12px; width: 292px; height: 48px; padding: 0 16px; box-sizing: border-box; border-radius: 6px; background: rgba(0,0,0,.05); box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); color: rgba(0,0,0,.4); transition: box-shadow .12s ease; }
 .view#view-hd-xr .hx-search-f:focus-within { box-shadow: inset 0 0 0 1px #2963CD; }
-.view#view-hd-xr .hx-search-f input { flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; background: transparent; outline: 0; font: 400 16px/24px 'Pretendard', sans-serif; color: #161616; }
+.view#view-hd-xr .hx-search-f input { -webkit-appearance: none; appearance: none; flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; background: transparent; outline: 0; font: 400 16px/24px 'Pretendard', sans-serif; color: #161616; }
 .view#view-hd-xr .hx-search-f input::placeholder { color: rgba(0,0,0,.44); opacity: 1; }
 .view#view-hd-xr .hx-search-f input::-webkit-search-cancel-button { display: none; }
 @keyframes hx-in { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
@@ -201,3 +201,52 @@
 @media (max-width: 700px) { .view#view-hd-xr .cf-card.hx-wide { width: 348px; margin-left: -174px; } .view#view-hd-xr .hx-wide .hx-am { transform: scale(.53); transform-origin: 50% 50%; margin: -102px -155px; } .view#view-hd-xr .hx-al { width: 606px; max-width: none; } .view#view-hd-xr .dsx-g.wide .dsx-live { overflow-x: auto; } }
 .view#view-hd-xr .hx [hidden], .view#view-hd-xr .hx-p [hidden] { display: none !important; }
 .view#view-hd-xr .hx-camw { display: flex; justify-content: center; }
+
+/* ── 2026-11-20 수정 ── */
+/* #20 알림 빨간 점: 새 알림 있음 = 은은하게 빛이 번졌다 줄며 맥동 */
+@keyframes hx-dot-pulse { 0%, 100% { filter: drop-shadow(0 0 0 rgba(255,59,48,0)); opacity: 1; } 50% { filter: drop-shadow(0 0 3px rgba(255,59,48,.9)); opacity: .82; } }
+.view#view-hd-xr .hx-noti.is-new .hx-dot { animation: hx-dot-pulse 1.6s ease-in-out infinite; }
+
+/* 대비 바탕: 반투명 입력칸(#161616 50%)·흰 글자 부품은 실제 로그인 화면 장면(ui_img_main_01 3427:15762 일부)을 부품 크기에 맞춰 깔아 유리 효과가 보이게.
+   흰 카드·흰 글자 진행률은 3D 뷰어 화면처럼 어두운 바탕. */
+.view#view-hd-xr .hx-scene { display: inline-flex; flex-direction: column; gap: 16px; padding: 16px; border-radius: 8px; background: #1E2A44 url("../assets/ds/hd-xr/login-scene.webp") center / cover no-repeat; }
+.view#view-hd-xr .hx-scene-dk { background: #0E0E10; }
+
+/* 9. 로그인 입력 (Login - Input ID 487:18002 · Input Password 496:17869, 386×42)
+      #161616 50% + 1px #94A3B8, r6 / 입력됨·포커스 테두리 흰색. 실제 input 의 기본 테두리·포커스 링은 없애고 바깥 틀에 표시. 반투명 = 글래스모피즘 */
+.view#view-hd-xr .hx-in { display: flex; align-items: center; width: 386px; max-width: 100%; height: 42px; box-sizing: border-box; border: 1px solid #94A3B8; border-radius: 6px; background: rgba(22,22,22,.5); -webkit-backdrop-filter: blur(12px) saturate(1.2) brightness(.95); backdrop-filter: blur(12px) saturate(1.2) brightness(.95); transition: border-color .15s ease; cursor: text; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-hd-xr .hx-in { background: rgba(22,22,22,.78); } }
+.view#view-hd-xr .hx-in:focus-within, .view#view-hd-xr .hx-in.is-filled { border-color: #fff; }
+.view#view-hd-xr .hx-in input { -webkit-appearance: none; appearance: none; flex: 1; min-width: 0; height: 100%; margin: 0; padding: 0 12px; border: 0; border-radius: 0; background: transparent; outline: 0; box-shadow: none; font: 400 14px/20px 'Pretendard', sans-serif; color: #fff; caret-color: #fff; }
+.view#view-hd-xr .hx-in input::placeholder { color: #94A3B8; font-weight: 500; opacity: 1; }
+.view#view-hd-xr .hx-in input::-ms-reveal { display: none; }
+.view#view-hd-xr .hx-eye { display: flex; align-items: center; justify-content: center; width: 48px; height: 40px; flex: none; padding: 0; border: 0; border-radius: 6px; background: none; cursor: pointer; }
+.view#view-hd-xr .hx-eye .hx-eye-on, .view#view-hd-xr .hx-eye[aria-pressed="true"] .hx-eye-off { display: none; }
+.view#view-hd-xr .hx-eye[aria-pressed="true"] .hx-eye-on { display: block; }
+
+/* 10. 아이디 저장 (Save Id 630:7307, 24 + 'Save ID' 14 Medium 흰색) */
+.view#view-hd-xr .hx-save { display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; font: 500 14px/20px 'Pretendard', sans-serif; color: #fff; cursor: pointer; }
+.view#view-hd-xr .hx-save[aria-checked="false"] .hx-cb-chk { display: none; }
+
+/* 11. 원형 진행률 (Progress / Circle 22:4612, 112, 선 12 #38D430, 글자 20 흰색) — 0→100% 차오름 */
+.view#view-hd-xr .hx-ring { position: relative; width: 112px; height: 112px; }
+.view#view-hd-xr .hx-ring svg { width: 112px; height: 112px; }
+.view#view-hd-xr .hx-ring-f { fill: none; stroke: #38D430; stroke-width: 12; }
+.view#view-hd-xr .hx-ring-v { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 400 20px/1 'Pretendard', sans-serif; color: #fff; }
+
+/* 12. 업데이트 진행 카드 (update-progress-card 3375:1103 On · 3375:1119 Off, 339 폭, r16) — 누르면 접기/펼치기, 막대 차오름 */
+.view#view-hd-xr .hx-up { display: flex; flex-direction: column; gap: 12px; width: 339px; padding: 16px 24px; box-sizing: border-box; border: 0; border-radius: 16px; background: #fff; text-align: left; font-family: 'Pretendard', sans-serif; cursor: pointer; }
+.view#view-hd-xr .hx-up-msg { display: flex; gap: 10px; font: 600 16px/24px 'Pretendard', sans-serif; color: #1A1A1A; }
+.view#view-hd-xr .hx-up-hr { display: block; height: 1px; background: #D9D9D9; }
+.view#view-hd-xr .hx-up[aria-expanded="false"] .hx-up-msg, .view#view-hd-xr .hx-up[aria-expanded="false"] .hx-up-hr { display: none; }
+.view#view-hd-xr .hx-up-row { display: flex; justify-content: space-between; font: 700 16px/19px 'Pretendard', sans-serif; color: rgba(0,0,0,.9); }
+.view#view-hd-xr .hx-up-v { font-weight: 600; color: #0070DE; }
+.view#view-hd-xr .hx-up-bar { position: relative; display: block; height: 8px; border-radius: 100px; background: #EBEBEB; overflow: hidden; }
+.view#view-hd-xr .hx-up-bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 100px; background: #2F65E2; transition: width .6s ease; }
+@media (prefers-reduced-motion: reduce) { .view#view-hd-xr .hx-noti.is-new .hx-dot { animation: none; } }
+/* #20 연결 상태 점: 끊김(오류) = 빠르고 강한 점멸(빛 번짐), 연결됨(정상) = 은은한 맥동, 재시도 중은 기존 깜빡임 */
+@keyframes hx-st-err { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(230,91,91,.9), 0 0 6px 2px rgba(230,91,91,.8); } 50% { opacity: .25; box-shadow: 0 0 0 0 rgba(230,91,91,0), 0 0 0 0 rgba(230,91,91,0); } }
+@keyframes hx-st-ok { 0%, 100% { box-shadow: 0 0 0 0 rgba(39,194,138,0); } 50% { box-shadow: 0 0 5px 2px rgba(39,194,138,.55); } }
+.view#view-hd-xr .hx-conn:not(.is-on):not(.is-wait) .hx-st i { animation: hx-st-err .7s ease-in-out infinite; }
+.view#view-hd-xr .hx-conn.is-on:not(.is-wait) .hx-st i { animation: hx-st-ok 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .view#view-hd-xr .hx-st i { animation: none !important; } }

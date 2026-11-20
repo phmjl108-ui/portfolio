@@ -46,11 +46,8 @@
   each('.sh-mark', function (b) { b.addEventListener('click', function () { toggleAttr(b, 'aria-pressed'); }); });
   each('.sh-play:not(:disabled)', function (b) { b.addEventListener('click', function () { var p = toggleAttr(b, 'aria-pressed'); b.setAttribute('aria-label', p ? '일시정지' : '재생'); }); });
   each('.sh-tag', function (b) { b.addEventListener('click', function () { var on = toggleAttr(b, 'aria-pressed'); b.querySelector('span').textContent = on ? '이름표 숨기기' : '이름표 표시하기'; }); });
-  // 7. 상세 항목: 하나 고르면 체크
-  each('[data-sh="detail"]', function (g) {
-    var it = qa(g, '.sh-det:not(:disabled)');
-    it.forEach(function (b) { b.addEventListener('click', function () { it.forEach(function (x) { x.setAttribute('aria-selected', x === b); }); }); });
-  });
+  // 7. 상세 항목: 누르면 선택(체크) ↔ 해제
+  each('[data-sh="detail"] .sh-det', function (b) { b.addEventListener('click', function () { toggleAttr(b, 'aria-pressed'); }); });
   // 8. 사이드바: 1·2단계는 펼치기·접기, 3단계는 고르기
   each('[data-sh="side"]', function (s) {
     qa(s, '.sh-si1, .sh-si2').forEach(function (b) {
@@ -59,11 +56,13 @@
     var leaves = qa(s, '.sh-si3');
     leaves.forEach(function (b) { b.addEventListener('click', function () { leaves.forEach(function (x) { x.parentNode.setAttribute('aria-selected', x === b); }); }); });
   });
-  // 9. 시스템 팝업: 버튼을 누르면 닫히고 '다시 열기'
+  // 9. 시스템 팝업: 버튼을 누르면 닫히고(자리 유지) 잠시 뒤 다시 뜸 — 피그마에 없는 '다시 열기' 버튼은 두지 않음
   each('[data-sh="pop"]', function (st) {
-    var pop = st.querySelector('.sh-pop'), re = st.querySelector('.sh-reopen');
-    qa(pop, '[data-close]').forEach(function (b) { b.addEventListener('click', function () { pop.hidden = true; re.hidden = false; re.focus(); }); });
-    re.addEventListener('click', function () { re.hidden = true; pop.hidden = false; pop.querySelector('.sh-pb-1').focus(); });
+    var pop = st.querySelector('.sh-pop'), t = 0;
+    qa(pop, '[data-close]').forEach(function (b) { b.addEventListener('click', function () {
+      pop.classList.add('is-gone'); clearTimeout(t);
+      t = setTimeout(function () { pop.classList.remove('is-gone'); pop.style.animation = 'none'; pop.offsetWidth; pop.style.animation = ''; }, 1200);
+    }); });
   });
 
   // 10. 미니맵: 머리 줄 버튼으로 접기·펼치기, 투명도 슬라이더(끌기·방향키)
@@ -96,12 +95,8 @@
     rs.forEach(function (b) { b.addEventListener('click', function () { rs.forEach(function (o) { o.setAttribute('aria-checked', o === b); }); }); });
     x.addEventListener('click', function () { var open = toggleAttr(x, 'aria-expanded'); c.classList.toggle('is-off', !open); x.setAttribute('aria-label', open ? '조작 버튼 닫기' : '조작 버튼 열기'); rs.forEach(function (b) { b.tabIndex = open ? 0 : -1; }); });
   });
-  // 12. 장비 라벨: 누르면 Active, 계통 색 바꾸기
-  each('[data-sh="eq"]', function (w) {
-    var eq = w.querySelector('.sh-eq'), pt = w.querySelector('.sh-eq-pt'), cs = qa(w, '.sh-eq-cs button');
-    eq.addEventListener('click', function () { toggleAttr(eq, 'aria-pressed'); });
-    cs.forEach(function (b) { b.addEventListener('click', function () { cs.forEach(function (o) { o.setAttribute('aria-checked', o === b); }); var c = b.style.getPropertyValue('--c'); eq.style.setProperty('--c', c); pt.style.setProperty('--c', c); }); });
-  });
+  // 12. 장비 라벨: 누르면 Active ↔ Default (Hover 는 CSS)
+  each('[data-sh="eq"] .sh-eq', function (eq) { eq.addEventListener('click', function () { toggleAttr(eq, 'aria-pressed'); }); });
 
   // 패널 카드: 가운데 카드만 조작
   var cf = root.querySelector('.sh-cf');

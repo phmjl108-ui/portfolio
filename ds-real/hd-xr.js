@@ -145,4 +145,35 @@
     function upd() { p.inert = !c.classList.contains('is-center'); if (p.inert && openOne && p.contains(document.activeElement)) closeOpen(); }
     new MutationObserver(upd).observe(c, { attributes: true, attributeFilter: ['class'] }); upd();
   });
+  // 로그인 입력: 글자가 있으면 테두리 흰색(입력됨), 눈 버튼으로 비밀번호 보기/숨기기
+  each('[data-hx="login"] .hx-in', function (l) {
+    var inp = q(l, 'input'), eye = q(l, '.hx-eye');
+    function upd() { l.classList.toggle('is-filled', !!inp.value); }
+    inp.addEventListener('input', upd); upd();
+    if (eye) eye.addEventListener('click', function () {
+      var on = eye.getAttribute('aria-pressed') !== 'true';
+      eye.setAttribute('aria-pressed', on ? 'true' : 'false'); eye.setAttribute('aria-label', on ? '비밀번호 숨기기' : '비밀번호 보기');
+      inp.type = on ? 'text' : 'password'; inp.focus();
+    });
+  });
+
+  // 아이디 저장 체크박스
+  each('.hx-save', function (b) { b.addEventListener('click', function () { b.setAttribute('aria-checked', b.getAttribute('aria-checked') === 'true' ? 'false' : 'true'); }); });
+
+  // 원형 진행률: 화면에 보일 때 0→100% 차오르고 잠시 뒤 다시
+  each('[data-hx="ring"]', function (r) {
+    var c = q(r, '.hx-ring-f'), v = q(r, '.hx-ring-v'), n = 0, t = null, vis = false;
+    function set(x) { c.setAttribute('stroke-dasharray', x + ' 100'); v.textContent = x + '%'; r.setAttribute('aria-valuenow', x); }
+    function tick() { if (!vis) { t = null; return; } n = n >= 100 ? 0 : n + 1; set(n); t = setTimeout(tick, n === 100 ? 1200 : 28); }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { set(70); return; }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis && !t) tick(); }).observe(r);
+    else { vis = true; tick(); }
+  });
+
+  // 업데이트 진행 카드: 누르면 상세(On) ↔ 축소(Off), 처음 보일 때 막대가 현재 단계까지 차오름
+  each('[data-hx="update"]', function (b) {
+    var bar = q(b, '.hx-up-bar i'), w = bar.style.width; bar.style.width = '0';
+    b.addEventListener('click', function () { b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'); });
+    if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { bar.style.width = w; io.disconnect(); } }); io.observe(b); } else bar.style.width = w;
+  });
 })();

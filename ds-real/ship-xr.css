@@ -5,9 +5,10 @@
 .view#view-ship-xr .sh, .view#view-ship-xr .sh-pn { font-family: 'Pretendard', 'Pretendard Variable', sans-serif; letter-spacing: 0; color: #161616; -webkit-font-smoothing: antialiased; }
 .view#view-ship-xr .sh button, .view#view-ship-xr .sh-pn button { font-family: inherit; letter-spacing: 0; -webkit-tap-highlight-color: transparent; }
 .view#view-ship-xr .sh-i { display: block; flex: none; }
-.view#view-ship-xr .sh-st { box-sizing: border-box; max-width: 100%; padding: 20px; border-radius: 12px; background: #E9EDF2; }
-.view#view-ship-xr .sh-dark { background: #142566; }
-.view#view-ship-xr .sh-st-tall { min-height: 150px; }
+/* 회색 무대 상자 없음(피그마에 없는 바탕) — 부품만 판 위에 둠 */
+.view#view-ship-xr .sh-st { box-sizing: border-box; width: fit-content; max-width: 100%; padding: 0; background: none; }
+/* 닫기(흰 아이콘)는 실제로 놓이는 남색 머리 줄(#142566) 조각을 버튼 크기에 맞춰 */
+.view#view-ship-xr .sh-xbg { display: inline-flex; padding: 12px; border-radius: 12px; background: #142566; }
 .view#view-ship-xr .sh-z { zoom: .5; }
 .view#view-ship-xr .sh-row { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
 .view#view-ship-xr .sh-col { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
@@ -17,6 +18,7 @@
 .view#view-ship-xr .sh-in { display: flex; align-items: center; width: 640px; max-width: 100%; height: 70px; padding: 0 24px; box-sizing: border-box; border-radius: 12px; background: #F9FAFB; box-shadow: inset 0 0 0 2px #D1D5DB; cursor: text; transition: box-shadow .15s ease, background-color .15s ease; }
 .view#view-ship-xr .sh-in:hover { background: #F9FAFF; box-shadow: inset 0 0 0 2px #94A3B8; }
 .view#view-ship-xr .sh-in:focus-within { background: #F9FAFF; box-shadow: inset 0 0 0 2px #0E214C; }
+.view#view-ship-xr .sh-in input, .view#view-ship-xr .sh-in input:focus, .view#view-ship-xr .sh-search input:focus { -webkit-appearance: none; appearance: none; margin: 0; border: 0; border-radius: 0; outline: 0 !important; box-shadow: none; background: transparent; }
 .view#view-ship-xr .sh-in input { flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; outline: 0; background: transparent; font: 500 28px/1.2 'Pretendard', sans-serif; color: #161616; caret-color: #161616; }
 .view#view-ship-xr .sh-in input::placeholder { font-weight: 400; color: #94A3B8; opacity: 1; }
 .view#view-ship-xr .sh-in-pw { padding-right: 8px; }
@@ -95,8 +97,8 @@
 .view#view-ship-xr .sh-det { display: flex; align-items: center; justify-content: space-between; width: 575px; height: 76px; padding: 20px 24px; box-sizing: border-box; border: 0; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px #C8D2DC; font-weight: 600; font-size: 28px; line-height: 33px; color: #33485F; text-align: left; cursor: pointer; transition: background-color .12s ease, box-shadow .12s ease; }
 .view#view-ship-xr .sh-det .sh-i { opacity: 0; color: #33485F; transform: scale(.6); transition: opacity .15s ease, transform .2s cubic-bezier(.34,1.56,.64,1); }
 .view#view-ship-xr .sh-det:hover { background: #EBF1F6; box-shadow: inset 0 0 0 1px #8BA5BE; }
-.view#view-ship-xr .sh-det[aria-selected="true"] { background: #D9E7F1; box-shadow: inset 0 0 0 1px #2B5F9E; font-weight: 700; }
-.view#view-ship-xr .sh-det[aria-selected="true"] .sh-i { opacity: 1; transform: none; }
+.view#view-ship-xr .sh-det[aria-pressed="true"] { background: #D9E7F1; box-shadow: inset 0 0 0 1px #2B5F9E; font-weight: 700; }
+.view#view-ship-xr .sh-det[aria-pressed="true"] .sh-i { opacity: 1; transform: none; }
 .view#view-ship-xr .sh-det:disabled { background: #EFF0F2; box-shadow: inset 0 0 0 1px #D9DCE0; opacity: .5; cursor: not-allowed; }
 
 /* 9. 사이드바 메뉴 (Sidebar - Level 1/2/3 Item) — 618×77 */
@@ -116,9 +118,10 @@
 .view#view-ship-xr [aria-selected="true"] > .sh-si3 { background: #D9E7F1; font-weight: 700; }
 
 /* 10. 시스템 팝업 (system-popup-window 12:1782) — 860 폭, 반경 24 */
-.view#view-ship-xr .sh-pop-st { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 160px; background: rgba(15,23,42,.55); }
+.view#view-ship-xr .sh-pop-st { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 12px; background: rgba(15,23,42,.55); }
 .view#view-ship-xr .sh-pop { width: 860px; overflow: hidden; border-radius: 24px; background: #fff; text-align: center; animation: sh-pop .2s cubic-bezier(.2,.8,.2,1); }
 .view#view-ship-xr .sh-pop[hidden] { display: none; }
+.view#view-ship-xr .sh-pop.is-gone { visibility: hidden; }
 .view#view-ship-xr .sh-pop-h { display: flex; align-items: center; gap: 16px; height: 80px; padding: 0 32px; background: #142566; color: #fff; text-align: left; }
 .view#view-ship-xr .sh-pop-h b { font-weight: 700; font-size: 28px; line-height: 33px; }
 .view#view-ship-xr .sh-pop-m { margin: 0; padding: 48px 60px 16px; font-weight: 500; font-size: 28px; line-height: 1.5; color: #000; }
@@ -138,7 +141,7 @@
 .view#view-ship-xr .sh-cf .cf-nav { top: 260px; }
 .view#view-ship-xr .sh-cf .cf-card[data-i="0"] { width: 430px; margin-left: -215px; }
 .view#view-ship-xr .sh-cf .cf-card[data-i="1"] { width: 397px; margin-left: -198px; }
-.view#view-ship-xr .sh-cf .cf-card[data-i="2"] { width: 330px; margin-left: -165px; }
+.view#view-ship-xr .sh-cf .cf-card[data-i="2"] { width: 360px; margin-left: -180px; }
 .view#view-ship-xr .sh-cf .cf-card[data-i="3"] { width: 318px; margin-left: -159px; }
 .view#view-ship-xr .sh-pn { position: relative; text-align: left; cursor: default; -webkit-user-select: text; user-select: text; }
 .view#view-ship-xr .sh-c-pop { zoom: .5; display: flex; flex-direction: column; align-items: center; }
@@ -161,10 +164,10 @@
 .view#view-ship-xr .sh-sl:focus-visible .sh-sl-t, .view#view-ship-xr .sh-sl.is-drag .sh-sl-t { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(20,37,102,.15); }
 
 /* 3D 조작 버튼 (3D Control Bar 425:7922 / onoff 414:11035) — 흰 바탕, 반경 16, 활성 #D9EBFF */
-.view#view-ship-xr .sh-cb { zoom: .6; display: flex; align-items: center; gap: 16px; padding: 24px; border-radius: 24px; background: rgba(40,48,60,.35); }
-.view#view-ship-xr .sh-cb-g { display: flex; gap: 16px; overflow: hidden; transition: max-width .35s ease, opacity .25s ease; max-width: 600px; }
+.view#view-ship-xr .sh-cb { zoom: .6; display: flex; align-items: center; gap: 8px; width: max-content; }
+.view#view-ship-xr .sh-cb-g { display: flex; gap: 8px; overflow: hidden; transition: max-width .35s ease, opacity .25s ease; max-width: 640px; }
 .view#view-ship-xr .sh-cb.is-off .sh-cb-g { max-width: 0; opacity: 0; }
-.view#view-ship-xr .sh-cbtn { display: inline-flex; align-items: center; gap: 8px; height: 65px; padding: 16px; box-sizing: border-box; border: 0; border-radius: 16px; background: #fff; box-shadow: inset 0 0 0 1px #D9D9D9; color: #1F1F1F; font-weight: 600; font-size: 28px; line-height: 33px; white-space: nowrap; cursor: pointer; transition: background-color .12s ease; }
+.view#view-ship-xr .sh-cbtn { display: inline-flex; align-items: center; gap: 8px; flex: none; height: 65px; padding: 16px; box-sizing: border-box; border: 0; border-radius: 16px; background: #fff; box-shadow: inset 0 0 0 1px #D9D9D9; color: #1F1F1F; font-weight: 600; font-size: 28px; line-height: 33px; white-space: nowrap; cursor: pointer; transition: background-color .12s ease; }
 .view#view-ship-xr .sh-cbtn:hover { background: #F2F7FF; }
 .view#view-ship-xr .sh-cbtn[aria-checked="true"] { background: #D9EBFF; }
 .view#view-ship-xr .sh-cb-x { width: 64px; height: 64px; justify-content: center; flex: none; }
@@ -172,8 +175,8 @@
 .view#view-ship-xr .sh-cb.is-off .sh-cb-open { display: block; }
 
 /* 계통별 장비 라벨 (Label - 계통별 장비 837:11105) — 454×104, 모서리 표시 15×5 */
-.view#view-ship-xr .sh-eqw { zoom: .7; display: flex; flex-direction: column; align-items: center; gap: 14px; width: 454px; padding: 30px 0 10px; border-radius: 12px; background: radial-gradient(90% 90% at 50% 40%, #3a4558, #1c2330); }
-.view#view-ship-xr .sh-eq { --c: #1F80FF; position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 18px 36px; border: 0; border-radius: 4px; background: rgba(26,31,46,.77); box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--c) 20%, transparent); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); text-align: left; cursor: pointer; transition: background-color .15s ease, box-shadow .15s ease; }
+.view#view-ship-xr .sh-eqw { zoom: .7; display: flex; flex-direction: column; align-items: center; gap: 28px; width: max-content; }
+.view#view-ship-xr .sh-eq { --c: #1F80FF; position: relative; display: flex; flex-direction: column; align-items: flex-start; min-width: 454px; padding: 18px 36px; box-sizing: border-box; border: 0; border-radius: 4px; background: rgba(26,31,46,.77); box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--c) 20%, transparent), inset 0 1px 0 rgba(255,255,255,.08); -webkit-backdrop-filter: blur(10.6px) saturate(1.2); backdrop-filter: blur(10.6px) saturate(1.2); white-space: nowrap; text-align: left; cursor: pointer; transition: background-color .15s ease, box-shadow .15s ease; }
 .view#view-ship-xr .sh-eq b { font-weight: 700; font-size: 28px; line-height: 33px; color: #fff; }
 .view#view-ship-xr .sh-eq span { font-weight: 500; font-size: 28px; line-height: 33px; color: var(--c); }
 .view#view-ship-xr .sh-eq-c { position: absolute; background: var(--c); opacity: .78; }
@@ -185,11 +188,11 @@
 .view#view-ship-xr .sh-eq:hover { background: rgba(33,41,59,.9); box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--c) 55%, transparent); }
 .view#view-ship-xr .sh-eq:hover .sh-eq-c, .view#view-ship-xr .sh-eq[aria-pressed="true"] .sh-eq-c { opacity: 1; }
 .view#view-ship-xr .sh-eq[aria-pressed="true"] { background: linear-gradient(color-mix(in srgb, var(--c) 14%, transparent), color-mix(in srgb, var(--c) 14%, transparent)), rgba(26,31,46,.96); box-shadow: inset 0 0 0 3px var(--c); }
-.view#view-ship-xr .sh-eq-pt { --c: #1F80FF; width: 28px; height: 28px; box-sizing: border-box; border-radius: 50%; border: 4px solid var(--c); background: #fff; animation: sh-pt 1.6s ease-out infinite; }
-@keyframes sh-pt { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--c) 60%, transparent); } 100% { box-shadow: 0 0 0 16px transparent; } }
-.view#view-ship-xr .sh-eq-cs { display: flex; gap: 14px; margin-top: 6px; }
-.view#view-ship-xr .sh-eq-cs button { width: 30px; height: 30px; padding: 0; border: 3px solid rgba(255,255,255,.25); border-radius: 50%; background: var(--c); cursor: pointer; }
-.view#view-ship-xr .sh-eq-cs button[aria-checked="true"] { border-color: #fff; }
+.view#view-ship-xr .sh-eq-pt { --c: #1F80FF; width: 24px; height: 24px; box-sizing: border-box; border-radius: 50%; border: 4px solid var(--c); background: #fff; box-shadow: inset 0 0 2.7px rgba(0,0,0,.25); }
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .view#view-ship-xr .sh-eq { background-color: rgba(26,31,46,.95); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .view#view-ship-xr .sh *, .view#view-ship-xr .sh-pn * { animation: none !important; transition: none !important; }
