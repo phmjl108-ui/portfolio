@@ -296,3 +296,7 @@
 .view#view-xum .xu-up-v[hidden] { display: none; }
 @media (max-width: 640px) { .view#view-xum .xu-ctl { zoom: .3; } .view#view-xum .xu-ed { zoom: .4; } .view#view-xum .xu-memo { zoom: .5; } .view#view-xum .xu-up { zoom: .28; } }
 @media (prefers-reduced-motion: reduce) { .view#view-xum .xu-cp, .view#view-xum .xu-cp * { animation: none !important; transition: none !important; } }
+
+/* 카드: 패널 뒤 배경 장면 빼기(사용자 지시) — 패널만 보이게 */
+.view#view-xum .xu-sc-ctl,
+.view#view-xum .xu-sc-ed { background: none !important; padding: 0 !important; border-radius: 0 !important; }

@@ -202,3 +202,6 @@
 @media (max-width: 640px) { .view#view-vr-maintenance .vc-z { zoom: .32; } }
 .view#view-vr-maintenance .vc-dl-gl, .view#view-vr-maintenance .vc-dl-body { position: absolute; left: 4.6px; top: 8.5px; display: block; width: 684px; height: 342px; }
 .view#view-vr-maintenance .vc-dl-gl { -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); }
+
+/* 카드: 패널 뒤 배경 장면 빼기(사용자 지시) — 패널만 보이게 */
+.view#view-vr-maintenance .vc-cf .cf-panel.vc-scn { background: none !important; padding: 0 !important; border-radius: 0 !important; }

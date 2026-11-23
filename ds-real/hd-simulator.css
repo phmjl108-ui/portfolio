@@ -194,3 +194,7 @@
 @media (prefers-reduced-motion: reduce) { .view#view-hd-simulator .hs-st li.is-on, .view#view-hd-simulator .is-play .hs-pr, .view#view-hd-simulator .is-play .hs-sr { animation: none; } }
 @media (max-width: 700px) { .view#view-hd-simulator .cf-card.hs-c-w { width: 340px; margin-left: -170px; } .view#view-hd-simulator .hs-gp.hs-z25 { zoom: .1453; } .view#view-hd-simulator .cf-card.hs-c-m { width: 344px; margin-left: -172px; } .view#view-hd-simulator .hs-mcol.hs-z45 { zoom: .3; } }
 .view#view-hd-simulator .hs-st li[hidden] { display: none; }
+
+/* 카드: 패널 뒤 배경 장면 빼기(사용자 지시) — 패널만 보이게 */
+.view#view-hd-simulator .hs-scn,
+.view#view-hd-simulator .hs-scn-m { background: none !important; padding: 0 !important; border-radius: 0 !important; }

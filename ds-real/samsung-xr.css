@@ -340,3 +340,6 @@
 @media (prefers-reduced-motion: reduce) {
   .view#view-samsung-xr .sx-sc-i * { animation: none !important; transition: none !important; }
 }
+
+/* 카드: 패널 뒤 배경 장면 빼기(사용자 지시) — 패널만 보이게 */
+.view#view-samsung-xr .sx-cf .cf-panel { background: none !important; padding: 0 !important; border-radius: 0 !important; }
