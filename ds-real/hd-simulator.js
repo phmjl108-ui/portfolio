@@ -76,6 +76,64 @@
     qa(o, '.hs-opt-b').forEach(function (b) { b.addEventListener('click', function () { i = (i + (+b.getAttribute('data-d')) + vals.length) % vals.length; out.textContent = vals[i]; }); });
   });
 
+  // ── 2026-11-20 카드 교체 ──
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function onCenter(el, fn) { // 그 카드가 가운데로 올 때마다 fn(true), 벗어나면 fn(false)
+    var c = el.closest('.cf-card'); if (!c) { fn(true); return; }
+    var was = null;
+    function upd() { var on = c.classList.contains('is-center'); if (on !== was) { was = on; fn(on); } }
+    new MutationObserver(upd).observe(c, { attributes: true, attributeFilter: ['class'] }); upd();
+  }
+  // 1. 작업 단계 가이드: 누르기·Enter·Space·→ 다음 단계, ← 이전 단계, 가운데에 있는 동안 4.5초마다 자동 진행(마우스를 올리면 멈춤)
+  each('[data-hs="steps"]', function (p) {
+    var li = qa(p, '.hs-st li'), i = 0, t = 0, hover = false, live = false;
+    function show(k) {
+      i = (k + li.length) % li.length;
+      li.forEach(function (x, j) { x.hidden = j !== i; x.classList.toggle('is-on', j === i); });
+    }
+    function loop() { clearTimeout(t); if (live && !hover && !reduce) t = setTimeout(function () { show(i + 1); loop(); }, 4500); }
+    p.addEventListener('click', function () { show(i + 1); loop(); });
+    p.addEventListener('keydown', function (e) {
+      var d = { ArrowRight: 1, ArrowDown: 1, Enter: 1, ' ': 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!d) return;
+      e.preventDefault(); e.stopPropagation(); show(i + d); loop();
+    });
+    p.addEventListener('pointerenter', function () { hover = true; clearTimeout(t); });
+    p.addEventListener('pointerleave', function () { hover = false; loop(); });
+    onCenter(p, function (on) { live = on; if (on) show(0); loop(); });
+  });
+  // 2·3. 목록 행이 왼쪽부터 차례로 채워지며 들어옴(카드가 가운데로 올 때마다)
+  each('[data-hs="rise"], [data-hs="score"]', function (p) {
+    onCenter(p, function (on) { p.classList.remove('is-play'); if (on) { void p.offsetWidth; p.classList.add('is-play'); } });
+  });
+  // 3. 시험 채점: 감점 합계가 0 → -19 로 세어 올라감, 목록 세로 스크롤 + 피그마 스크롤 막대(끌기 가능)
+  each('[data-hs="score"]', function (p) {
+    var nums = qa(p, '.hs-sh b[data-to]');
+    onCenter(p, function (on) {
+      nums.forEach(function (b) {
+        var to = +b.getAttribute('data-to'); cancelAnimationFrame(b.__r);
+        if (!on || reduce) { b.textContent = to; return; }
+        var t0 = performance.now();
+        (function f(now) { var k = Math.min(1, (now - t0) / 900); b.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) b.__r = requestAnimationFrame(f); })(t0);
+      });
+    });
+    var sc = q(p, '.hs-sc'), th = q(p, '.hs-sc-th'), T0 = 271, T1 = 1199 - 155; // 막대 이동 범위(피그마 좌표)
+    function sync() { var m = sc.scrollHeight - sc.clientHeight; th.style.top = (T0 + (m > 0 ? sc.scrollTop / m : 0) * (T1 - T0)) + 'px'; }
+    sc.addEventListener('scroll', sync, { passive: true });
+    sc.addEventListener('wheel', function (e) { e.stopPropagation(); }, { passive: true });
+    var drag = null;
+    th.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); e.stopPropagation(); th.setPointerCapture(e.pointerId); th.classList.add('is-drag');
+      var k = p.getBoundingClientRect().height / 1263; // 화면 px ↔ 피그마 px
+      drag = { y: e.clientY, s: sc.scrollTop, k: k };
+    });
+    th.addEventListener('pointermove', function (e) {
+      if (!drag) return; var m = sc.scrollHeight - sc.clientHeight;
+      sc.scrollTop = drag.s + (e.clientY - drag.y) / drag.k / (T1 - T0) * m;
+    });
+    ['pointerup', 'pointercancel'].forEach(function (t) { th.addEventListener(t, function () { drag = null; th.classList.remove('is-drag'); }); });
+    sync();
+  });
+
   // 카드 슬라이드: 가운데가 아닌 카드 안 부품은 포커스·클릭 안 되게
   each('.hs-cf .cf-card', function (c) {
     var p = q(c, '.hs-p'); if (!p) return;

@@ -98,6 +98,39 @@
   // 12. 장비 라벨: 누르면 Active ↔ Default (Hover 는 CSS)
   each('[data-sh="eq"] .sh-eq', function (eq) { eq.addEventListener('click', function () { toggleAttr(eq, 'aria-pressed'); }); });
 
+  // 13. SYSTEM STATUS: 머리 줄 버튼으로 접기·펼치기(피그마 State On/Off), 줄을 누르면 그 계통 3D 표시(Selected: 바탕·점·눈 아이콘)
+  each('[data-sh="ss"]', function (p) {
+    var dd = p.querySelector('.sh-ss-dd'), body = p.querySelector('.sh-ss-b');
+    dd.addEventListener('click', function () {
+      var open = toggleAttr(dd, 'aria-expanded'); dd.setAttribute('aria-label', open ? '계통 목록 접기' : '계통 목록 펼치기');
+      var h = body.scrollHeight;
+      if (reduce) { body.style.height = open ? '' : '0px'; body.classList.toggle('is-shut', !open); return; }
+      if (open) { body.classList.remove('is-shut'); body.style.height = '0px'; body.offsetHeight; body.style.height = h + 'px'; setTimeout(function () { if (dd.getAttribute('aria-expanded') === 'true') body.style.height = ''; }, 320); }
+      else { body.style.height = h + 'px'; body.offsetHeight; body.style.height = '0px'; setTimeout(function () { if (dd.getAttribute('aria-expanded') !== 'true') body.classList.add('is-shut'); }, 320); }
+    });
+    qa(p, '.sh-ss-row').forEach(function (r) { r.addEventListener('click', function () { toggleAttr(r, 'aria-pressed'); }); });
+  });
+  // 14. 북마크: 별(최근) 켜고 끄기, ✕ 로 지우면 줄이 접히고 저장 수가 줄어듦
+  each('[data-sh="bm"]', function (b) {
+    var out = b.querySelector('output'), base = +out.textContent, rows = qa(b, '.sh-bm-r'), gone = 0, tm = 0;
+    qa(b, '.sh-bm-st').forEach(function (s) { s.addEventListener('click', function () { toggleAttr(s, 'aria-pressed'); }); });
+    function reset() { gone = 0; out.textContent = base; rows.forEach(function (r) { r.hidden = false; r.classList.remove('is-out'); r.style.height = ''; r.style.paddingTop = r.style.paddingBottom = ''; }); }
+    rows.forEach(function (r) {
+      r.querySelector('.sh-bm-x').addEventListener('click', function () {
+        var h = r.offsetHeight; r.style.height = h + 'px'; r.offsetHeight; r.classList.add('is-out');
+        r.style.height = '0px'; r.style.paddingTop = r.style.paddingBottom = '0px';
+        setTimeout(function () { r.hidden = true; }, reduce ? 0 : 260);
+        gone++; out.textContent = base - gone;
+      });
+    });
+  });
+  // 15. 트리 메뉴: 1단계를 누르면 하위 목록 펼치기·접기, 2단계를 누르면 선택(체크)
+  each('[data-sh="tm"]', function (t) {
+    qa(t, '.sh-tm-1').forEach(function (b) { b.addEventListener('click', function () { var g = b.parentNode; if (g.querySelector('ul')) toggleAttr(g, 'aria-expanded'); }); });
+    var l2 = qa(t, '.sh-tm-2');
+    l2.forEach(function (b) { b.addEventListener('click', function () { l2.forEach(function (x) { x.setAttribute('aria-current', x === b); }); }); });
+  });
+
   // 패널 카드: 가운데 카드만 조작
   var cf = root.querySelector('.sh-cf');
   if (cf) qa(cf, '.cf-card').forEach(function (c) {

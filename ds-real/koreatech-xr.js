@@ -120,7 +120,7 @@
   each('.kx-cf .cf-panel', function (p) {
     each('[data-close]', function (b) { b.addEventListener('click', function () {
       p.classList.add('is-closed'); clearTimeout(p.__rt);
-      p.__rt = setTimeout(function () { p.classList.remove('is-closed'); }, 1400);
+      p.__rt = setTimeout(function () { p.classList.remove('is-closed'); }, 1200);
     }); }, p);
   });
   // 학습 선택 확인: 고른 항목으로 시작 표시
@@ -153,6 +153,72 @@
       save.classList.add('is-busy');
       setTimeout(function () { save.classList.remove('is-busy'); toast(t, '입고검수 결과를 저장했습니다.', 1600); }, reduce ? 0 : 900);
     });
+  });
+})();
+
+/* 2026-11-23 한기대 XR 카드 4장(작업지침서·참여자 목록·OMS 소개·학습 항목 목록) 동작 */
+(function () {
+  var root = document.getElementById('view-koreatech-xr'); if (!root) return;
+  var cf = root.querySelector('.kx-cf'); if (!cf) return;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function each(sel, fn, el) { [].forEach.call((el || cf).querySelectorAll(sel), fn); }
+  function q(el, sel) { return el.querySelector(sel); }
+
+  // 피그마 스크롤 막대: 내용 스크롤에 맞춰 위치·길이, 막대 끌기
+  each('[data-kx="scroll"]', function (sc) {
+    var sb = sc.parentNode.querySelector('.kx-sb'), th = sb && q(sb, 'b'); if (!th) return;
+    var fixed = sb.classList.contains('is-ub') ? 65 : 0; // 참여자 목록 막대는 피그마 길이(65px) 고정
+    function upd() {
+      var track = sb.clientHeight, ch = sc.scrollHeight, vh = sc.clientHeight;
+      var h = fixed || Math.max(40, track * vh / Math.max(ch, 1));
+      var max = ch - vh; th.style.height = h + 'px';
+      th.style.transform = 'translateY(' + (max > 0 ? (track - h) * sc.scrollTop / max : 0) + 'px)';
+      sb.style.visibility = max > 0 ? '' : 'hidden';
+    }
+    sc.addEventListener('scroll', upd, { passive: true });
+    var dy = 0, st = 0, drag = false;
+    th.addEventListener('pointerdown', function (e) { drag = true; dy = e.clientY; st = sc.scrollTop; th.setPointerCapture(e.pointerId); th.classList.add('is-drag'); e.preventDefault(); e.stopPropagation(); });
+    th.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var r = th.getBoundingClientRect(), k = th.offsetHeight / (r.height || 1); // 카드 축소 비율 보정
+      var track = sb.clientHeight - th.offsetHeight, max = sc.scrollHeight - sc.clientHeight;
+      sc.scrollTop = st + (e.clientY - dy) * k * max / Math.max(track, 1);
+    });
+    function end() { drag = false; th.classList.remove('is-drag'); }
+    th.addEventListener('pointerup', end); th.addEventListener('pointercancel', end);
+    if (window.ResizeObserver) new ResizeObserver(upd).observe(sc);
+    upd();
+  });
+
+  // 참여자 선택(여러 명) · 메뉴 버튼 눌림 · 강제소환 → 알림 토스트(피그마 popup_invite_alarm 문구)
+  each('.kx-ub', function (ub) {
+    each('.kx-mb', function (b) { b.addEventListener('click', function () { b.setAttribute('aria-checked', b.getAttribute('aria-checked') !== 'true'); }); }, ub);
+    var t = q(ub, '.kx-toast'), tb = q(t, 'b');
+    q(ub, '.kx-ub-rc').addEventListener('click', function () {
+      (t.__ts || []).forEach(clearTimeout); t.__ts = []; t.classList.remove('is-ck'); tb.textContent = ''; t.classList.add('is-in');
+      var text = '1분 후 강제소환됩니다.';
+      t.__ts.push(setTimeout(function () { t.classList.add('is-ck'); }, 150));
+      for (var i = 1; i <= text.length; i++) (function (k) { t.__ts.push(setTimeout(function () { tb.textContent = text.slice(0, k); }, reduce ? 0 : 350 + k * 70)); })(i);
+      t.__ts.push(setTimeout(function () { t.classList.remove('is-in', 'is-ck'); }, (reduce ? 0 : 350 + text.length * 70) + 1800));
+    });
+  });
+
+  // 학습 항목 목록: 마우스 올림(초록 20% 줄) · 누르면 선택(초록 글자+점) · 방향키/Enter
+  each('[data-kx="list"]', function (ul) {
+    var li = [].slice.call(ul.querySelectorAll('[role=option]')), act = -1;
+    function mark(i) { li.forEach(function (o, k) { o.classList.toggle('is-act', k === i); }); act = i; }
+    function pick(o) { li.forEach(function (x) { x.setAttribute('aria-selected', x === o); }); }
+    li.forEach(function (o, i) {
+      o.addEventListener('mouseenter', function () { mark(i); });
+      o.addEventListener('click', function () { pick(o); });
+    });
+    ul.addEventListener('mouseleave', function () { mark(-1); });
+    ul.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { mark(Math.min(li.length - 1, act + 1)); e.preventDefault(); }
+      else if (e.key === 'ArrowUp') { mark(Math.max(0, act - 1)); e.preventDefault(); }
+      else if ((e.key === 'Enter' || e.key === ' ') && li[act]) { pick(li[act]); e.preventDefault(); }
+    });
+    ul.addEventListener('blur', function () { mark(-1); });
   });
 })();
 

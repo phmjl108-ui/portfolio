@@ -121,3 +121,100 @@
     new MutationObserver(upd).observe(c, { attributes: true, attributeFilter: ['class'] }); upd();
   });
 })();
+
+/* 코레일 카드 슬라이드(2026-11-20 교체): MSDS 제품 목록 · 관리자 계정 추가 · 차륜 월별 예상 직경 · 정비 공정별 상세보기 */
+(function () {
+  var root = document.getElementById('view-korail'); if (!root) return;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function qa(el, s) { return [].slice.call(el.querySelectorAll(s)); }
+  function q(el, s) { return el.querySelector(s); }
+  function onCenter(el, fn) {
+    var c = el.closest('.cf-card'); if (!c) { fn(true); return; }
+    var was = null;
+    function upd() { var on = c.classList.contains('is-center'); if (on !== was) { was = on; fn(on); } }
+    new MutationObserver(upd).observe(c, { attributes: true, attributeFilter: ['class'] }); upd();
+  }
+  // 닫기: 사라졌다가 1.2초 뒤 다시 나타남(기존 방식)
+  function closer(p, reset) {
+    q(p, '.ko-x').addEventListener('click', function () {
+      p.classList.add('is-closed');
+      setTimeout(function () { if (reset) reset(); p.classList.remove('is-closed'); }, 1200);
+    });
+  }
+  // 페이지 넘김: 번호·처음·이전·다음·마지막, 1쪽에서는 처음·이전 비활성, 끝쪽에서는 다음·마지막 비활성
+  function pager(nav, onGo) {
+    var n = +nav.getAttribute('data-n'), cur = 1;
+    var nums = qa(nav, '.ko-pg-n'), a = {}; qa(nav, '.ko-pg-a').forEach(function (b) { a[b.getAttribute('data-go')] = b; });
+    function set(k, silent) {
+      cur = Math.max(1, Math.min(n, k));
+      nums.forEach(function (b) { if (+b.getAttribute('data-p') === cur) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+      a.prev.disabled = a.first.disabled = cur === 1; a.next.disabled = a.last.disabled = cur === n;
+      if (!silent && onGo) onGo(cur);
+    }
+    nums.forEach(function (b) { b.addEventListener('click', function () { set(+b.getAttribute('data-p')); }); });
+    a.prev.addEventListener('click', function () { set(cur - 1); }); a.next.addEventListener('click', function () { set(cur + 1); });
+    a.first.addEventListener('click', function () { set(1); }); a.last.addEventListener('click', function () { set(n); });
+    set(1, true);
+    return set;
+  }
+  function replay(el, cls) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+
+  // 1. MSDS 제품 목록: 행 Hover(글자 #00B2E3)·누르면 선택(Active #013D4A), 페이지 넘김(번호 열이 쪽에 맞게 바뀜)
+  qa(root, '[data-ko="msds"]').forEach(function (p) {
+    var tb = q(p, 'tbody'), rows = qa(tb, 'tr');
+    function pick(r) { rows.forEach(function (x) { x.setAttribute('aria-selected', x === r ? 'true' : 'false'); }); }
+    rows.forEach(function (r) {
+      r.addEventListener('click', function () { pick(r); });
+      r.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(r); } });
+    });
+    var go = pager(q(p, '.ko-pg'), function (k) {
+      rows.forEach(function (r, i) { r.firstChild.textContent = (k - 1) * 10 + i + 1; r.setAttribute('aria-selected', 'false'); });
+      replay(tb, 'is-load');
+    });
+    closer(p, function () { go(1); });
+  });
+
+  // 2. 관리자 계정 추가: 이름 입력(포커스 테두리 #00B2E3), 검색 버튼, 메뉴 권한 체크(All = 전체 선택·일부면 중간 상태), 저장은 이름+권한 하나 이상일 때 활성
+  qa(root, '[data-ko="admin"]').forEach(function (f) {
+    var name = q(f, '.ko-ad-in input'), all = q(f, 'input[data-all]'), boxes = qa(f, '.ko-cb input').filter(function (x) { return x !== all; }), sv = q(f, '.ko-ad-sv');
+    function sync() {
+      var on = boxes.filter(function (b) { return b.checked; }).length;
+      all.checked = on === boxes.length; all.indeterminate = on > 0 && on < boxes.length;
+      sv.disabled = !(name.value.trim() && on > 0);
+    }
+    all.addEventListener('change', function () { boxes.forEach(function (b) { b.checked = all.checked; }); sync(); });
+    boxes.forEach(function (b) { b.addEventListener('change', sync); });
+    name.addEventListener('input', sync);
+    q(f, '.ko-ad-s').addEventListener('click', function () { if (!name.value.trim()) name.focus(); });
+    name.addEventListener('keydown', function (e) { if (e.key === 'Enter') e.preventDefault(); });
+    function reset() { name.value = ''; all.checked = false; boxes.forEach(function (b) { b.checked = false; }); sync(); }
+    f.addEventListener('submit', function (e) {
+      e.preventDefault(); if (sv.disabled) return;
+      f.classList.add('is-closed'); setTimeout(function () { reset(); f.classList.remove('is-closed'); }, 1200);
+    });
+    closer(f, reset);
+    sync();
+  });
+
+  // 3. 차륜 월별 예상 직경: 가운데로 올 때 값이 차례로 들어옴, 칸 Hover #F2F2F7
+  qa(root, '[data-ko="wheel"]').forEach(function (p) {
+    qa(p, '.ko-wh-tb td').forEach(function (td, i) { td.style.setProperty('--i', i % 18); });
+    onCenter(p, function (on) { p.classList.remove('is-play'); if (on && !reduce) { void p.offsetWidth; p.classList.add('is-play'); } });
+    closer(p);
+  });
+
+  // 4. 정비 공정별 상세보기: 본문 세로 스크롤, 행 Hover #F2F2F7, 페이지 넘김
+  qa(root, '[data-ko="maint"]').forEach(function (p) {
+    var sc = q(p, '.ko-mt-sc'), tb = q(p, '.ko-mt-tb');
+    sc.addEventListener('wheel', function (e) { e.stopPropagation(); }, { passive: true });
+    var go = pager(q(p, '.ko-pg'), function () { sc.scrollTop = 0; replay(tb, 'is-load'); });
+    closer(p, function () { go(1); });
+  });
+
+  // 가운데가 아닌 카드 안 부품은 포커스·클릭 안 되게
+  qa(root, '.ko-cf .cf-card').forEach(function (c) {
+    var p = q(c, '.ko-p'); if (!p) return;
+    function upd() { p.inert = !c.classList.contains('is-center'); }
+    new MutationObserver(upd).observe(c, { attributes: true, attributeFilter: ['class'] }); upd();
+  });
+})();

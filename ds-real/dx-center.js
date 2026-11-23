@@ -94,9 +94,52 @@
     onSeen(a, function () { if (!timers.length) cycle(); }, function () { clear(); ms.forEach(function (m) { m.classList.remove('is-wait'); var p = m.querySelector('p'); p.textContent = p.dataset.text; p.classList.remove('is-typing'); }); });
   });
 
-  // 9. 장비 정보 패널(카드): ✕ 로 닫으면 잠시 뒤 다시 뜸
-  each('[data-dx="ep"]', function (p) {
-    p.querySelector('.dx-x').addEventListener('click', function () { gone(p); });
+  // 9. 패널 카드
+  // 9-1. 실시간 장비상태: 장비 칸을 누르면 선택(한 대만, 다시 누르면 해제)
+  each('.dx-k-es', function (g) {
+    var bs = qa(g, '.dx-k-eq');
+    bs.forEach(function (b) { b.addEventListener('click', function () { var on = b.getAttribute('aria-pressed') !== 'true'; bs.forEach(function (x) { x.setAttribute('aria-pressed', x === b && on); }); }); });
+  });
+  // 9-2. 시나리오 저장: 이름이 비면 확인 비활성, Enter = 확인, 취소·확인 → 닫혔다가 1.2초 뒤 다시 뜸(이름 원래대로)
+  each('[data-dxk="dlg"]', function (d) {
+    var i = d.querySelector('input'), ok = d.querySelector('[data-ok]'), v0 = i.value;
+    function sync() { ok.disabled = !i.value.trim(); }
+    i.addEventListener('input', sync);
+    i.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !ok.disabled) ok.click(); });
+    qa(d, '[data-close]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        d.classList.add('is-gone'); clearTimeout(d.__t);
+        d.__t = setTimeout(function () { i.value = v0; sync(); d.classList.remove('is-gone'); }, 1200);
+      });
+    });
+  });
+  // 9-3. 관제 현황: 가동시간이 1초마다 올라감, 보이면 막대가 차오르고 숫자가 올라감, 접기 버튼 ↔ 접힌 탭
+  each('[data-dxk="il"]', function (w) {
+    var il = w.querySelector('.dx-k-il'), hide = w.querySelector('.dx-k-hide'), off = w.querySelector('.dx-k-off'), tm = 0;
+    var bars = qa(w, '.dx-k-bar-t i');
+    var clks = qa(w, '.dx-k-clk').map(function (c) { var p = c.textContent.split(':').map(function (x) { return parseInt(x, 10); }); return { el: c, s: ((p[0] * 24 + p[1]) * 60 + p[2]) * 60 + p[3] }; });
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function fmt(s) { return [pad(Math.floor(s / 86400)), pad(Math.floor(s / 3600) % 24), pad(Math.floor(s / 60) % 60), pad(s % 60)].join(' : '); }
+    function tick() { clks.forEach(function (c) { c.s++; c.el.textContent = fmt(c.s); }); }
+    function count() {
+      qa(w, '.dx-k-big b[data-to]').forEach(function (b) {
+        var to = +b.dataset.to, pd = +b.dataset.pad || 0, t0 = 0;
+        function f(now) { if (!t0) t0 = now; var x = Math.min(1, (now - t0) / 900), s = String(Math.round(to * (1 - Math.pow(1 - x, 3)))); while (s.length < pd) s = '0' + s; b.textContent = s; if (x < 1) requestAnimationFrame(f); }
+        requestAnimationFrame(f);
+      });
+    }
+    function start() {
+      if (!tm) tm = setInterval(tick, 1000);
+      if (reduce) { il.classList.add('is-on'); return; }
+      bars.forEach(function (i) { i.style.transition = 'none'; }); il.classList.remove('is-on'); il.offsetWidth;
+      bars.forEach(function (i) { i.style.transition = ''; });
+      requestAnimationFrame(function () { il.classList.add('is-on'); }); count();
+    }
+    function stop() { clearInterval(tm); tm = 0; }
+    onSeen(w, start, stop);
+    function set(open) { il.hidden = !open; hide.hidden = !open; off.hidden = open; (open ? hide : off).focus({ preventScroll: true }); if (open) start(); }
+    hide.addEventListener('click', function () { set(false); });
+    off.addEventListener('click', function () { set(true); });
   });
 
   // 패널 카드: 가운데 카드만 조작

@@ -109,21 +109,61 @@
     cards.forEach(function (c) { c.addEventListener('click', function () { cards.forEach(function (x) { x.setAttribute('aria-selected', x === c); }); }); });
   });
 
-  // ===== 패널 카드: 가운데 카드만 조작, 가운데로 오면 모션 재생 =====
+  // ===== 패널 카드(훈련 선택·약냉 진단·자재정보·작업주의사항): 가운데 카드만 조작 =====
   var cf = root.querySelector('.sx-cf');
-  if (cf) qa(cf, '.cf-card').forEach(function (c) {
-    var pn = c.querySelector('.sx-pn');
-    function sync() {
-      var center = c.classList.contains('is-center'); pn.inert = !center;
-      if (center !== c.__was) {
-        var t = pn.querySelector('[data-sx="toast"]'), r = pn.querySelector('[data-sx="read"]');
-        if (t && !reduce) { if (center) t.__start(); else t.__stop(); }
-        if (r && center && r.__run) r.__run();
+  if (cf) {
+    qa(cf, '.cf-card').forEach(function (c) {
+      var pn = c.querySelector('.sx-pn');
+      function sync() { pn.inert = !c.classList.contains('is-center'); }
+      new MutationObserver(sync).observe(c, { attributes: true, attributeFilter: ['class'] }); sync();
+      pn.addEventListener('keydown', function (e) { e.stopPropagation(); });
+    });
+    // 닫기·확인·Skip: 자리 유지한 채 닫히고 1.2초 뒤 다시 뜸
+    qa(cf, '[data-sx="pop"]').forEach(function (st) {
+      var pop = st.classList.contains('sx-tr') ? st : st.querySelector('.sx-pp'), t = 0;
+      qa(st, '[data-close]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          pop.classList.remove('is-back'); pop.classList.add('is-gone'); clearTimeout(t);
+          t = setTimeout(function () { pop.classList.remove('is-gone'); if (!reduce) { pop.offsetWidth; pop.classList.add('is-back'); } }, 1200);
+        });
+      });
+    });
+    // 훈련 선택: 카드 하나 고르기(라디오, 방향키 이동)
+    qa(cf, '.sx-tr-g').forEach(function (g) {
+      var cs = qa(g, '.sx-tc');
+      function pick(c, focus) { cs.forEach(function (x) { x.setAttribute('aria-checked', x === c); x.tabIndex = x === c ? 0 : -1; }); if (focus) c.focus(); }
+      cs.forEach(function (c, i) {
+        c.addEventListener('click', function () { pick(c); });
+        c.addEventListener('keydown', function (e) {
+          var k = { ArrowRight: 1, ArrowDown: 3, ArrowLeft: -1, ArrowUp: -3 }[e.key]; if (!k) return;
+          e.preventDefault(); pick(cs[(i + k + cs.length) % cs.length], true);
+        });
+      });
+      pick(cs.filter(function (c) { return c.getAttribute('aria-checked') === 'true'; })[0] || cs[0]);
+    });
+    // 약냉 진단: 방 탭으로 결과 거르기, 에러코드 누르면 그 줄 선택, 화면 스크롤 + 스크롤 표시
+    qa(cf, '.sx-hs-scr').forEach(function (scr) {
+      var app = scr.querySelector('.sx-hs-app'), th = scr.querySelector('.sx-hs-thumb'), tabs = qa(scr, '[role="tab"]'), cards = qa(scr, '.sx-hs-card'), tm = 0;
+      tabs.forEach(function (b) {
+        b.addEventListener('click', function () {
+          tabs.forEach(function (x) { x.setAttribute('aria-selected', x === b); });
+          var r = b.dataset.room; cards.forEach(function (c) { c.hidden = r !== 'All Room' && c.dataset.room !== r; });
+          draw();
+        });
+      });
+      qa(scr, '.sx-hs-code').forEach(function (b, i, all) {
+        b.addEventListener('click', function () {
+          var on = b.getAttribute('aria-pressed') !== 'true';
+          all.forEach(function (x) { x.setAttribute('aria-pressed', on && x === b); x.closest('.sx-hs-tr').classList.toggle('is-on', on && x === b); });
+        });
+      });
+      function draw() {
+        var max = app.scrollHeight - app.clientHeight; th.style.display = max > 0 ? '' : 'none'; if (max <= 0) return;
+        var h = Math.max(80, scr.clientHeight * app.clientHeight / app.scrollHeight);
+        th.style.height = h + 'px'; th.style.transform = 'translateY(' + ((scr.clientHeight - h) * app.scrollTop / max).toFixed(1) + 'px)';
       }
-      c.__was = center;
-    }
-    new MutationObserver(sync).observe(c, { attributes: true, attributeFilter: ['class'] });
-    sync();
-    pn.addEventListener('keydown', function (e) { e.stopPropagation(); });
-  });
+      app.addEventListener('scroll', function () { draw(); scr.classList.add('is-scroll'); clearTimeout(tm); tm = setTimeout(function () { scr.classList.remove('is-scroll'); }, 900); }, { passive: true });
+      window.addEventListener('load', draw); draw();
+    });
+  }
 })();

@@ -203,3 +203,134 @@
 @media (max-width: 700px) { .view#view-korail .cf-card.ko-c-bulk { width: 348px; margin-left: -174px; } .view#view-korail .ko-pop { zoom: .45; } .view#view-korail .ko-tags { grid-template-columns: repeat(3, 96px); } }
 /* 입력칸: 실제 input 의 브라우저 기본 모양·테두리·포커스 링 제거 — 테두리·포커스 표시는 바깥 틀(.ko-in)에만 */
 .view#view-korail .ko-in input, .view#view-korail .ko-p input { -webkit-appearance: none; appearance: none; border: 0; outline: 0; background: transparent; }
+
+
+/* ── 2026-11-20 카드 교체(후보 1~4): MSDS 제품 목록 · 관리자 계정 추가 · 차륜 월별 예상 직경 · 정비 공정별 상세보기 ──
+   팝업은 피그마 크기 그대로 만들고 zoom 으로 줄임. 글꼴: Korail Round Gothic → Pretendard(기존과 같음), Noto Sans → Noto Sans KR, 페이지 번호 Roboto */
+.view#view-korail { --ko-n: 'Noto Sans KR', 'Pretendard', sans-serif; }
+.view#view-korail .cf-card.ko-c-ms { width: 590px; margin-left: -295px; }
+.view#view-korail .cf-card.ko-c-ad { width: 518px; margin-left: -259px; }
+.view#view-korail .cf-card.ko-c-wh { width: 620px; margin-left: -310px; }
+.view#view-korail .cf-card.ko-c-mt { width: 856px; margin-left: -428px; }
+/* 바탕: MSDS 팝업은 피그마 실제 화면(폐수처리장 안전맵 3959:29750)의 팝업 자리 + Dim 50%. 흰 웹 팝업은 대비용으로 앱 장면(차량기지) + Dim 50% 를 12px 둘레로 */
+.view#view-korail .ko-sc { position: relative; width: max-content; }
+.view#view-korail .ko-sc-ms { background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), #1E2A33 url(korail-img/scene-msds.webp) 0 0 / 100% 100% no-repeat; border-radius: 4px; }
+.view#view-korail .ko-sc-w { padding: 12px; border-radius: 10px; background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), #1E2A33 url("../assets/ds/korail/scene-depot.webp") center 35% / cover no-repeat; }
+.view#view-korail .ko-cp { position: relative; box-sizing: border-box; transition: opacity .2s ease, transform .2s ease; }
+.view#view-korail .ko-cp.is-closed { opacity: 0; transform: scale(.96); pointer-events: none; }
+.view#view-korail .ko-cp h3, .view#view-korail .ko-cp p { margin: 0; }
+/* 페이지 넘김(Pagination 2829:56055 등, 32×32 r6): 선택 #00B2E3, 처음·이전은 1쪽에서 비활성 #C4C4C4 */
+.view#view-korail .ko-pg { display: flex; justify-content: center; gap: 6px; padding: 0 6px; }
+.view#view-korail .ko-pg button { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 6px; background: transparent; cursor: pointer; font: 400 14px/20px 'Roboto', var(--ko-n); letter-spacing: .17px; transition: background-color .12s ease, color .12s ease; }
+.view#view-korail .ko-pg-d button { color: #fff; }
+.view#view-korail .ko-pg-l button { color: #292929; font-family: var(--ko-n); }
+.view#view-korail .ko-pg .ko-pg-n:hover, .view#view-korail .ko-pg .ko-pg-a:hover:not(:disabled) { color: var(--ko-b); }
+.view#view-korail .ko-pg .ko-pg-n[aria-current="page"] { background: var(--ko-b); color: #fff; }
+.view#view-korail .ko-pg .ko-pg-a:active:not(:disabled) { background: var(--ko-b); color: #fff; }
+.view#view-korail .ko-pg .ko-pg-a:disabled { color: #C4C4C4; cursor: default; }
+
+/* 1. MSDS 제품 목록 Popup (3716:151187, 1310×849 → zoom .45): #22222C 80% + 배경 흐림 20 + 흰 50% 안쪽 선 = 글래스 */
+.view#view-korail .ko-ms { zoom: .45; display: flex; flex-direction: column; gap: 16px; width: 1310px; height: 849px; padding: 24px; border-radius: 10px; background: rgba(34,34,44,.8); box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); -webkit-backdrop-filter: blur(20px) saturate(1.2); backdrop-filter: blur(20px) saturate(1.2); font-family: var(--ko-f); color: #fff; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-korail .ko-ms { background: rgba(34,34,44,.95); } }
+.view#view-korail .ko-ms-t { font: 700 24px/25px var(--ko-f); color: var(--ko-b); }
+.view#view-korail .ko-ms-x { right: 12px; top: 12px; }
+.view#view-korail .ko-ms-w { display: flex; flex-direction: column; gap: 16px; padding: 12px 24px; border-radius: 10px; background: #292929; }
+.view#view-korail .ko-ms-wh { display: flex; align-items: center; justify-content: space-between; height: 24px; font: 300 16px/24px var(--ko-f); }
+.view#view-korail .ko-ms-dl { display: flex; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 6px; background: transparent; color: #fff; cursor: pointer; transition: background-color .12s ease; }
+.view#view-korail .ko-ms-dl:hover { background: rgba(0,0,0,.2); }
+.view#view-korail .ko-ms-dl:active { background: var(--ko-b); }
+.view#view-korail .ko-ms-ln { display: block; height: 0; border-top: .25px solid rgba(255,255,255,.5); }
+.view#view-korail .ko-ms-sg { display: flex; gap: 12px; }
+.view#view-korail .ko-ms-sg img { display: block; width: 48px; height: 48px; }
+.view#view-korail .ko-ms-n { font: 300 16px/16px var(--ko-f); }
+.view#view-korail .ko-ms-tb { display: flex; flex-direction: column; gap: 8px; }
+.view#view-korail .ko-ms-hd { display: flex; align-items: center; height: 48px; border-radius: 15px; background: #22222C; font: 500 16px/20px var(--ko-f); letter-spacing: -.025em; text-align: center; }
+.view#view-korail .ko-ms-hd span:nth-child(1) { width: 62px; }
+.view#view-korail .ko-ms-hd span:nth-child(3) { width: 600px; }
+.view#view-korail .ko-ms-hd span:nth-child(5), .view#view-korail .ko-ms-hd span:nth-child(7) { width: 300px; }
+.view#view-korail .ko-ms-hd i { width: 1px; height: 29px; background: #E6E6E6; }
+.view#view-korail .ko-ms-tb table { width: 1258px; border-collapse: collapse; table-layout: fixed; border-radius: 10px; overflow: hidden; }
+.view#view-korail .ko-ms-tb td { height: 48px; padding: 0; background: #292929; font: 400 16px/20px var(--ko-n); letter-spacing: -.025em; color: #fff; text-align: center; white-space: nowrap; transition: background-color .12s ease, color .12s ease; }
+.view#view-korail .ko-ms-tb td:nth-child(1) { width: 58px; }
+.view#view-korail .ko-ms-tb td:nth-child(2) { width: 600px; }
+.view#view-korail .ko-ms-tb td:nth-child(3), .view#view-korail .ko-ms-tb td:nth-child(4) { width: 300px; }
+.view#view-korail .ko-ms-tb tr { cursor: pointer; outline: none; }
+.view#view-korail .ko-ms-tb tr:hover td, .view#view-korail .ko-ms-tb tr:focus-visible td { color: var(--ko-b); }
+.view#view-korail .ko-ms-tb tr[aria-selected="true"] td { background: #013D4A; color: var(--ko-b); }
+.view#view-korail .ko-ms-tb tbody.is-load td, .view#view-korail .ko-mt-tb.is-load td { animation: ko-rowin .3s ease both; }
+@keyframes ko-rowin { from { opacity: 0; } to { opacity: 1; } }
+
+/* 2. 관리자 계정 추가 Popup (8501:125319, 658×632 → zoom .75) */
+.view#view-korail .ko-ad { zoom: .75; display: flex; flex-direction: column; gap: 16px; width: 658px; padding: 24px; border-radius: 14px; background: #fff; box-shadow: inset 0 0 0 1px #E1E2E9, 0 4px 4px rgba(0,0,0,.25); color: #292929; font-family: var(--ko-n); }
+.view#view-korail .ko-ad-t { font: 700 24px/28px var(--ko-n); color: #0F172A; }
+.view#view-korail .ko-ad-x, .view#view-korail .ko-wh-x, .view#view-korail .ko-mt-x { position: absolute; right: 16px; top: 16px; color: #292929; }
+.view#view-korail .ko-ad-g { display: grid; grid-template-columns: 180px 430px; grid-template-rows: 70px 70px 70px 70px 202px; }
+.view#view-korail .ko-ad-l { display: flex; align-items: center; padding: 0 20px; background: #E1E2E9; font: 500 20px/20px var(--ko-n); color: #292929; }
+.view#view-korail .ko-ad-v { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid rgba(0,0,0,.06); box-shadow: inset -1px 0 0 rgba(0,0,0,.08); }
+.view#view-korail .ko-ad-v:nth-child(2) { border-top: 1px solid rgba(0,0,0,.06); }
+.view#view-korail .ko-ad-in { display: flex; align-items: center; gap: 4px; width: 320px; height: 42px; padding: 0 12px; box-sizing: border-box; border-radius: 10px; background: #fff; box-shadow: inset 0 0 0 1px #D9D9D9; cursor: text; transition: box-shadow .12s ease; }
+.view#view-korail .ko-ad-in:focus-within { box-shadow: inset 0 0 0 1px var(--ko-b), 0 0 0 2px rgba(24,144,255,.2); }
+.view#view-korail .ko-ad-in input { flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; outline: 0; background: transparent; -webkit-appearance: none; appearance: none; font: 400 16px/22px var(--ko-n); color: rgba(0,0,0,.85); }
+.view#view-korail .ko-ad-in input::placeholder { color: #D9D9D9; opacity: 1; }
+.view#view-korail .ko-ad-s { height: 42px; padding: 0 16px; border: 0; border-radius: 10px; background: var(--ko-b); color: #fff; font: 500 16px/22px var(--ko-n); cursor: pointer; white-space: nowrap; transition: background-color .12s ease; }
+.view#view-korail .ko-ad-s:hover { background: #029EBF; }
+.view#view-korail .ko-ad-s:active { background: #02839F; }
+.view#view-korail .ko-ad-pk { display: flex; align-items: center; width: 390px; height: 42px; padding: 0 16px; box-sizing: border-box; border-radius: 10px; background: #F5F5F5; font: 400 16px/20px var(--ko-n); color: rgba(41,41,41,.5); }
+.view#view-korail .ko-ad-vm { align-items: flex-start; gap: 16px; }
+.view#view-korail .ko-ad-c { display: flex; flex-direction: column; gap: 16px; }
+.view#view-korail .ko-ad-c:first-child { width: 203px; }
+.view#view-korail .ko-cb { position: relative; display: flex; align-items: center; gap: 8px; height: 22px; cursor: pointer; font: 500 16px/22px var(--ko-n); color: rgba(0,0,0,.85); white-space: nowrap; }
+.view#view-korail .ko-cb input { position: absolute; left: 0; top: 3px; width: 16px; height: 16px; margin: 0; opacity: 0; cursor: pointer; }
+.view#view-korail .ko-cb i { position: relative; display: block; flex: none; width: 16px; height: 16px; border-radius: 2px; background: #fff; box-shadow: inset 0 0 0 1px #D9D9D9; transition: background-color .12s ease, box-shadow .12s ease; }
+.view#view-korail .ko-cb i svg { display: block; opacity: 0; transform: scale(.6); transition: opacity .12s ease, transform .15s ease; }
+.view#view-korail .ko-cb:hover i, .view#view-korail .ko-cb input:focus-visible + i { box-shadow: inset 0 0 0 1px #1890FF; }
+.view#view-korail .ko-cb input:checked + i { background: #1890FF; box-shadow: none; }
+.view#view-korail .ko-cb input:checked + i svg { opacity: 1; transform: none; }
+.view#view-korail .ko-cb input:indeterminate + i::after { content: ""; position: absolute; left: 4px; top: 4px; width: 8px; height: 8px; background: #1890FF; }
+.view#view-korail .ko-ad-b { display: flex; justify-content: center; }
+.view#view-korail .ko-ad-sv { min-width: 100px; height: 42px; padding: 0 16px; border: 0; border-radius: 14px; background: var(--ko-b); color: #fff; font: 500 16px/22px var(--ko-n); letter-spacing: .31px; cursor: pointer; transition: background-color .12s ease, opacity .2s ease; }
+.view#view-korail .ko-ad-sv:hover:not(:disabled) { background: #029EBF; }
+.view#view-korail .ko-ad-sv:active:not(:disabled) { background: #028CAA; }
+.view#view-korail .ko-ad-sv:disabled { opacity: .2; cursor: default; }
+
+/* 3. 각 차륜 월별 예상 직경 팝업 (4926:160238, 1418×724 → zoom .42). 교체기준 포함 값은 #FF453A */
+.view#view-korail .ko-wh { zoom: .42; display: flex; flex-direction: column; gap: 8px; width: 1418px; padding: 24px; border-radius: 14px; background: #fff; box-shadow: inset 0 0 0 1px #E1E2E9, 0 4px 4px rgba(0,0,0,.25); font-family: var(--ko-n); color: #292929; }
+.view#view-korail .ko-wh-t { font: 700 24px/28px var(--ko-n); color: #0F172A; }
+.view#view-korail .ko-wh-d { font: 400 16px/22px var(--ko-n); white-space: nowrap; }
+.view#view-korail .ko-wh-st { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 6px; background: rgba(0,0,0,.08); }
+.view#view-korail .ko-wh-sl { font: 700 18px/22px var(--ko-n); color: rgba(41,41,41,.45); }
+.view#view-korail .ko-wh-sv { padding: 5px 0; font: 400 16px/22px var(--ko-n); }
+.view#view-korail .ko-wh-sv b { font-weight: 700; }
+.view#view-korail .ko-wh-sec { display: flex; flex-direction: column; gap: 10px; }
+.view#view-korail .ko-wh-h { display: flex; gap: 10px; font: 400 16px/24px var(--ko-n); }
+.view#view-korail .ko-wh-h b { font-weight: 500; color: rgba(0,0,0,.85); }
+.view#view-korail .ko-wh-h span { color: var(--ko-b); }
+.view#view-korail .ko-wh-tb { width: 1368px; border-collapse: collapse; table-layout: fixed; }
+.view#view-korail .ko-wh-tb th { height: 48px; padding: 0; background: #E1E2E9; font: 500 16px/20px var(--ko-n); color: #292929; }
+.view#view-korail .ko-wh-tb td { height: 50px; padding: 0; border-bottom: 1px solid rgba(0,0,0,.08); font: 500 16px/20px var(--ko-n); color: #292929; text-align: center; transition: background-color .12s ease; }
+.view#view-korail .ko-wh-tb td:hover { background: #F2F2F7; }
+.view#view-korail .ko-wh-tb td.is-red { color: #FF453A; }
+.view#view-korail .ko-wh.is-play .ko-wh-tb td span { display: inline-block; animation: ko-valin .5s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 22ms); }
+@keyframes ko-valin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* 4. 정비 공정별 상세보기 (Popup 자재 계약 현황 5088:93188, 1848×942 → zoom .45): 표 머리 2줄 + 본문 세로 스크롤 */
+.view#view-korail .ko-mt { zoom: .45; display: flex; flex-direction: column; gap: 16px; width: 1848px; padding: 24px; border-radius: 14px; background: #fff; box-shadow: inset 0 0 0 1px #E1E2E9, 0 4px 4px rgba(0,0,0,.25); font-family: var(--ko-n); color: #292929; }
+.view#view-korail .ko-mt-t { font: 700 24px/28px var(--ko-n); color: #0F172A; }
+.view#view-korail .ko-mt-tw { width: 1800px; height: 802px; display: flex; flex-direction: column; border-bottom: 1px solid #E1E2E9; box-sizing: border-box; }
+.view#view-korail .ko-mt table { width: 1800px; border-collapse: collapse; table-layout: fixed; }
+.view#view-korail .ko-mt-th th { padding: 0 8px; background: #F5F5F6; font: 500 16px/20px var(--ko-n); color: #292929; vertical-align: middle; white-space: nowrap; }
+.view#view-korail .ko-mt-th tr:first-child th { height: 64px; border-top: 1px solid #E1E2E9; }
+.view#view-korail .ko-mt-th tr:last-child th { height: 66px; border-top: 1px solid #E1E2E9; border-bottom: 1px solid #E1E2E9; }
+.view#view-korail .ko-mt-mv { display: inline-block; vertical-align: middle; margin: -2px 0 0 2px; }
+.view#view-korail .ko-mt-sc { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; outline: none; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #C4C4C4 transparent; }
+.view#view-korail .ko-mt-sc:focus-visible { box-shadow: inset 0 0 0 2px var(--ko-b); }
+.view#view-korail .ko-mt-tb td { height: 52px; padding: 0 8px; box-sizing: border-box; box-shadow: inset -1px 0 0 rgba(0,0,0,.08); font: 400 16px/20px var(--ko-n); color: #292929; text-align: center; white-space: nowrap; transition: background-color .12s ease; }
+.view#view-korail .ko-mt-tb tr:hover td { background: #F2F2F7; }
+@media (max-width: 700px) {
+  .view#view-korail .cf-card.ko-c-ms, .view#view-korail .cf-card.ko-c-ad, .view#view-korail .cf-card.ko-c-wh, .view#view-korail .cf-card.ko-c-mt { width: 340px; margin-left: -170px; }
+  .view#view-korail .ko-ms { zoom: .26; } .view#view-korail .ko-ad { zoom: .48; } .view#view-korail .ko-wh { zoom: .22; } .view#view-korail .ko-mt { zoom: .17; }
+}
+@media (prefers-reduced-motion: reduce) { .view#view-korail .ko-cp, .view#view-korail .ko-cp * { animation: none !important; transition: none !important; } }
+.view#view-korail .ko-mt-u { display: inline-flex; align-items: center; gap: 2px; }
+.view#view-korail .ko-mt-u .ko-mt-mv { margin: 0; }
+.view#view-korail .ko-wh-h b::before { content: "•"; display: inline-block; width: 14px; margin-left: 6px; }

@@ -140,3 +140,65 @@
   .view#view-vr-maintenance .vb *, .view#view-vr-maintenance .vb { transition: none !important; }
   .view#view-vr-maintenance .vb-ind.is-run { animation-duration: 3s; }
 }
+
+/* ===== 2026-11-23 Components 팝업 카드(옛 .cp-grid 대체): 후보 1~4 — 피그마 LARLVrhF1v9e74icA1ngyi. 접두사 vc-, 버튼은 디자인 시스템 판(vb-) 부품 그대로 ===== */
+.view#view-vr-maintenance .vc-cf .cf-card { width: max-content; margin: 0; translate: -50% 0; }
+.view#view-vr-maintenance .vc-cf .cf-panel.vc-scn { padding: 22px; border-radius: 22px; background: #3a4148 url(vr-maintenance-img/scene.webp) center 42% / cover no-repeat; cursor: default; user-select: text; -webkit-user-select: text; }
+.view#view-vr-maintenance .vc-z { zoom: .6; }
+.view#view-vr-maintenance .vc-pop { position: relative; display: block; box-sizing: border-box; transition: opacity .22s ease, transform .22s ease; }
+.view#view-vr-maintenance .cf-panel.is-closed .vc-pop { opacity: 0; transform: scale(.94); pointer-events: none; }
+.view#view-vr-maintenance .vc-pop > .vb-sq, .view#view-vr-maintenance .vc-pop > .vb-pop { position: absolute; }
+.view#view-vr-maintenance .vc-pop h3, .view#view-vr-maintenance .vc-pop p { margin: 0; }
+.view#view-vr-maintenance .vc-pop svg { display: block; }
+.view#view-vr-maintenance .cf-card:not(.is-center) .vc-pop * { pointer-events: none; }
+/* 1280×720 팝업 틀(피그마 벡터 그대로: 격자·바깥 틀·안쪽 판·내용 격자) + 유리 흐림 */
+.view#view-vr-maintenance .vc-ml, .view#view-vr-maintenance .vc-si-p { width: 1280px; height: 720px; }
+.view#view-vr-maintenance .vc-fr { position: absolute; inset: 0; border-radius: 10px; overflow: hidden; -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); }
+.view#view-vr-maintenance .vc-fr i { position: absolute; left: 0; top: 0; display: block; }
+.view#view-vr-maintenance .vc-fr .l-in { left: 2px; top: 2px; }
+.view#view-vr-maintenance .vc-fr .l-grid { top: 121px; }
+.view#view-vr-maintenance .vc-fr .l-h { left: 2px; top: 121px; width: 1276px; height: 2px; background: #03DAC6; }
+.view#view-vr-maintenance .vc-ml .l-v { position: absolute; left: 401px; top: 121px; width: 2px; height: 597px; background: #03DAC6; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-vr-maintenance .vc-fr { background: rgba(0,0,0,.4); } }
+.view#view-vr-maintenance .vc-tt { position: absolute; left: 0; right: 0; top: 30px; font: 600 30px/60px 'Exo', 'Pretendard', sans-serif; text-align: center; }
+.view#view-vr-maintenance .vc-lr { position: absolute; left: 48px; top: 22px; display: flex; flex-direction: column; font: 600 30px/40px 'Exo', 'Pretendard', sans-serif; white-space: nowrap; }
+.view#view-vr-maintenance .vc-lr em { font-style: normal; color: #03DAC6; font-variant-numeric: tabular-nums; }
+.view#view-vr-maintenance .vc-reset.is-spin .vb-ic { animation: vc-spin .5s ease; }
+@keyframes vc-spin { to { transform: rotate(360deg); } }
+.view#view-vr-maintenance .vc-kws { position: absolute; left: 32px; top: 152px; display: grid; grid-template-columns: 162px 162px; column-gap: 16px; }
+.view#view-vr-maintenance .vc-kws .vb-kw small { font-size: 16px; font-weight: inherit; }
+.view#view-vr-maintenance .vc-cys { position: absolute; left: 452px; top: 152px; display: grid; grid-template-columns: 370px 370px; column-gap: 36px; row-gap: 36px; }
+.view#view-vr-maintenance .vc-gap { display: block; height: 60px; }
+/* 2. Service Item */
+.view#view-vr-maintenance .vc-sort { position: absolute; top: 30px; display: inline-flex; align-items: center; height: 60px; padding: 0; border: 0; background: none; color: #fff; font: 600 30px/60px 'Exo', 'Pretendard', sans-serif; cursor: pointer; transition: color .15s; }
+.view#view-vr-maintenance .vc-sort:hover { color: #03DAC6; }
+.view#view-vr-maintenance .vc-sort .vc-ad { margin-top: 4px; transition: transform .25s ease; }
+.view#view-vr-maintenance .vc-sort:hover .vc-ad path { fill: #03DAC6; }
+.view#view-vr-maintenance .vc-sort[data-dir="desc"] .vc-ad { transform: rotate(180deg); }
+.view#view-vr-maintenance .vc-hc { position: absolute; left: 810px; top: 30px; width: 134px; font: 600 30px/60px 'Exo', 'Pretendard', sans-serif; text-align: right; }
+.view#view-vr-maintenance .vc-sil { position: absolute; left: 120px; top: 124px; width: 1040px; height: 594px; box-sizing: border-box; padding-top: 30px; overflow-y: auto; scrollbar-width: none; overscroll-behavior: contain; outline: none; scroll-behavior: smooth; }
+.view#view-vr-maintenance .vc-sil::-webkit-scrollbar { display: none; }
+.view#view-vr-maintenance .vc-si { position: relative; display: block; width: 1040px; margin: 0 0 16px; padding: 0; border: 0; background: none; color: #fff; font-family: 'Exo', 'Pretendard', sans-serif; font-weight: 500; text-align: left; cursor: pointer; }
+.view#view-vr-maintenance .vc-si .vc-pb { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .12s; }
+.view#view-vr-maintenance .vc-si .nm { position: absolute; left: 16px; top: 50%; width: 625px; transform: translateY(-50%); line-height: 1.3; transition: color .15s; }
+.view#view-vr-maintenance .vc-si .iv { position: absolute; left: 880px; top: 0; bottom: 0; width: 160px; display: flex; align-items: center; justify-content: center; font-size: 28px; transition: color .15s; }
+.view#view-vr-maintenance .vc-si .vc-mk { position: absolute; left: 731px; top: 50%; margin-top: -26px; opacity: 0; transform: scale(.4) rotate(-45deg); transition: opacity .15s, transform .3s cubic-bezier(.34,1.56,.64,1); }
+.view#view-vr-maintenance .vc-si[aria-pressed="true"] .vc-mk { opacity: 1; transform: none; }
+.view#view-vr-maintenance .vc-si:hover .nm, .view#view-vr-maintenance .vc-si:hover .iv { color: #03DAC6; }
+.view#view-vr-maintenance .vc-si:active .vc-pb { opacity: 1; }
+.view#view-vr-maintenance .vc-si:active .nm { color: #FFFF00; font-weight: 700; }
+.view#view-vr-maintenance .vc-si:active .iv { color: #FFFF00; }
+.view#view-vr-maintenance .vc-mv { position: absolute; left: 1190px; top: 448px; display: flex; flex-direction: column; gap: 24px; }
+/* 3. Guide 385×703 */
+.view#view-vr-maintenance .vc-gd { width: 385px; height: 703px; }
+.view#view-vr-maintenance .vc-gd-bg, .view#view-vr-maintenance .vc-gd-tx { position: absolute; left: 0; top: 0; display: block; }
+.view#view-vr-maintenance .vc-gd-tx { left: 3px; top: 3px; }
+.view#view-vr-maintenance .vc-gd-t { position: absolute; left: 33px; top: 157px; width: 318px; font: 700 32px/43px 'Exo', 'Pretendard', sans-serif; text-align: center; }
+.view#view-vr-maintenance .vc-gd-b { position: absolute; left: 66px; top: 294px; width: 252px; font: 500 20px/27px 'Exo', 'Pretendard', sans-serif; text-align: center; }
+/* 4. Title Confirm 689×350 */
+.view#view-vr-maintenance .vc-dl { width: 691px; height: 354px; }
+.view#view-vr-maintenance .vc-dl-bg { position: absolute; left: 2px; top: 4px; display: block; }
+.view#view-vr-maintenance .vc-dl-t { position: absolute; left: 66px; top: 83px; width: 556px; font: 700 36px/48px 'Exo', 'Pretendard', sans-serif; text-align: center; }
+@media (max-width: 640px) { .view#view-vr-maintenance .vc-z { zoom: .32; } }
+.view#view-vr-maintenance .vc-dl-gl, .view#view-vr-maintenance .vc-dl-body { position: absolute; left: 4.6px; top: 8.5px; display: block; width: 684px; height: 342px; }
+.view#view-vr-maintenance .vc-dl-gl { -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); }

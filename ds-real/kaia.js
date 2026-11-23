@@ -170,32 +170,79 @@
     onSeen(g, function () { if (!raf) { t0 = 0; raf = requestAnimationFrame(tick); } }, function () { cancelAnimationFrame(raf); raf = 0; });
   });
 
-  // ===== 패널 카드 =====
+  // ===== 패널 카드(작업계획서·운행안전협의서·적합성 기록부·단계 카드) =====
   var cf = root.querySelector('.ka-cf');
   if (cf) {
-    // 옆 카드 안 부품은 포커스·클릭 안 되게, 가운데 카드가 되면 모션 재생
+    // 옆 카드 안 부품은 포커스·클릭 안 되게
     qa(cf, '.cf-card').forEach(function (c) {
       var pn = c.querySelector('.ka-pn');
-      function sync() {
-        var center = c.classList.contains('is-center'); pn.inert = !center;
-        if (center && !c.__was) { var d = pn.querySelector('.ka-done'); if (d && !reduce) { d.classList.remove('is-play'); d.offsetWidth; d.classList.add('is-play'); } }
-        c.__was = center;
-      }
+      function sync() { pn.inert = !c.classList.contains('is-center'); }
       new MutationObserver(sync).observe(c, { attributes: true, attributeFilter: ['class'] });
       sync();
-      // 패널 안 방향키·스페이스는 부품이 씀(카드 넘김으로 새지 않게)
       pn.addEventListener('keydown', function (e) { e.stopPropagation(); });
     });
-    // 로그인 패널: 비어 있으면 오류, 입력하면 오류 해제
-    qa(cf, '[data-ka="login"]').forEach(function (form) {
-      var flds = qa(form, '.ka-fld');
-      function check(f) { var inp = f.querySelector('input'), bad = !inp.value.trim(); f.classList.toggle('is-err', bad); f.querySelector('.ka-help span').textContent = bad ? f.dataset.msg : ''; inp.setAttribute('aria-invalid', bad); return !bad; }
-      flds.forEach(function (f) { var inp = f.querySelector('input'); inp.addEventListener('input', function () { if (f.classList.contains('is-err')) check(f); }); });
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var ok = flds.map(check).every(Boolean);
-        if (!ok) { var bad = form.querySelector('.ka-fld.is-err input'); if (bad) bad.focus(); }
+    // 문서 본문 스크롤 + 피그마 스크롤 막대(손잡이 끌기, 트랙 누르면 한 화면씩)
+    qa(cf, '.kd-body').forEach(function (b) {
+      var vp = b.querySelector('.kd-vp.is-scroll'), sb = b.querySelector('.kd-sb'); if (!vp || !sb) return;
+      var hd = sb.querySelector('.kd-sb-h');
+      function max() { return Math.max(1, vp.scrollHeight - vp.clientHeight); }
+      function draw() {
+        var th = sb.clientHeight, hh = Math.max(24, th * vp.clientHeight / vp.scrollHeight);
+        hd.style.height = hh + 'px'; hd.style.transform = 'translateY(' + ((th - hh) * vp.scrollTop / max()).toFixed(1) + 'px)';
+      }
+      vp.addEventListener('scroll', draw, { passive: true });
+      window.addEventListener('resize', draw); window.addEventListener('load', draw); draw();
+      var drag = false, sy = 0, st = 0, k = 1;
+      sb.addEventListener('pointerdown', function (e) {
+        e.stopPropagation(); e.preventDefault();
+        if (e.target === hd) {
+          var r = sb.getBoundingClientRect(), hr = hd.getBoundingClientRect();
+          drag = true; sy = e.clientY; st = vp.scrollTop; k = max() / Math.max(1, r.height - hr.height);
+          sb.classList.add('is-drag'); sb.setPointerCapture(e.pointerId);
+        } else {
+          var below = e.clientY > hd.getBoundingClientRect().top;
+          vp.scrollBy({ top: (below ? 1 : -1) * vp.clientHeight * 0.9, behavior: reduce ? 'auto' : 'smooth' });
+        }
       });
+      sb.addEventListener('pointermove', function (e) { if (drag) vp.scrollTop = st + (e.clientY - sy) * k; });
+      function up() { drag = false; sb.classList.remove('is-drag'); }
+      sb.addEventListener('pointerup', up); sb.addEventListener('pointercancel', up);
+    });
+    // 문서용 체크박스
+    qa(cf, '.kd-ck').forEach(function (b) { b.addEventListener('click', function () { b.setAttribute('aria-checked', b.getAttribute('aria-checked') !== 'true'); }); });
+    // 적합성 기록부: ○ 양호 → △ 보통 → × 불량, 하나라도 × 면 판정 '부적합'·사유에 항목 이름
+    var MK = ['○', '△', '×'], ML = ['양호', '보통', '불량'];
+    qa(cf, '.kf-d3 .kd-r').forEach(function (r) {
+      var ms = qa(r, '.kf-m'); if (!ms.length) return;
+      var j = r.querySelector('.kf-j'), y = r.querySelector('.kf-y');
+      var names = qa(cf.querySelector('.kf-d3'), '.kd-r')[2].querySelectorAll('.kd-c');
+      ms.forEach(function (m) {
+        m.addEventListener('click', function () {
+          var v = (+m.dataset.v + 1) % 3; m.dataset.v = v; m.textContent = MK[v]; m.setAttribute('aria-label', ML[v]);
+          var bad = ms.filter(function (x) { return x.dataset.v === '2'; }).map(function (x) { return names[[].indexOf.call(x.closest('.kd-r').children, x.parentNode)].textContent; });
+          j.textContent = bad.length ? '부적합' : '적합'; y.textContent = bad.length ? bad.join(', ') : '-';
+        });
+      });
+    });
+    // 단계 카드: 현재 단계의 버튼을 누르면 다음 단계로(피그마 Progress 사전→1→2→3단계), 완료한 단계 버튼은 그 단계부터 다시
+    qa(cf, '[data-ka="stepcards"]').forEach(function (g) {
+      var cs = qa(g, '.kg-card');
+      function render(p, anim) {
+        g.dataset.p = p;
+        cs.forEach(function (c, i) {
+          var cur = i === p, lock = i > p, dis = i === 3 && i !== p || (i === 3 && p >= 3), b = c.querySelector('.kg-b');
+          if (i === 3 && p < 3) { cur = false; lock = true; dis = true; } else if (i === 3) { cur = false; lock = true; dis = true; }
+          var was = c.classList.contains('is-cur');
+          c.classList.toggle('is-cur', cur); c.classList.toggle('is-lock', lock); c.classList.toggle('is-dis', dis);
+          c.classList.remove('is-new'); if (cur && !was && anim && !reduce) { c.offsetWidth; c.classList.add('is-new'); }
+          b.classList.toggle('ka-p', cur); b.classList.toggle('ka-s', !cur); b.disabled = lock;
+          b.setAttribute('aria-current', cur ? 'step' : 'false');
+        });
+      }
+      cs.forEach(function (c, i) {
+        c.querySelector('.kg-b').addEventListener('click', function () { var p = +g.dataset.p; render(i === p ? i + 1 : i, true); });
+      });
+      render(+g.dataset.p || 0, false);
     });
   }
 })();

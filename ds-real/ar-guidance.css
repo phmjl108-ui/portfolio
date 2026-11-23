@@ -213,3 +213,78 @@
 @media (max-width: 700px) { .view#view-ar-guidance .cf-card.ag-c-ck { width: 348px; margin-left: -174px; } .view#view-ar-guidance .ag-ac { zoom: .3; } .view#view-ar-guidance .ag-steps .ag-step { width: 300px; } .view#view-ar-guidance .ag-start { width: 300px; } }
 /* 입력칸: 브라우저 기본 모양·테두리 제거(테두리·포커스 표시는 칸 자체 inset 그림자 하나만) */
 .view#view-ar-guidance .ag-num input, .view#view-ar-guidance .ag-fi { -webkit-appearance: none; appearance: none; border: 0; outline: 0; }
+
+/* ===== 패널 카드 (후보 1~4: VOC 등록 · 장비 모델 선택 · 성능 시험 항목 · 영상 조작 안내) ===== */
+.view#view-ar-guidance .ag-cf .cf-card:not(.ag-c-voc) { width: max-content; margin-left: 0; translate: -50% 0; }
+.view#view-ar-guidance .cf-panel.ag-k-pn { display: inline-block; vertical-align: top; text-align: left; }
+.view#view-ar-guidance .ag-k-pn ul { margin: 0; padding: 0; list-style: none; }
+.view#view-ar-guidance .ag-k-pn button:focus-visible, .view#view-ar-guidance .ag-k-ml-l:focus-visible { outline: 2px solid var(--ag-or); outline-offset: 2px; }
+/* 대비 바탕: 성능시험 화면의 3D 장면(굴착기) 조각을 부품 크기 + 24px 에 맞춤 */
+.view#view-ar-guidance .cf-panel.ag-k-scn { padding: 24px; border-radius: 12px; background: url(ar-guidance-img/scene.webp) 30% 40% / cover no-repeat, #d8dadc; }
+
+/* 2. 장비 모델 선택 (Model Item List 720×596) — #3B3B3B 80% 유리, 카드 안에서 0.8배 */
+.view#view-ar-guidance .ag-k-ml-w { zoom: .8; }
+.view#view-ar-guidance .ag-k-ml { width: 720px; height: 596px; padding: 32px 40px 0; box-sizing: border-box; overflow: hidden; border-radius: 20px; background: rgba(59,59,59,.8); box-shadow: 0 3.2px 6.4px rgba(0,0,0,.1), inset 0 0 0 1px rgba(255,255,255,.08); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-ar-guidance .ag-k-ml { background: rgba(59,59,59,.95); } }
+.view#view-ar-guidance .ag-k-ml-l { display: flex; flex-direction: column; gap: 8px; height: 100%; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; outline: none; }
+.view#view-ar-guidance .ag-k-ml-l::-webkit-scrollbar { display: none; }
+.view#view-ar-guidance .ag-k-mi { position: relative; display: flex; align-items: center; flex: none; width: 640px; height: 100px; padding-left: 41px; box-sizing: border-box; cursor: pointer; }
+.view#view-ar-guidance .ag-k-mi-bg { position: absolute; inset: 0; display: block; }
+.view#view-ar-guidance .ag-k-mi-st { opacity: 0; transition: opacity .15s ease; }
+.view#view-ar-guidance .ag-k-mi span { position: relative; font: 700 24px/29px var(--ag-f); color: #000; white-space: nowrap; transition: color .15s ease; }
+.view#view-ar-guidance .ag-k-mi:hover span, .view#view-ar-guidance .ag-k-mi.is-kb span { color: var(--ag-or); }
+.view#view-ar-guidance .ag-k-mi:active .ag-k-mi-bg path:first-child { fill: #F2F2F2; }
+.view#view-ar-guidance .ag-k-mi[aria-selected="true"] span { color: var(--ag-or); }
+.view#view-ar-guidance .ag-k-mi[aria-selected="true"] .ag-k-mi-st { opacity: 1; }
+
+/* 3. 성능 시험 항목 (TestListGroup 602×990, #EEE) — 카드 안에서 0.6배 */
+.view#view-ar-guidance .ag-k-tl-w { zoom: .6; }
+.view#view-ar-guidance .ag-k-tl { display: flex; flex-direction: column; align-items: flex-end; gap: 26px; width: 602px; height: 990px; padding: 26px 40px 0; box-sizing: border-box; overflow: hidden; background: #EEE; }
+.view#view-ar-guidance .ag-k-rs { display: flex; align-items: center; gap: 6px; height: 36px; padding: 6px 11px; box-sizing: border-box; border: 0; border-radius: 10px; background: var(--ag-or); font: 400 15px/18px var(--ag-f); color: #fff; white-space: nowrap; cursor: pointer; transition: background-color .12s ease; }
+.view#view-ar-guidance .ag-k-rs:hover { background: #FF7A2B; }
+.view#view-ar-guidance .ag-k-rs:active { background: #E05400; }
+.view#view-ar-guidance .ag-k-rs.is-spin svg { animation: ag-k-spin .5s ease; }
+@keyframes ag-k-spin { to { transform: rotate(360deg); } }
+.view#view-ar-guidance .ag-k-tl-b { position: relative; align-self: stretch; height: 875px; }
+.view#view-ar-guidance .ag-k-tl-l { display: flex; flex-direction: column; gap: 25px; width: 522px; }
+.view#view-ar-guidance .ag-k-tb { position: relative; display: flex; align-items: center; justify-content: center; width: 522px; height: 75px; padding: 16px 30px; box-sizing: border-box; border: 0; background: #161616; clip-path: polygon(0 0, 100% 0, 100% 56px, calc(100% - 19px) 100%, 0 100%); font: 700 18px/22px var(--ag-f); color: #fff; white-space: nowrap; cursor: pointer; transition: color .15s ease, background-color .15s ease; }
+.view#view-ar-guidance .ag-k-tb:hover { background: #262626; }
+.view#view-ar-guidance .ag-k-tb:active { background: #000; }
+.view#view-ar-guidance .ag-k-ck { position: absolute; left: 16px; top: 25.5px; opacity: 0; transform: scale(.6); transition: opacity .15s ease, transform .2s cubic-bezier(.34,1.56,.64,1); }
+.view#view-ar-guidance .ag-k-tb[aria-pressed="true"] { color: var(--ag-or); }
+.view#view-ar-guidance .ag-k-tb[aria-pressed="true"] .ag-k-ck { opacity: 1; transform: none; }
+.view#view-ar-guidance .ag-k-sb { position: absolute; right: -17px; top: 0; width: 4px; height: 875px; border-radius: 4px; background: #E7E9EE; }
+.view#view-ar-guidance .ag-k-sb i { position: absolute; left: 0; top: 0; width: 4px; height: 429px; border-radius: 4px; background: #000; }
+
+/* 4. 영상 조작 안내 (ui_HD_doosan_video_pop_guide 420×236) — 눈 버튼으로 안내 ↔ 영상 */
+.view#view-ar-guidance .ag-k-vg { position: relative; width: 420px; height: 236px; overflow: hidden; background: #7F7F7F; font-family: Arial, 'Pretendard', sans-serif; }
+.view#view-ar-guidance .ag-k-vg.is-guide .ag-k-vg-img { opacity: 0; }
+.view#view-ar-guidance .ag-k-vg-img { transition: opacity .25s ease; position: absolute; left: 124px; top: 41px; display: block; width: 294px; height: 195px; max-width: none; border-radius: 0; box-shadow: none; pointer-events: none; }
+.view#view-ar-guidance .ag-k-vg-g { position: absolute; inset: 0; display: flex; justify-content: space-between; padding: 73px 60px 0 59px; background: rgba(47,43,47,.9); transition: opacity .25s ease; }
+.view#view-ar-guidance .ag-k-vg:not(.is-guide) .ag-k-vg-g { opacity: 0; pointer-events: none; }
+.view#view-ar-guidance .ag-k-vg-it { display: flex; flex-direction: column; align-items: center; width: 115px; }
+.view#view-ar-guidance .ag-k-vg-ic { display: flex; flex-direction: column; align-items: center; height: 80px; }
+.view#view-ar-guidance .ag-k-vg-ic b { margin-top: 3px; font: 700 10px/13px Arial, sans-serif; color: #fff; text-transform: uppercase; }
+.view#view-ar-guidance .ag-k-hand { display: block; height: 56px; width: auto; }
+.view#view-ar-guidance .ag-k-vg.is-guide .ag-k-touch { animation: ag-k-tap 1.6s ease-in-out infinite; transform-origin: 50% 100%; }
+.view#view-ar-guidance .ag-k-vg.is-guide .ag-k-swipe { animation: ag-k-swipe 1.6s ease-in-out infinite; }
+@keyframes ag-k-tap { 0%, 60%, 100% { transform: none; } 30% { transform: translateY(3px) scale(.96); } }
+@keyframes ag-k-swipe { 0%, 100% { transform: translateX(-4px); } 50% { transform: translateX(4px); } }
+.view#view-ar-guidance .ag-k-vg-b { width: 115px; height: 39px; padding: 0; border: 0; border-radius: 28.5px; background: linear-gradient(#4882D2, #566BBD); font: 700 16px/25px 'Malgun Gothic', 'Pretendard', sans-serif; color: #fff; white-space: nowrap; cursor: pointer; transition: filter .12s ease; }
+.view#view-ar-guidance .ag-k-vg-b:hover { filter: brightness(1.1); }
+.view#view-ar-guidance .ag-k-vg-b:active { filter: brightness(.88); }
+.view#view-ar-guidance .ag-k-vg-eye, .view#view-ar-guidance .ag-k-vg-info { position: absolute; top: 17px; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; transition: filter .12s ease; }
+.view#view-ar-guidance .ag-k-vg-eye { left: 17px; }
+.view#view-ar-guidance .ag-k-vg-info { right: 17px; }
+.view#view-ar-guidance .ag-k-vg-eye:hover, .view#view-ar-guidance .ag-k-vg-info:hover { filter: brightness(1.12); }
+.view#view-ar-guidance .ag-k-vg-eye:active, .view#view-ar-guidance .ag-k-vg-info:active { filter: brightness(.88); }
+.view#view-ar-guidance .ag-k-vg-eye svg, .view#view-ar-guidance .ag-k-vg-info svg { display: block; }
+.view#view-ar-guidance .ag-k-vg-eye .ag-k-eye-off, .view#view-ar-guidance .ag-k-vg-eye[aria-pressed="false"] .ag-k-eye-on { display: none; }
+.view#view-ar-guidance .ag-k-vg-eye[aria-pressed="false"] .ag-k-eye-off { display: block; }
+.view#view-ar-guidance .ag-k-vg-dots { position: absolute; left: 180px; top: 28px; display: flex; gap: 20px; }
+.view#view-ar-guidance .ag-k-vg-dots button { position: relative; width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: #fff; opacity: .5; cursor: pointer; transition: opacity .15s ease; }
+.view#view-ar-guidance .ag-k-vg-dots button::after { content: ""; position: absolute; inset: -7px; }
+.view#view-ar-guidance .ag-k-vg-dots button:hover { opacity: .8; }
+.view#view-ar-guidance .ag-k-vg-dots button[aria-selected="true"] { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) { .view#view-ar-guidance .ag-k-pn * { animation: none !important; transition: none !important; } }

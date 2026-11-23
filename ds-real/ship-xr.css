@@ -139,10 +139,10 @@
 /* ===== 패널 카드 슬라이드 ===== */
 .view#view-ship-xr .sh-cf .cf-stage { height: 560px; }
 .view#view-ship-xr .sh-cf .cf-nav { top: 260px; }
-.view#view-ship-xr .sh-cf .cf-card[data-i="0"] { width: 430px; margin-left: -215px; }
-.view#view-ship-xr .sh-cf .cf-card[data-i="1"] { width: 397px; margin-left: -198px; }
-.view#view-ship-xr .sh-cf .cf-card[data-i="2"] { width: 360px; margin-left: -180px; }
-.view#view-ship-xr .sh-cf .cf-card[data-i="3"] { width: 318px; margin-left: -159px; }
+.view#view-ship-xr .sh-cf .cf-card[data-i="0"] { width: 397px; margin-left: -198px; }
+.view#view-ship-xr .sh-cf .cf-card[data-i="1"] { width: 416px; margin-left: -208px; }
+.view#view-ship-xr .sh-cf .cf-card[data-i="2"] { width: 449px; margin-left: -224px; }
+.view#view-ship-xr .sh-cf .cf-card[data-i="3"] { width: 356px; margin-left: -178px; }
 .view#view-ship-xr .sh-pn { position: relative; text-align: left; cursor: default; -webkit-user-select: text; user-select: text; }
 .view#view-ship-xr .sh-c-pop { zoom: .5; display: flex; flex-direction: column; align-items: center; }
 .view#view-ship-xr .sh-c-pop .sh-reopen { zoom: 2; border-color: #142566; color: #142566; background: #fff; }
@@ -196,4 +196,90 @@
 
 @media (prefers-reduced-motion: reduce) {
   .view#view-ship-xr .sh *, .view#view-ship-xr .sh-pn * { animation: none !important; transition: none !important; }
+}
+
+/* ===== 패널 카드 4장(2026-11-20 교체): 미니맵(재사용)·SYSTEM STATUS·북마크 목록·트리 메뉴 =====
+   피그마 크기 그대로 만들고 카드 안에서 비율 축소(.sh-sc) — 글자는 진짜 텍스트 */
+.view#view-ship-xr .sh-sc { position: relative; }
+.view#view-ship-xr .sh-sc-i { position: absolute; left: 0; top: 0; transform-origin: 0 0; font-family: 'Pretendard', 'Pretendard Variable', sans-serif; }
+.view#view-ship-xr .sh-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* 목록 스크롤 막대: 피그마에 디자인 없음 → 패널 선 색(#CBD5E1) 6px */
+.view#view-ship-xr .sh-scroll { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #CBD5E1 transparent; outline: 0; }
+.view#view-ship-xr .sh-scroll::-webkit-scrollbar { width: 6px; }
+.view#view-ship-xr .sh-scroll::-webkit-scrollbar-thumb { border-radius: 3px; background: #CBD5E1; }
+.view#view-ship-xr .sh-scroll::-webkit-scrollbar-track { background: transparent; }
+
+/* 2. SYSTEM STATUS (system-status-list 834:12305) — 바탕 #1A1F2E 77% + 흐림 10.6, 선 3 #00BCD4 20%, 모서리 꺾쇠(사각형 15×5) #00BCD4
+   반투명이라 뒤에 피그마 Panorama 콘텐츠(348:6689) 장면 원본 일부를 깜 */
+.view#view-ship-xr .sh-ss-w { width: 594px; height: 668px; box-sizing: border-box; padding: 24px; border-radius: 6px; background: #3a4a44 url(ship-xr-img/scene-status.webp) center / cover no-repeat; }
+.view#view-ship-xr .sh-ss { position: relative; width: 546px; color: #fff; }
+.view#view-ship-xr .sh-ss-bg { position: absolute; inset: 1px; border-radius: 4px; background: rgba(26,31,46,.77); box-shadow: inset 0 0 0 3px rgba(0,188,212,.2); -webkit-backdrop-filter: blur(10.6px); backdrop-filter: blur(10.6px); }
+.view#view-ship-xr .sh-ss-k { position: absolute; z-index: 2; background: #00BCD4; }
+.view#view-ship-xr .sh-ss-h { position: relative; display: flex; align-items: center; justify-content: space-between; height: 96px; padding: 0 24px; box-sizing: border-box; }
+.view#view-ship-xr .sh-ss-h b { font-weight: 600; font-size: 28px; line-height: 33px; }
+.view#view-ship-xr .sh-ss-dd { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; padding: 0; border: 0; border-radius: 12px; background: transparent; color: #fff; cursor: pointer; transition: background-color .12s ease; }
+.view#view-ship-xr .sh-ss-dd:hover { background: rgba(255,255,255,.08); }
+.view#view-ship-xr .sh-ss-dd:active { background: rgba(255,255,255,.16); }
+.view#view-ship-xr .sh-ss-dd svg { transition: transform .25s ease; }
+.view#view-ship-xr .sh-ss-dd[aria-expanded="false"] svg { transform: rotate(180deg); }
+.view#view-ship-xr .sh-ss-b { position: relative; overflow: hidden; transition: height .3s ease; }
+.view#view-ship-xr .sh-ss-b.is-shut { visibility: hidden; }
+.view#view-ship-xr .sh-ss-l { display: flex; flex-direction: column; padding: 0 1px; }
+.view#view-ship-xr .sh-ss-ln { display: block; height: 2px; background: #2E5866; }
+.view#view-ship-xr .sh-ss-row { position: relative; display: flex; align-items: center; gap: 20px; height: 96px; padding: 0 24px; border: 0; background: transparent; color: #fff; text-align: left; cursor: pointer; transition: background-color .15s ease; }
+.view#view-ship-xr .sh-ss-row:hover { background: rgba(255,255,255,.05); }
+.view#view-ship-xr .sh-ss-row[aria-pressed="true"] { background: var(--cb); }
+.view#view-ship-xr .sh-ss-ac { position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--c); }
+.view#view-ship-xr .sh-ss-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c); opacity: 0; transition: opacity .2s ease; }
+.view#view-ship-xr .sh-ss-row[aria-pressed="true"] .sh-ss-dot { opacity: 1; animation: sh-pulse 2s ease-in-out infinite; }
+@keyframes sh-pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--c); } 50% { box-shadow: 0 0 0 5px rgba(255,255,255,0); opacity: .65; } }
+.view#view-ship-xr .sh-ss-row b { flex: 1; font-weight: 700; font-size: 28px; line-height: 33px; white-space: nowrap; }
+.view#view-ship-xr .sh-ss-bd { display: flex; align-items: center; justify-content: center; width: 68px; height: 44px; border-radius: 6px; opacity: .9; color: #ECECEC; }
+.view#view-ship-xr .sh-ss-bd .sh-eye-on { display: none; color: #fff; }
+.view#view-ship-xr .sh-ss-row[aria-pressed="true"] .sh-eye-on { display: block; }
+.view#view-ship-xr .sh-ss-row[aria-pressed="true"] .sh-eye-off { display: none; }
+.view#view-ship-xr .sh-ss-row:focus-visible { outline: 3px solid #00E5FF; outline-offset: -3px; }
+.view#view-ship-xr .sh-ss-f { display: flex; justify-content: center; align-items: center; height: 32px; }
+.view#view-ship-xr .sh-ss-f i { width: 40px; height: 4px; border-radius: 2px; background: #00BCD4; }
+
+/* 3. 북마크 목록 (bookmark-list-ui 189:4597) — 흰 바탕, 선 1 #CBD5E1, 반경 16, 줄 16/24 간격 16 */
+.view#view-ship-xr .sh-bm { width: 898px; height: 531px; box-sizing: border-box; overflow: hidden; border-radius: 16px; background: #fff; box-shadow: inset 0 0 0 1px #CBD5E1; color: #000; }
+.view#view-ship-xr .sh-bm-h { display: flex; align-items: center; justify-content: space-between; height: 82px; padding: 24px; box-sizing: border-box; border-bottom: 1px solid #CBD5E1; }
+.view#view-ship-xr .sh-bm-ti { display: flex; align-items: center; gap: 8px; }
+.view#view-ship-xr .sh-bm-ti b { font-weight: 600; font-size: 28px; line-height: 33px; }
+.view#view-ship-xr .sh-bm-n { font-family: 'Inter', 'Pretendard', sans-serif; font-weight: 500; font-size: 28px; line-height: 34px; opacity: .6; font-variant-numeric: tabular-nums; }
+.view#view-ship-xr .sh-bm-n output { font: inherit; }
+.view#view-ship-xr .sh-bm-l { height: 448px; margin: 0; padding: 8px 0; box-sizing: border-box; list-style: none; }
+.view#view-ship-xr .sh-bm-r { display: flex; align-items: center; gap: 16px; padding: 16px 24px; overflow: hidden; transition: height .25s ease, padding .25s ease, opacity .2s ease; }
+.view#view-ship-xr .sh-bm-r.is-out { opacity: 0; }
+.view#view-ship-xr .sh-bm-st, .view#view-ship-xr .sh-bm-x { flex: none; display: flex; align-items: center; justify-content: center; padding: 0; border: 0; border-radius: 6px; background: transparent; cursor: pointer; }
+.view#view-ship-xr .sh-bm-st { width: 28px; height: 28px; }
+.view#view-ship-xr .sh-bm-st path { fill: transparent; transition: fill .15s ease; }
+.view#view-ship-xr .sh-bm-st[aria-pressed="true"] path { fill: #FACC15; }
+.view#view-ship-xr .sh-bm-st:active svg { transform: scale(.85); }
+.view#view-ship-xr .sh-bm-t { flex: 1; font-family: 'Inter', 'Pretendard', sans-serif; font-size: 28px; line-height: 36px; }
+.view#view-ship-xr .sh-bm-x { width: 36px; height: 36px; color: #C4C4C4; transition: color .12s ease, background-color .12s ease; }
+.view#view-ship-xr .sh-bm-x:hover { color: #8E8E93; background: rgba(22,22,22,.05); }
+.view#view-ship-xr .sh-bm-x:active { color: #161616; }
+
+/* 4. 트리 메뉴 (Accordion Tree Menu 372:9837) — 1단계 흰/누름 #F3F4F6, 2단계 왼쪽 48, 선택(Active) #F3F4F6 + 체크 */
+.view#view-ship-xr .sh-tm { width: 593px; height: 751px; box-sizing: border-box; overflow: hidden; border-radius: 16px; background: #fff; box-shadow: inset 0 0 0 1px #CBD5E1; }
+.view#view-ship-xr .sh-tm-h { display: flex; align-items: center; height: 64px; padding: 0 24px; box-sizing: border-box; background: #F9FAFB; border-bottom: 1px solid #E5E7EB; border-radius: 16px 16px 0 0; }
+.view#view-ship-xr .sh-tm-h b { font-weight: 700; font-size: 28px; line-height: 33px; color: #111827; }
+.view#view-ship-xr .sh-tm-l { height: 686px; margin: 0; padding: 16px; box-sizing: border-box; list-style: none; }
+.view#view-ship-xr .sh-tm-l ul { margin: 0; padding: 0; list-style: none; }
+.view#view-ship-xr .sh-tm-g + .sh-tm-g, .view#view-ship-xr .sh-tm-g ul li { margin-top: 8px; }
+.view#view-ship-xr .sh-tm-g[aria-expanded="false"] ul { display: none; }
+.view#view-ship-xr .sh-tm-1, .view#view-ship-xr .sh-tm-2 { display: flex; align-items: center; width: 100%; height: 56px; box-sizing: border-box; border: 0; border-bottom: 1px solid #E5E7EB; text-align: left; cursor: pointer; transition: background-color .12s ease; }
+.view#view-ship-xr .sh-tm-1 { padding: 0 16px; background: #fff; font-weight: 700; font-size: 28px; line-height: 33px; color: #111827; white-space: nowrap; }
+.view#view-ship-xr .sh-tm-1:hover { background: #F9FAFB; }
+.view#view-ship-xr .sh-tm-1:active { background: #F3F4F6; }
+.view#view-ship-xr .sh-tm-2 { justify-content: space-between; padding: 0 16px 0 48px; background: transparent; font-weight: 600; font-size: 28px; line-height: 33px; color: #374151; }
+.view#view-ship-xr .sh-tm-2:hover { background: #F9FAFB; }
+.view#view-ship-xr .sh-tm-2[aria-current="true"] { background: #F3F4F6; }
+.view#view-ship-xr .sh-tm-ck { flex: none; opacity: 0; transform: scale(.6); transition: opacity .15s ease, transform .15s ease; }
+.view#view-ship-xr .sh-tm-2[aria-current="true"] .sh-tm-ck { opacity: 1; transform: none; }
+.view#view-ship-xr .sh-tm-1:focus-visible, .view#view-ship-xr .sh-tm-2:focus-visible, .view#view-ship-xr .sh-bm button:focus-visible { outline: 3px solid #1F80FF; outline-offset: -3px; }
+@media (prefers-reduced-motion: reduce) {
+  .view#view-ship-xr .sh-sc-i * { animation: none !important; transition: none !important; }
 }

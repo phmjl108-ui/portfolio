@@ -250,3 +250,84 @@
 .view#view-hd-xr .hx-conn:not(.is-on):not(.is-wait) .hx-st i { animation: hx-st-err .7s ease-in-out infinite; }
 .view#view-hd-xr .hx-conn.is-on:not(.is-wait) .hx-st i { animation: hx-st-ok 2.4s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .view#view-hd-xr .hx-st i { animation: none !important; } }
+
+/* ===== 패널 카드 (후보 1~4: 알림 목록 · 유량 입력 확인 팝업 · 콘텐츠 소개 다이얼로그 · 영상 콘텐츠 패널) ===== */
+.view#view-hd-xr .hx-cf .cf-card { width: max-content; margin-left: 0; translate: -50% 0; }
+.view#view-hd-xr .cf-panel.hx-k-pn { display: inline-block; vertical-align: top; text-align: left; font-family: 'Pretendard', 'Pretendard Variable', sans-serif; }
+.view#view-hd-xr .hx-k-pn p, .view#view-hd-xr .hx-k-pn h3, .view#view-hd-xr .hx-k-pn ul { margin: 0; }
+.view#view-hd-xr .hx-k-pn button { font-family: inherit; letter-spacing: 0; -webkit-tap-highlight-color: transparent; }
+.view#view-hd-xr .hx-k-pn button:focus-visible { outline: 2px solid #2963CD; outline-offset: 1px; }
+/* 대비 바탕: 흰 패널은 메인 화면 + 피그마 Dim(검정 50%), 유량 팝업은 그 화면의 3D 장면 + 검정 70% */
+.view#view-hd-xr .cf-panel.hx-k-scn { padding: 24px; border-radius: 16px; background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(hd-xr-img/main-scene.webp) center / cover no-repeat, #6b6f76; }
+.view#view-hd-xr .cf-panel.hx-k-ots-st { padding: 40px; border-radius: 16px; background: url(hd-xr-img/ots-scene.webp) center / cover no-repeat, #121212; }
+
+/* 2. 유량 입력 확인 팝업 (OTS Confirm Pop-up 468×226) — 흰 80% 유리 */
+.view#view-hd-xr .hx-k-ots { display: flex; flex-direction: column; gap: 16px; width: 468px; padding: 24px; box-sizing: border-box; border-radius: 16px; background: rgba(255,255,255,.8); box-shadow: 0 4px 5px rgba(0,0,0,.05), inset 0 0 0 1px rgba(255,255,255,.35); -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2); transition: opacity .2s ease, transform .2s ease; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-hd-xr .hx-k-ots { background: rgba(255,255,255,.94); } }
+.view#view-hd-xr .hx-k-ots.is-gone { opacity: 0; transform: scale(.96); pointer-events: none; }
+.view#view-hd-xr .hx-k-ots-m { font-weight: 500; font-size: 14px; line-height: 20px; color: #0F172A; white-space: nowrap; }
+.view#view-hd-xr .hx-k-ots-c { display: flex; flex-direction: column; gap: 4px; }
+.view#view-hd-xr .hx-k-ots-in { display: flex; align-items: center; height: 42px; padding: 0 12px; box-sizing: border-box; border-radius: 6px; background: rgba(22,22,22,.5); box-shadow: inset 0 0 0 1px #94A3B8; cursor: text; transition: box-shadow .15s ease; }
+.view#view-hd-xr .hx-k-ots-in:focus-within, .view#view-hd-xr .hx-k-ots-in.is-filled { box-shadow: inset 0 0 0 1px #fff; }
+.view#view-hd-xr .hx-k-ots-in input { -webkit-appearance: none; appearance: none; flex: 1; min-width: 0; height: 100%; margin: 0; padding: 0 8px 0 0; border: 0; outline: 0; border-radius: 0; background: transparent; box-shadow: none; font: 500 14px/20px 'Pretendard', sans-serif; color: #fff; caret-color: #fff; font-variant-numeric: tabular-nums; }
+.view#view-hd-xr .hx-k-ots-in input::placeholder { color: #94A3B8; opacity: 1; }
+.view#view-hd-xr .hx-k-ots-in b { flex: none; font-weight: 700; font-size: 16px; line-height: 19px; color: #fff; }
+.view#view-hd-xr .hx-k-ots-e { min-height: 20px; font-weight: 500; font-size: 12px; line-height: 20px; color: #DC2626; }
+.view#view-hd-xr .hx-k-ots-e.is-off { visibility: hidden; }
+.view#view-hd-xr .hx-k-ots-e.is-shake { animation: hx-k-shake .32s ease; }
+@keyframes hx-k-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.view#view-hd-xr .hx-k-ots-a { display: flex; justify-content: flex-end; }
+.view#view-hd-xr .hx-k-ots-b { min-width: 67px; height: 40px; padding: 8px 16px; box-sizing: border-box; border: 0; border-radius: 6px; background: #2963CD; font-weight: 700; font-size: 14px; line-height: 24px; color: #fff; white-space: nowrap; cursor: pointer; transition: background-color .12s ease; }
+.view#view-hd-xr .hx-k-ots-b:hover { background: #518BE2; }
+.view#view-hd-xr .hx-k-ots-b:active { background: #003087; }
+
+/* 3. 콘텐츠 소개 다이얼로그 (Dialog 1280×820) — 카드 안에서 0.6배 */
+.view#view-hd-xr .hx-k-dlgw { zoom: .6; }
+.view#view-hd-xr .hx-k-dlg { position: relative; display: flex; width: 1280px; height: 820px; overflow: hidden; border-radius: 24px; background: #fff; box-shadow: 0 40px 80px rgba(0,0,0,.4); transition: opacity .2s ease, transform .2s ease; }
+.view#view-hd-xr .hx-k-dlg.is-gone { opacity: 0; transform: scale(.97); pointer-events: none; }
+.view#view-hd-xr .hx-k-sl { position: relative; display: flex; align-items: center; justify-content: center; flex: none; width: 720px; height: 820px; background: #161616; }
+.view#view-hd-xr .hx-k-sl img { display: block; width: 720px; height: 405px; max-width: none; object-fit: contain; border-radius: 0; box-shadow: none; pointer-events: none; -webkit-user-select: none; user-select: none; }
+.view#view-hd-xr .hx-k-dots { position: absolute; left: 50%; bottom: 24px; display: flex; gap: 8px; translate: -50% 0; }
+.view#view-hd-xr .hx-k-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,.45); cursor: pointer; transition: background-color .2s ease; }
+.view#view-hd-xr .hx-k-dots button:hover { background: rgba(255,255,255,.7); }
+.view#view-hd-xr .hx-k-dots button[aria-selected="true"] { background: #fff; }
+.view#view-hd-xr .hx-k-cs { position: relative; display: flex; flex-direction: column; gap: 24px; width: 560px; padding: 56px 56px 32px; box-sizing: border-box; }
+.view#view-hd-xr .hx-k-cb { display: flex; flex-direction: column; gap: 24px; flex: 1; min-height: 0; }
+.view#view-hd-xr .hx-k-ab { display: flex; align-items: center; gap: 10px; height: 16px; font-weight: 700; font-size: 12px; line-height: 14px; letter-spacing: 1.98px; text-transform: uppercase; color: #1A3188; }
+.view#view-hd-xr .hx-k-dlg-t { font-weight: 800; font-size: 36px; line-height: 43px; color: #0F2554; }
+.view#view-hd-xr .hx-k-tx { font-size: 16px; line-height: 24px; color: #404040; }
+.view#view-hd-xr .hx-k-st { font-weight: 600; }
+.view#view-hd-xr .hx-k-tx ul { padding-left: 24px; font-weight: 400; }
+.view#view-hd-xr .hx-k-pg { display: flex; align-items: center; justify-content: center; gap: 6px; height: 73px; padding: 0 6px; box-sizing: border-box; border-top: 1px solid rgba(0,0,0,.08); }
+.view#view-hd-xr .hx-k-pg button { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 6px; background: transparent; font-weight: 400; font-size: 14px; line-height: 20px; letter-spacing: .2px; color: #161616; cursor: pointer; transition: background-color .12s ease, color .12s ease; }
+.view#view-hd-xr .hx-k-pg button:hover:not(:disabled):not([aria-current]) { background: #E5EAFC; }
+.view#view-hd-xr .hx-k-pg button:active:not(:disabled) { background: #1A3188; color: #fff; }
+.view#view-hd-xr .hx-k-pg button[aria-current="page"] { background: #1A3188; color: #fff; cursor: default; }
+.view#view-hd-xr .hx-k-pg-a:disabled { color: #C4C4C4; cursor: default; }
+.view#view-hd-xr .hx-k-x { position: absolute; right: 24px; top: 24px; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; border: 0; background: none; cursor: pointer; }
+.view#view-hd-xr .hx-k-x::before { content: ""; position: absolute; inset: 8px; border-radius: 6px; transition: background-color .12s ease; }
+.view#view-hd-xr .hx-k-x svg { position: relative; }
+.view#view-hd-xr .hx-k-x:hover::before { background: #E2E2E2; }
+.view#view-hd-xr .hx-k-x:active::before { background: #C4C4C4; }
+
+/* 4. 영상 콘텐츠 패널 (Content Panel / Type=Video 726×342) */
+.view#view-hd-xr .hx-k-vd { position: relative; display: flex; flex-direction: column; width: 726px; height: 342px; overflow: hidden; border-radius: 12px; background: #1A1A1F; }
+.view#view-hd-xr .hx-k-va { flex: 1; background: #14141A; }
+.view#view-hd-xr .hx-k-tag { position: absolute; right: 16px; top: 16px; display: flex; align-items: center; gap: 6px; height: 40px; padding: 8px 16px; box-sizing: border-box; border-radius: 6px; background: rgba(0,0,0,.5); box-shadow: 0 4px 5px rgba(0,0,0,.05); font-weight: 700; font-size: 16px; line-height: 24px; color: #fff; white-space: nowrap; }
+.view#view-hd-xr .hx-k-vc { display: flex; align-items: center; gap: 8px; height: 56px; padding: 8px 16px; box-sizing: border-box; background: #242429; }
+.view#view-hd-xr .hx-k-vb { position: relative; display: flex; align-items: center; justify-content: center; flex: none; width: 40px; height: 40px; padding: 0; border: 0; background: none; cursor: pointer; }
+.view#view-hd-xr .hx-k-vb::before { content: ""; position: absolute; inset: 4px; border-radius: 6px; transition: background-color .12s ease; }
+.view#view-hd-xr .hx-k-vb svg { position: relative; }
+.view#view-hd-xr .hx-k-vb:hover::before { background: rgba(255,255,255,.1); }
+.view#view-hd-xr .hx-k-vb:active::before { background: rgba(255,255,255,.2); }
+.view#view-hd-xr .hx-k-play .hx-k-i-pause, .view#view-hd-xr .hx-k-play[aria-pressed="true"] .hx-k-i-play { display: none; }
+.view#view-hd-xr .hx-k-play[aria-pressed="true"] .hx-k-i-pause { display: block; }
+.view#view-hd-xr .hx-k-rs.is-spin svg { animation: hx-k-spin .45s ease; }
+@keyframes hx-k-spin { from { transform: rotate(0); } to { transform: rotate(-360deg); } }
+.view#view-hd-xr .hx-k-pr { position: relative; display: block; flex: 1; height: 4px; margin: 0 8px; border-radius: 2px; background: #4D4D52; cursor: pointer; touch-action: none; }
+.view#view-hd-xr .hx-k-pr::after { content: ""; position: absolute; left: 0; right: 0; top: -10px; bottom: -10px; }
+.view#view-hd-xr .hx-k-pr i { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 2px; background: #5487FA; }
+.view#view-hd-xr .hx-k-pr:focus-visible { outline: 2px solid #5487FA; outline-offset: 4px; }
+.view#view-hd-xr .hx-k-tm { flex: none; min-width: 64px; font: 500 12px/15px 'Inter', 'Pretendard', sans-serif; color: #CCC; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) { .view#view-hd-xr .hx-k-pn * { animation: none !important; transition: none !important; } }

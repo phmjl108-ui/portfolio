@@ -105,3 +105,51 @@
     new MutationObserver(upd).observe(c, { attributes: true, attributeFilter: ['class'] }); upd();
   });
 })();
+
+/* 패널 카드(후보 2~4) 동작 — #view-ar-guidance 안에서만. 1번 VOC 팝업은 위의 VOC 코드가 맡음 */
+(function () {
+  var root = document.getElementById('view-ar-guidance'); if (!root) return;
+  function qa(el, s) { return [].slice.call(el.querySelectorAll(s)); }
+  function each(s, fn) { qa(root, s).forEach(fn); }
+
+  // 2. 장비 모델 선택: 실제 스크롤, 누르면 선택(주황 테두리), 위·아래 키로 이동·Enter 로 선택
+  each('.ag-k-ml-l', function (l) {
+    var its = qa(l, '[role=option]'), k = -1;
+    function sel(o) { its.forEach(function (x) { x.setAttribute('aria-selected', x === o); }); }
+    function kb(i) { k = Math.max(0, Math.min(its.length - 1, i)); its.forEach(function (x, j) { x.classList.toggle('is-kb', j === k); }); its[k].scrollIntoView({ block: 'nearest' }); }
+    its.forEach(function (o) { o.addEventListener('click', function () { sel(o); }); });
+    l.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { kb(k + 1); e.preventDefault(); }
+      else if (e.key === 'ArrowUp') { kb(k - 1); e.preventDefault(); }
+      else if ((e.key === 'Enter' || e.key === ' ') && k >= 0) { sel(its[k]); e.preventDefault(); }
+      e.stopPropagation();
+    });
+    l.addEventListener('blur', function () { its.forEach(function (x) { x.classList.remove('is-kb'); }); k = -1; });
+  });
+
+  // 3. 성능 시험 항목: 누르면 체크(주황 글자 + 체크 표시) 켜고 끄기, 리셋 버튼은 전부 해제
+  each('[data-agk="tl"]', function (t) {
+    var bs = qa(t, '.ag-k-tb'), rs = t.querySelector('.ag-k-rs');
+    bs.forEach(function (b) { b.addEventListener('click', function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true'); }); });
+    rs.addEventListener('click', function () { bs.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); }); rs.classList.remove('is-spin'); void rs.offsetWidth; rs.classList.add('is-spin'); });
+  });
+
+  // 4. 영상 조작 안내: 눈 버튼 = 안내 보이기·숨기기(숨기면 뒤의 영상 장면), ! 버튼 = 안내 다시 보기,
+  //    안내의 두 버튼을 누르면 안내를 닫고 영상으로, 점 = 영상 쪽 표시
+  each('[data-agk="vg"]', function (v) {
+    var eye = v.querySelector('.ag-k-vg-eye'), info = v.querySelector('.ag-k-vg-info');
+    function show(on) { v.classList.toggle('is-guide', on); eye.setAttribute('aria-pressed', on); eye.setAttribute('aria-label', on ? '조작 안내 숨기기' : '조작 안내 보기'); }
+    eye.addEventListener('click', function () { show(!v.classList.contains('is-guide')); });
+    info.addEventListener('click', function () { show(true); });
+    qa(v, '.ag-k-vg-b').forEach(function (b) { b.addEventListener('click', function () { show(false); }); });
+    var dots = qa(v, '.ag-k-vg-dots button');
+    dots.forEach(function (d) { d.addEventListener('click', function () { dots.forEach(function (x) { x.setAttribute('aria-selected', x === d); }); }); });
+  });
+
+  // 카드 슬라이드: 가운데가 아닌 카드 안 부품은 포커스·클릭 안 되게
+  each('.ag-cf .cf-card', function (c) {
+    var p = c.querySelector('.ag-k-pn'); if (!p) return;
+    function upd() { p.inert = !c.classList.contains('is-center'); }
+    new MutationObserver(upd).observe(c, { attributes: true, attributeFilter: ['class'] }); upd();
+  });
+})();

@@ -195,3 +195,104 @@
     refresh();
   });
 })();
+
+/* XU:M 카드(2026-11-20 교체): 조작키 도움말 · 오브젝트 수정/편집 · 메모 · 파일 업로드 디스플레이 */
+(function () {
+  var root = document.getElementById('view-xum'); if (!root) return;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function qa(el, s) { return [].slice.call(el.querySelectorAll(s)); }
+  function q(el, s) { return el.querySelector(s); }
+  function isCenter(el) { var c = el.closest('.cf-card'); return !c || c.classList.contains('is-center'); }
+  function onCenter(el, fn) {
+    var c = el.closest('.cf-card'); if (!c) { fn(true); return; }
+    var was = null;
+    function upd() { var on = c.classList.contains('is-center'); if (on !== was) { was = on; fn(on); } }
+    new MutationObserver(upd).observe(c, { attributes: true, attributeFilter: ['class'] }); upd();
+  }
+  function flash(el, ms) { if (!el) return; el.classList.add('is-on'); clearTimeout(el.__t); el.__t = setTimeout(function () { el.classList.remove('is-on'); }, ms || 180); }
+  function hideShow(p, reset) { p.classList.add('is-closed'); setTimeout(function () { if (reset) reset(); p.classList.remove('is-closed'); }, 1200); }
+
+  // 1. 조작키 도움말: 키보드(W·A·S·D·Q·E·방향키·Enter·Space·F1)를 누르면 그 키가 눌림, 키를 눌러도 눌림.
+  //    마우스 그림: 왼쪽 버튼·오른쪽 버튼·휠을 그 위에서 쓰면 해당 부분이 진해짐. 닫으면 1.2초 뒤 다시 뜸
+  qa(root, '[data-xu="controls"]').forEach(function (p) {
+    function vis() { var r = p.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.width > 0; }
+    qa(p, 'button.xu-k').forEach(function (b) { b.addEventListener('click', function () { flash(b); }); });
+    document.addEventListener('keydown', function (e) {
+      if (!vis() || !isCenter(p) || e.repeat || e.ctrlKey || e.metaKey || e.altKey || /INPUT|TEXTAREA/.test((e.target || {}).tagName || '') || (e.target && e.target.isContentEditable)) return;
+      var k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      var ks = qa(p, 'button.xu-k').filter(function (b) { return b.getAttribute('data-k') === k; });
+      if (!ks.length) return;
+      if (k === ' ' || k.indexOf('Arrow') === 0 || k === 'F1') e.preventDefault();
+      ks.forEach(function (b) { flash(b); });
+    });
+    qa(p, '.xu-mbtn').forEach(function (m) {
+      var act = m.getAttribute('data-m');
+      if (act === 'wheel') {
+        m.addEventListener('wheel', function (e) { e.preventDefault(); e.stopPropagation(); flash(m, 220); }, { passive: false });
+        m.addEventListener('click', function () { flash(m, 220); });
+      } else {
+        var btn = act === 'down0' ? 0 : 2;
+        m.addEventListener('pointerdown', function (e) { if (e.button === btn) flash(m, 260); });
+        m.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') flash(m, 260); });
+        if (btn === 2) m.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+      }
+    });
+    q(p, '.xu-ctl-x').addEventListener('click', function () { hideShow(p); });
+  });
+
+  // 슬라이더(0~100): 끌기·누르기·방향키
+  function slider(sl, onChange) {
+    var th = q(sl, '.xu-sl-th');
+    function set(v) { v = Math.max(0, Math.min(100, Math.round(v))); sl.setAttribute('aria-valuenow', v); sl.style.setProperty('--v', v); if (onChange) onChange(v); }
+    function at(e) { var r = sl.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); }
+    sl.addEventListener('pointerdown', function (e) { e.preventDefault(); e.stopPropagation(); sl.setPointerCapture(e.pointerId); sl.classList.add('is-drag'); sl.focus(); at(e); });
+    sl.addEventListener('pointermove', function (e) { if (sl.classList.contains('is-drag')) at(e); });
+    ['pointerup', 'pointercancel'].forEach(function (t) { sl.addEventListener(t, function () { sl.classList.remove('is-drag'); }); });
+    sl.addEventListener('keydown', function (e) {
+      var n = +sl.getAttribute('aria-valuenow'), d = { ArrowRight: 2, ArrowUp: 2, ArrowLeft: -2, ArrowDown: -2, PageUp: 10, PageDown: -10 }[e.key];
+      if (e.key === 'Home') d = -n; if (e.key === 'End') d = 100 - n; if (d == null) return;
+      e.preventDefault(); e.stopPropagation(); set(n + d);
+    });
+    set(+sl.getAttribute('aria-valuenow'));
+    return set;
+  }
+
+  // 2. 수정/편집: X·Y·Z 회전·회전·크기 슬라이더, 회전 축 체크(X·Y·Z), 1:1 Scale = 크기 기준값, Reset = 모두 처음 값, 삭제·닫기·적용하기 = 패널이 닫혔다가 1.2초 뒤 다시 뜸
+  qa(root, '[data-xu="edit"]').forEach(function (p) {
+    var sets = qa(p, '.xu-sl').map(function (sl) { return { el: sl, set: slider(sl) }; });
+    var axes = qa(p, '.xu-ed-ax input'), axDef = axes.map(function (i) { return i.checked; });
+    function reset() { sets.forEach(function (s) { s.set(+s.el.getAttribute('data-def')); }); axes.forEach(function (i, k) { i.checked = axDef[k]; }); }
+    q(p, '.xu-ed-11').addEventListener('click', function () { sets[sets.length - 1].set(50); });
+    var rs = q(p, '.xu-ed-rs');
+    rs.addEventListener('click', function () { reset(); rs.classList.remove('is-spin'); void rs.offsetWidth; if (!reduce) rs.classList.add('is-spin'); });
+    [q(p, '.xu-ed-x'), q(p, '.xu-ed-dl'), q(p, '.xu-ed-ap')].forEach(function (b) { b.addEventListener('click', function () { hideShow(p, reset); }); });
+  });
+
+  // 3. 메모: 본문은 실제 입력칸 — 카드 슬라이드의 끌기·방향키와 겹치지 않게
+  qa(root, '[data-xu="memo"] .xu-memo-b').forEach(function (t) {
+    t.addEventListener('keydown', function (e) { e.stopPropagation(); });
+    t.addEventListener('wheel', function (e) { e.stopPropagation(); }, { passive: true });
+  });
+
+  // 4. 파일 업로드 디스플레이: 원을 누르면 파일 고르기, 끌어다 놓기도 됨. 이미지·영상은 판 가득 보여 주고, 그 밖의 파일은 이름을 보여 줌
+  qa(root, '[data-xu="upload"]').forEach(function (p) {
+    var inp = q(p, '.xu-up-f'), view = q(p, '.xu-up-v'), txt = q(p, '.xu-up-t'), msg = txt.textContent, url = '';
+    function clear() { if (url) URL.revokeObjectURL(url); url = ''; view.hidden = true; view.innerHTML = ''; txt.textContent = msg; }
+    function show(f) {
+      if (!f) return; clear();
+      if (/^image\/|^video\//.test(f.type)) {
+        url = URL.createObjectURL(f);
+        var m = document.createElement(/^image/.test(f.type) ? 'img' : 'video'); m.src = url; m.alt = f.name;
+        if (m.tagName === 'VIDEO') { m.muted = true; m.loop = true; m.autoplay = true; m.playsInline = true; }
+        view.appendChild(m); view.hidden = false;
+      } else txt.textContent = f.name;
+    }
+    q(p, '.xu-up-b').addEventListener('click', function () { inp.click(); });
+    view.addEventListener('click', function () { inp.click(); });
+    inp.addEventListener('change', function () { show(inp.files[0]); inp.value = ''; });
+    ['dragenter', 'dragover'].forEach(function (t) { p.addEventListener(t, function (e) { e.preventDefault(); p.classList.add('is-over'); }); });
+    ['dragleave', 'drop'].forEach(function (t) { p.addEventListener(t, function (e) { e.preventDefault(); p.classList.remove('is-over'); }); });
+    p.addEventListener('drop', function (e) { if (isCenter(p) && e.dataTransfer && e.dataTransfer.files[0]) show(e.dataTransfer.files[0]); });
+    onCenter(p, function (on) { if (!on) clear(); });
+  });
+})();

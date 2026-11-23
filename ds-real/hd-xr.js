@@ -177,3 +177,72 @@
     if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { bar.style.width = w; io.disconnect(); } }); io.observe(b); } else bar.style.width = w;
   });
 })();
+
+/* 패널 카드(후보 1~4) 동작 — #view-hd-xr 안에서만. 1번 알림 패널은 위의 '.hx-am' 스크롤 코드가 맡음 */
+(function () {
+  var root = document.getElementById('view-hd-xr'); if (!root) return;
+  function qa(el, s) { return [].slice.call(el.querySelectorAll(s)); }
+  function each(s, fn) { qa(root, s).forEach(fn); }
+  // 닫기: 사라졌다가 1.2초 뒤 다시 뜸
+  function gone(el, after) { el.classList.add('is-gone'); clearTimeout(el.__t); el.__t = setTimeout(function () { if (after) after(); el.classList.remove('is-gone'); }, 1200); }
+
+  // 2. 유량 입력 확인 팝업: 숫자만, 3000~5000 밖이면 오류 문구, Input → 범위 안이면 닫혔다가 다시 뜸, 밖이면 오류 문구 흔들림
+  each('[data-hxk="ots"]', function (p) {
+    var inp = p.querySelector('input'), box = p.querySelector('.hx-k-ots-in'), err = p.querySelector('.hx-k-ots-e'), btn = p.querySelector('.hx-k-ots-b');
+    function ok() { var v = +inp.value; return inp.value !== '' && v >= 3000 && v <= 5000; }
+    function sync() { box.classList.toggle('is-filled', inp.value !== ''); err.classList.toggle('is-off', inp.value !== '' && ok()); }
+    inp.addEventListener('input', function () { var v = inp.value.replace(/[^0-9]/g, '').slice(0, 5); if (v !== inp.value) inp.value = v; sync(); });
+    function submit() {
+      if (ok()) { gone(p, function () { inp.value = ''; box.classList.remove('is-filled'); err.classList.remove('is-off'); }); return; }
+      err.classList.remove('is-off', 'is-shake'); void err.offsetWidth; err.classList.add('is-shake');
+    }
+    btn.addEventListener('click', submit);
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') submit(); });
+  });
+
+  // 3. 콘텐츠 소개 다이얼로그: 페이지 번호·화살표(처음·끝에서 비활성), 미리보기 점, 닫기 → 다시 뜸
+  each('[data-hxk="dlg"]', function (d) {
+    var nums = qa(d, '.hx-k-pg-n'), N = nums.length, cur = 1, ar = {};
+    qa(d, '.hx-k-pg-a').forEach(function (b) { ar[b.dataset.go] = b; });
+    function go(k) {
+      cur = Math.max(1, Math.min(N, k));
+      nums.forEach(function (b) { if (+b.dataset.p === cur) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+      ar.prev.disabled = ar.first.disabled = cur === 1; ar.next.disabled = ar.last.disabled = cur === N;
+    }
+    nums.forEach(function (b) { b.addEventListener('click', function () { go(+b.dataset.p); }); });
+    ar.prev.addEventListener('click', function () { go(cur - 1); });
+    ar.next.addEventListener('click', function () { go(cur + 1); });
+    ar.first.addEventListener('click', function () { go(1); });
+    ar.last.addEventListener('click', function () { go(N); });
+    var dots = qa(d, '.hx-k-dots button');
+    dots.forEach(function (b) { b.addEventListener('click', function () { dots.forEach(function (x) { x.setAttribute('aria-selected', x === b); }); }); });
+    d.querySelector('.hx-k-x').addEventListener('click', function () { gone(d, function () { go(1); }); });
+    go(1);
+  });
+
+  // 4. 영상 콘텐츠 패널: 재생·일시정지, 처음부터, 재생 막대 누르기·끌기·방향키, 시간 표시
+  each('[data-hxk="vd"]', function (v) {
+    var play = v.querySelector('.hx-k-play'), rs = v.querySelector('.hx-k-rs'), bar = v.querySelector('.hx-k-pr'), fill = bar.querySelector('i'), tm = v.querySelector('.hx-k-tm');
+    var DUR = 222, t = 0, timer = 0, last = 0, drag = false;
+    function f(s) { s = Math.floor(s); return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60); }
+    function draw() { fill.style.width = (t / DUR * 100) + '%'; var txt = f(t) + ' / ' + f(DUR); tm.textContent = txt; bar.setAttribute('aria-valuenow', Math.floor(t)); bar.setAttribute('aria-valuetext', txt); }
+    function loop(now) { if (!timer) return; t = Math.min(DUR, t + (now - last) / 1000); last = now; draw(); if (t >= DUR) { stop(); return; } timer = requestAnimationFrame(loop); }
+    function start() { if (t >= DUR) t = 0; play.setAttribute('aria-pressed', 'true'); play.setAttribute('aria-label', '일시정지'); last = performance.now(); timer = requestAnimationFrame(loop); }
+    function stop() { cancelAnimationFrame(timer); timer = 0; play.setAttribute('aria-pressed', 'false'); play.setAttribute('aria-label', '재생'); }
+    play.addEventListener('click', function () { if (timer) stop(); else start(); });
+    rs.addEventListener('click', function () { t = 0; last = performance.now(); draw(); rs.classList.remove('is-spin'); void rs.offsetWidth; rs.classList.add('is-spin'); });
+    function at(e) { var r = bar.getBoundingClientRect(); t = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * DUR; last = performance.now(); draw(); }
+    bar.addEventListener('pointerdown', function (e) { drag = true; bar.setPointerCapture(e.pointerId); at(e); e.preventDefault(); });
+    bar.addEventListener('pointermove', function (e) { if (drag) at(e); });
+    bar.addEventListener('pointerup', function () { drag = false; });
+    bar.addEventListener('pointercancel', function () { drag = false; });
+    bar.addEventListener('keydown', function (e) { var d = e.key === 'ArrowRight' ? 5 : e.key === 'ArrowLeft' ? -5 : 0; if (!d) return; t = Math.max(0, Math.min(DUR, t + d)); draw(); e.preventDefault(); e.stopPropagation(); });
+    // 옆 카드로 넘어가면 멈춤
+    var card = v.closest('.cf-card');
+    if (card) new MutationObserver(function () { if (!card.classList.contains('is-center') && timer) stop(); }).observe(card, { attributes: true, attributeFilter: ['class'] });
+    draw();
+  });
+
+  // 카드 안 부품의 방향키는 부품이 씀(카드 넘김으로 새지 않게)
+  each('.hx-cf .hx-k-pn', function (p) { p.addEventListener('keydown', function (e) { if (e.target.closest('input, [role=slider], .hx-am-list')) e.stopPropagation(); }); });
+})();

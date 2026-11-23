@@ -176,6 +176,70 @@
   });
 })();
 
+/* 2026-11-23 한기대 실습 카드 4장(전체메뉴·조작법 가이드·로크웰 패널·평가결과) 동작 */
+(function () {
+  var root = document.getElementById('view-koreatech-step'); if (!root) return;
+  var cf = root.querySelector('.ks-cf'); if (!cf) return;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function each(sel, fn, el) { [].forEach.call((el || cf).querySelectorAll(sel), fn); }
+  function q(el, sel) { return el.querySelector(sel); }
+
+  // 닫기(X·확인·하단 버튼) → 닫히는 모션 후 1.2초 뒤 다시 뜸
+  each('.cf-panel', function (p) {
+    each('[data-close]', function (b) { b.addEventListener('click', function () {
+      p.classList.add('is-closed'); clearTimeout(p.__rt);
+      p.__rt = setTimeout(function () { p.classList.remove('is-closed'); }, 1200);
+    }); }, p);
+  });
+
+  // 전체메뉴: 2뎁스 항목 누르면 State=On(주황 그라데이션) — 전체에서 하나만
+  each('.ks-mn', function (m) {
+    var bs = [].slice.call(m.querySelectorAll('.ks-mn-2'));
+    bs.forEach(function (b) { b.addEventListener('click', function () { bs.forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); }); });
+  });
+
+  // 로크웰 패널: 선택 버튼 → 스케일 선택 화면 / 유지 시간 키패드 → 값이 버튼에 들어감
+  each('.ks-rw', function (rw) {
+    var views = {}; each('.ks-rw-v', function (v) { views[v.classList[1].slice(3)] = v; }, rw);
+    var from = null, buf = '', out = q(views.kp, '.is-out b');
+    function show(k) { for (var x in views) views[x].hidden = x !== k; var f = q(views[k], 'button, input'); if (f) f.focus({ preventScroll: true }); }
+    function setVal(btn, v) { q(btn, 'span').textContent = v; btn.classList.add('is-set'); }
+    each('[data-go]', function (b) { b.addEventListener('click', function () {
+      from = b; var k = b.dataset.go;
+      if (k === 'kp') { buf = /^[0-9.]+$/.test(q(b, 'span').textContent) ? q(b, 'span').textContent : ''; out.textContent = buf; }
+      else each('.ks-rw-opt', function (o) { o.classList.toggle('is-cur', o.dataset.v === q(b, 'span').textContent); }, views[k]);
+      show(k);
+    }); }, rw);
+    each('.ks-rw-opt', function (o) { o.addEventListener('click', function () { setVal(from, o.dataset.v); show('main'); from.focus({ preventScroll: true }); }); }, rw);
+    each('.ks-rw-back', function (b) { b.addEventListener('click', function () { show('main'); if (from) from.focus({ preventScroll: true }); }); }, rw);
+    each('.ks-rw-key', function (k) { k.addEventListener('click', function () {
+      var v = k.dataset.v;
+      if (v === 'Del') buf = buf.slice(0, -1);
+      else if (v === '.' ? buf.indexOf('.') < 0 && buf.length < 6 : buf.length < 6) buf += (v === '.' && !buf ? '0.' : v);
+      out.textContent = buf;
+    }); }, rw);
+    q(views.kp, '.ks-rw-ok').addEventListener('click', function () { if (buf && from) setVal(from, buf); show('main'); if (from) from.focus({ preventScroll: true }); });
+    // 입력칸은 숫자·소수점만
+    each('input', function (i) { i.addEventListener('input', function () { var v = i.value.replace(/[^0-9.]/g, ''); var p = v.split('.'); if (p.length > 2) v = p[0] + '.' + p.slice(1).join(''); if (v !== i.value) i.value = v; }); }, rw);
+  });
+
+  // 평가결과: 화면에 보이면 점수·진행도가 0 부터 차오름
+  each('.ks-ev', function (ev) {
+    var nums = [].slice.call(ev.querySelectorAll('[data-count]'));
+    function run() {
+      nums.forEach(function (n) {
+        var to = +n.dataset.count, suf = n.dataset.suf || '', t0 = 0;
+        if (reduce) { n.textContent = to + suf; return; }
+        function tick(ts) { if (!t0) t0 = ts; var k = Math.min(1, (ts - t0) / 900); n.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + suf; if (k < 1) requestAnimationFrame(tick); }
+        requestAnimationFrame(tick);
+      });
+    }
+    var card = ev.closest('.cf-card'), was = false;
+    new MutationObserver(function () { var c = card.classList.contains('is-center'); if (c && !was) run(); was = c; }).observe(card, { attributes: true, attributeFilter: ['class'] });
+    if (card.classList.contains('is-center')) { was = true; run(); }
+  });
+})();
+
 /* 한기대 실습 카드 슬라이드: 패널 폭(400~1084px)이 제각각이라 카드 폭에 맞춰 간격을 잡는 자체 구현
    드래그·스와이프·가로 휠·화살표·점·옆 카드 누르기로 이동, 옆 카드 안 부품은 포커스·클릭 안 됨 */
 (function () {

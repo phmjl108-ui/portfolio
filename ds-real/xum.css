@@ -202,3 +202,97 @@
 /* 입력칸: 브라우저 기본 모양 제거. 검색칸은 바깥 틀(.xu-search)만 테두리·포커스 표시, 칸 자체가 틀인 입력(.xu-inp·.xu-gi)은 자기 테두리 하나만 */
 .view#view-xum .xu-search input, .view#view-xum .xu-msearch input { -webkit-appearance: none; appearance: none; border: 0; outline: 0; background: transparent; }
 .view#view-xum .xu-inp, .view#view-xum .xu-gi { -webkit-appearance: none; appearance: none; outline: 0; }
+
+
+/* ── 2026-11-20 카드 교체(후보 1~4): 조작키 도움말 · 오브젝트 수정/편집 · 메모 · 파일 업로드 디스플레이 ──
+   피그마 크기 그대로 만들고 zoom 으로 줄임(.xu-cf 자체 구현이 패널 폭을 재서 간격을 잡음) */
+.view#view-xum .xu-sc { position: relative; width: max-content; }
+.view#view-xum .xu-cp { position: relative; box-sizing: border-box; transition: opacity .2s ease, transform .2s ease; }
+.view#view-xum .xu-cp.is-closed { opacity: 0; transform: scale(.96); pointer-events: none; }
+.view#view-xum .xu-cp h3, .view#view-xum .xu-cp p { margin: 0; }
+.view#view-xum .xu-cp :where(button) { margin: 0; padding: 0; border: 0; background: none; font: inherit; color: inherit; -webkit-tap-highlight-color: transparent; }
+.view#view-xum .xu-cp button:focus-visible, .view#view-xum .xu-cp [tabindex]:focus-visible { outline: 3px solid #9D81FF; outline-offset: 3px; }
+.view#view-xum .xu-cp svg { display: block; flex: none; }
+
+/* 1. 조작키 도움말 (ui_popup_controls_pc 13370:8761, 1028×902 → zoom .55). 흰 팝업이라 실제 협업룸 장면을 둘레 12px 로 깔아 대비 */
+.view#view-xum .xu-sc-ctl { padding: 12px; border-radius: 14px; background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)), #9A9A9A url(xum-img/scene-room.webp) center / cover no-repeat; }
+.view#view-xum .xu-ctl { zoom: .55; width: 1028px; height: 902px; border-radius: 16px; background: #fff; font-family: var(--xu-pre); color: #292929; }
+.view#view-xum .xu-ctl-t { position: absolute; left: 0; right: 0; top: 40px; font: 500 32px/32px var(--xu-pre); text-align: center; }
+.view#view-xum .xu-ctl-x { position: absolute; left: 960px; top: 20px; width: 48px; height: 48px; border-radius: 8px; color: #757575; cursor: pointer; transition: color .12s ease, background-color .12s ease; }
+.view#view-xum .xu-ctl-x:hover { color: #292929; background: #F0F0F0; }
+.view#view-xum .xu-ctl-x:active { background: #E5E5E5; }
+.view#view-xum .xu-ct { position: absolute; height: 230px; border-radius: 12px; background: #F0F0F0; }
+.view#view-xum .xu-ct p { position: absolute; left: 0; right: 0; top: 171px; font: 400 24px/36px var(--xu-pre); text-align: center; }
+.view#view-xum .xu-k { position: absolute; display: flex; align-items: center; justify-content: center; box-sizing: border-box; border-radius: 6px; background: #716CE3; color: #fff; font: 400 26px/47px var(--xu-pre); cursor: pointer; transition: transform .08s ease, background-color .12s ease, box-shadow .12s ease; }
+.view#view-xum .xu-k-w { border-radius: 8px; font-size: 24px; }
+.view#view-xum .xu-k-f1 { left: 632px; }
+.view#view-xum button.xu-k:hover { background: #8580EA; }
+.view#view-xum button.xu-k.is-on, .view#view-xum button.xu-k:active { background: #5A54D6; transform: translateY(3px) scale(.96); box-shadow: inset 0 3px 0 rgba(0,0,0,.18); }
+.view#view-xum .xu-k-off { background: #DBDBDB; box-shadow: inset 0 0 0 2px #8F8F8F; color: #8F8F8F; opacity: .5; cursor: default; }
+.view#view-xum .xu-mbtn { position: absolute; width: 44px; height: 88px; cursor: pointer; }
+.view#view-xum .xu-ms-h { transition: fill .12s ease; }
+.view#view-xum .xu-mbtn.is-on .xu-ms-h { fill: #3F38C9; }
+.view#view-xum .xu-mbtn.is-on .xu-ms { transform: translateY(2px); }
+.view#view-xum .xu-ms { transition: transform .08s ease; }
+
+/* 2. 오브젝트 수정/편집 (ui_popup_user_basic 13370:9640, 434×1247 → zoom .5): 검정 50% 판 + 회색 50% 흐림 판 → 글래스, 뒤는 실제 협업룸 장면(같은 화면 13370:9576 의 패널 자리) */
+.view#view-xum .xu-sc-ed { border-radius: 5px; background: #9A9A9A url(xum-img/scene-edit.webp) 0 0 / 100% 100% no-repeat; }
+.view#view-xum .xu-ed { zoom: .5; width: 434px; height: 1247px; border-radius: 10px; background: rgba(0,0,0,.5); -webkit-backdrop-filter: blur(6px) saturate(1.15); backdrop-filter: blur(6px) saturate(1.15); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); font-family: var(--xu-pre); color: #fff; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .view#view-xum .xu-ed { background: rgba(0,0,0,.66); } }
+.view#view-xum .xu-ed > * { position: absolute; }
+.view#view-xum .xu-ed-t { left: 24px; top: 24px; font: 800 32px/32px var(--xu-pre); }
+.view#view-xum .xu-ed-f { left: 24px; top: 64px; font: 500 24px/28px var(--xu-pre); }
+.view#view-xum .xu-ed-ln { left: 24px; top: 128px; width: 386px; height: 2px; background: #8F8F8F; }
+.view#view-xum .xu-ed-c { left: 24px; top: 138px; width: 386px; font: 500 24px/30px var(--xu-pre); text-align: right; }
+.view#view-xum .xu-ed-c b { font-weight: 700; }
+.view#view-xum .xu-ed-mp { left: 24px; top: 176px; width: 386px; height: 840px; border-radius: 10px; background: rgba(171,171,171,.5); -webkit-backdrop-filter: blur(5.33px); backdrop-filter: blur(5.33px); }
+.view#view-xum .xu-ed-g { left: 36px; width: 362px; box-sizing: border-box; border-radius: 10px; background: rgba(0,0,0,.2); box-shadow: inset 0 0 0 1px #4F4F4F; }
+.view#view-xum .xu-ed-b { display: flex; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: 50%; background: #424242; cursor: pointer; transition: background-color .12s ease, transform .08s ease; }
+.view#view-xum .xu-ed-b:hover { background: #555; }
+.view#view-xum .xu-ed-b:active { background: #333; transform: scale(.95); }
+.view#view-xum .xu-ed-x { left: 338px; top: 24px; }
+.view#view-xum .xu-ed-rs { left: 48px; top: 200px; }
+.view#view-xum .xu-ed-dl { left: 314px; top: 200px; }
+.view#view-xum .xu-ed-ri { position: absolute; left: 8px; top: 8px; }
+.view#view-xum .xu-ed-rt { position: relative; }
+.view#view-xum .xu-ed-rs.is-spin .xu-ed-ri { animation: xu-spin .5s ease; }
+@keyframes xu-spin { to { transform: rotate(-360deg); } }
+.view#view-xum .xu-ed-r { left: 59px; display: flex; align-items: center; gap: 12px; height: 80px; font: 500 32px/80px var(--xu-pre); }
+.view#view-xum .xu-ed-ri2 { height: 48px; gap: 8px; }
+.view#view-xum .xu-ed-sc { font: 500 26.67px/27px var(--xu-pre); }
+.view#view-xum .xu-ed-ax { top: 734px; display: flex; align-items: center; gap: 10px; height: 32px; cursor: pointer; font: 700 21.33px/25px var(--xu-pre); }
+.view#view-xum .xu-ed-ax input { position: absolute; right: 0; top: 0; width: 32px; height: 32px; margin: 0; opacity: 0; cursor: pointer; }
+.view#view-xum .xu-ed-ck-on { opacity: 0; transition: opacity .12s ease; }
+.view#view-xum .xu-ed-ax input:checked + .xu-ed-ck .xu-ed-ck-on { opacity: 1; }
+.view#view-xum .xu-ed-ax input:focus-visible + .xu-ed-ck { outline: 3px solid #9D81FF; outline-offset: 2px; border-radius: 7px; }
+.view#view-xum .xu-ed-11 { left: 276px; top: 891px; height: 30px; padding: 0 16px !important; border-radius: 15px; background: #1D83EF !important; font: 500 16px/20px var(--xu-noto) !important; color: #fff; white-space: nowrap; cursor: pointer; transition: background-color .12s ease; }
+.view#view-xum .xu-ed-11:hover { background: #3B95F2 !important; }
+.view#view-xum .xu-ed-11:active { background: #1569C4 !important; }
+.view#view-xum .xu-sl { left: 59px; width: 316px; height: 40px; cursor: pointer; touch-action: none; outline: none; }
+.view#view-xum .xu-sl-tr { position: absolute; left: 0; right: 0; top: 17px; height: 7px; border-radius: 5px; background: #000; }
+.view#view-xum .xu-sl-th { position: absolute; top: 8px; left: calc(var(--v, 50) * 1%); width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.06); transition: transform .1s ease; }
+.view#view-xum .xu-sl:hover .xu-sl-th, .view#view-xum .xu-sl.is-drag .xu-sl-th { transform: scale(1.15); }
+.view#view-xum .xu-sl:focus-visible .xu-sl-th { box-shadow: 0 0 0 4px #9D81FF; }
+.view#view-xum .xu-ed-ap { left: 84px; top: 1142px; width: 266px; height: 60px; border-radius: 32px; background: #716CE3 !important; font: 500 24px/16px var(--xu-noto) !important; color: #fff; cursor: pointer; transition: background-color .12s ease, transform .08s ease; }
+.view#view-xum .xu-ed-ap:hover { background: #8580EA !important; }
+.view#view-xum .xu-ed-ap:active { background: #5A54D6 !important; transform: scale(.98); }
+
+/* 3. 메모 (ui_memo_list 13370:12777, 408×947 → zoom .6): 제목 Bold 22 · 본문 Medium 22/24, 본문은 실제 입력칸(넘치면 세로 스크롤) */
+.view#view-xum .xu-memo { zoom: .6; display: flex; flex-direction: column; width: 408px; height: 947px; padding: 16px 24px; border-radius: 0 0 10px 10px; background: #424242; color: #fff; font-family: var(--xu-pre); }
+.view#view-xum .xu-memo-t { height: 41px; padding-top: 6px; box-sizing: border-box; font: 700 22px/24px var(--xu-pre); }
+.view#view-xum .xu-memo-b { flex: 1; width: 360px; min-height: 0; margin: 0; padding: 0; border: 0; outline: 0; background: transparent; -webkit-appearance: none; appearance: none; resize: none; color: #fff; caret-color: #fff; font: 500 22px/24px var(--xu-pre); word-break: break-all; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #8F8F8F transparent; }
+.view#view-xum .xu-memo:focus-within { box-shadow: inset 0 0 0 2px #9D81FF; }
+
+/* 4. 파일 업로드 디스플레이 (ui_panel_fileupload_display 12854:25875, 1200×800 → zoom .5): 원을 누르거나 파일을 끌어다 놓으면 업로드 */
+.view#view-xum .xu-up { zoom: .5; width: 1200px; height: 800px; border-radius: 30px; background: #DBDBDB; box-shadow: inset 0 0 0 4px #C2C2C2; overflow: hidden; font-family: var(--xu-noto); transition: box-shadow .15s ease; }
+.view#view-xum .xu-up.is-over { box-shadow: inset 0 0 0 4px #6235FF; }
+.view#view-xum .xu-up-in { position: absolute; left: 426px; top: 243px; width: 348px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+.view#view-xum .xu-up-b { display: flex; align-items: center; justify-content: center; width: 220px; height: 220px; border-radius: 50%; background: #fff !important; cursor: pointer; transition: transform .1s ease, box-shadow .15s ease; }
+.view#view-xum .xu-up-b:hover { box-shadow: 0 6px 20px rgba(98,53,255,.18); }
+.view#view-xum .xu-up-b:active { transform: scale(.96); }
+.view#view-xum .xu-up-t { width: 348px; font: 400 36px/53px var(--xu-noto); color: #292929; text-align: center; white-space: nowrap; }
+.view#view-xum .xu-up-v { position: absolute; inset: 4px; display: flex; align-items: center; justify-content: center; border-radius: 26px; background: #DBDBDB; }
+.view#view-xum .xu-up-v img, .view#view-xum .xu-up-v video { max-width: 100%; max-height: 100%; object-fit: contain; }
+.view#view-xum .xu-up-v[hidden] { display: none; }
+@media (max-width: 640px) { .view#view-xum .xu-ctl { zoom: .3; } .view#view-xum .xu-ed { zoom: .4; } .view#view-xum .xu-memo { zoom: .5; } .view#view-xum .xu-up { zoom: .28; } }
+@media (prefers-reduced-motion: reduce) { .view#view-xum .xu-cp, .view#view-xum .xu-cp * { animation: none !important; transition: none !important; } }
