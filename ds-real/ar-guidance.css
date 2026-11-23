@@ -291,3 +291,6 @@
 
 /* 카드: 패널 뒤 배경 장면 빼기(사용자 지시) — 패널만 보이게 */
 .view#view-ar-guidance .cf-panel.ag-k-scn { background: none !important; padding: 0 !important; border-radius: 0 !important; }
+
+/* 장면 바탕 제거: UI만 */
+.view#view-ar-guidance .ag-scene { background-image: none !important; }

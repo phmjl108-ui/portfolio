@@ -51,3 +51,6 @@
 .view#view-mcu .mb-key { display: block; flex: none; }
 
 @media (prefers-reduced-motion: reduce) { .view#view-mcu .mb *, .view#view-mcu .mb { animation: none !important; transition: none !important; } }
+
+/* 장면 바탕 제거: UI만 */
+.view#view-mcu .mb-scene { background-image: none !important; }
