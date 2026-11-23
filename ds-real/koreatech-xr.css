@@ -368,3 +368,32 @@
 
 /* 장면 바탕 제거: UI만 */
 .view#view-koreatech-xr .kx-scene, .view#view-koreatech-xr .kx-cf .cf-panel.kx-scn { background-image: none !important; }
+
+/* 참여자마다 다른 가상 인물 얼굴 */
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(1) { background-image: url("koreatech-xr-img/avatars/a01.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(2) { background-image: url("koreatech-xr-img/avatars/a02.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(3) { background-image: url("koreatech-xr-img/avatars/a03.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(4) { background-image: url("koreatech-xr-img/avatars/a04.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(5) { background-image: url("koreatech-xr-img/avatars/a05.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(6) { background-image: url("koreatech-xr-img/avatars/a06.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(7) { background-image: url("koreatech-xr-img/avatars/a07.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(8) { background-image: url("koreatech-xr-img/avatars/a08.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(9) { background-image: url("koreatech-xr-img/avatars/a09.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(10) { background-image: url("koreatech-xr-img/avatars/a10.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(11) { background-image: url("koreatech-xr-img/avatars/a11.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(12) { background-image: url("koreatech-xr-img/avatars/a12.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(13) { background-image: url("koreatech-xr-img/avatars/a13.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(14) { background-image: url("koreatech-xr-img/avatars/a14.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(15) { background-image: url("koreatech-xr-img/avatars/a15.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(16) { background-image: url("koreatech-xr-img/avatars/a16.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(17) { background-image: url("koreatech-xr-img/avatars/a17.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(18) { background-image: url("koreatech-xr-img/avatars/a18.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(19) { background-image: url("koreatech-xr-img/avatars/a19.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(20) { background-image: url("koreatech-xr-img/avatars/a20.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(21) { background-image: url("koreatech-xr-img/avatars/a21.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(22) { background-image: url("koreatech-xr-img/avatars/a22.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(23) { background-image: url("koreatech-xr-img/avatars/a23.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(24) { background-image: url("koreatech-xr-img/avatars/a24.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(25) { background-image: url("koreatech-xr-img/avatars/a25.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(26) { background-image: url("koreatech-xr-img/avatars/a26.webp?v=1"); background-position: center; }
+.view#view-koreatech-xr .kx-ub-list .kx-mb:nth-child(27) { background-image: url("koreatech-xr-img/avatars/a27.webp?v=1"); background-position: center; }
